@@ -1,43 +1,59 @@
-<nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] shadow-2xl">
-    <div class="flex flex-row items-center gap-2 h-full">
+<?php
+    $page = "";  
+    switch (substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"],"/") + 1)) {
+        case "index.php":
+            $page = "home";
+            break;
+        case "account.php":
+            $page = "account";
+            break;
+
+        default:
+            $page = "unknown";
+            break;
+    }
+?>
+
+<nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] shadow-2xl" x-data="{ page: '<?= $page; ?>' }">
+    <a href="index.php" class="flex flex-row items-center gap-2 h-full">
         <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="./assets/svg/alternate_icon.svg">
 
         <div class="text-[#22092C] font-bold text-lg md:text-2xl flex flex-row">
             <p>Anter</p>
             <p class="text-[#FF9130]">Kuy</p>
         </div>
-    </div>
+    </a>
 
     <div class="hidden md:flex flex-row gap-8 h-full justify-end items-center">
         <div class="pt-2 flex gap-8 flex-row">
-            <button class="flex flex-col font-bold items-center">
+            <a href="./index.php" class="flex flex-col font-bold items-center">
                 <p class="text-[#22092C]">Beranda</p>
-                <div class="w-8 border-b-4 border-[#FF9130]"></div>
-            </button>
-            <button class="flex flex-col items-center">
+                <div :class="page === 'home' ? 'w-8 border-b-4 border-[#FF9130]' : '' "></div>
+            </a>
+            <a class="flex flex-col items-center">
                 <p class="hover:text-[#FF9130] text-[#22092C]">Layanan</p>
                 <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
-            </button>
-            <button class="flex flex-col items-center">
+            </a>
+            <a class="flex flex-col items-center">
                 <p class="hover:text-[#FF9130] text-[#22092C]">Lacak</p>
                 <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
-            </button>
+            </a>
             <!-- TODO: Remove when user logged-in -->
-            <button class="flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center">
+            <a href="./account.php?ref=register" class="flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center">
                 Daftar
                 <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
-            </button>
+            </a>
         </div>
 
         <!-- TODO: Remove when user logged-in -->
-        <button class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
+        <a href="./account.php?ref=login" class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
             <i class="text-white fa-solid fa-right-to-bracket"></i>
             <p>Masuk</p>
-        </button>
+        </a>
     </div>
 
     <div class="flex md:hidden flex-col w-32 gap-4 mt-3" x-data="{ open: false }">
-        <button x-on:click="open = ! open" class="h-10 w-10 items-center ml-auto">
+        <a x-on:click="open = ! open" class="h-10 w-10 items-center ml-auto">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" fill="none" id="navbar">
                 <defs>
                     <linearGradient id="gradient1">
@@ -51,35 +67,35 @@
                     <path d="M64.000 128.000H192.000" stroke="#22092c" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" id="secondary"></path>
                 </g>
             </svg>
-        </button>
+        </a>
 
         <div class="flex flex-col gap-2 bg-[#FFD28F] rounded-md p-2" x-show="open">
-            <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-house"></i>
                 <p class="text-white font-bold text-lg">Beranda</p>
-            </button>
+            </a>
 
-            <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-box"></i>
                 <p class="text-white font-bold text-lg">Layanan</p>
-            </button>
+            </a>
 
-            <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-location-dot"></i>
                 <p class="text-white font-bold text-lg">Lacak</p>
-            </button>
+            </a>
 
             <!-- TODO: Remove if user has logged-in -->
 
-            <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a href="./account.php?ref=register" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-user-plus"></i>
                 <p class="text-white font-bold text-lg">Daftar</p>
-            </button>
+            </a>
 
-            <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a href="./account.php?ref=login" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-right-to-bracket"></i>
                 <p class="text-white font-bold text-lg">Masuk</p>
-            </button>
+            </a>
         </div>
     </div>
 </nav>

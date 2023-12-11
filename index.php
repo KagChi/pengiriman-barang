@@ -2,7 +2,6 @@
     include "./components/head.php";
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +10,7 @@
         include "./components/navbar.php";
     ?>
     <section class="pl-4 pr-4 md:pr-0 md:pl-12 pt-32 flex flex-col md:flex-row mb-20 gap-4">
+        <div class="-z-50" id="particles"></div>
         <div class="w-full md:w-1/2 pt-8 flex flex-col px-3">
             <div class="flex flex-row md:flex-col gap-1">
                 <span class="text-4xl md:text-5xl lg:text-7xl font-bold flex flex-row gap-1 md:gap-5 text-[#22092C]">Mau <p class="text-[#FF9130]">Kirim</p></span>
