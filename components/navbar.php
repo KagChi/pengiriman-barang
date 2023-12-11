@@ -2,7 +2,7 @@
     <div class="flex flex-row items-center gap-2 h-full">
         <img class="w-10 h-10 bg-[#FF9130] rounded-md" src="./assets/svg/alternate_icon.svg">
 
-        <div class="text-black font-bold text-2xl flex flex-row">
+        <div class="text-[#22092C] font-bold text-2xl flex flex-row">
             AnterKuy
         </div>
     </div>
@@ -10,14 +10,14 @@
     <div class="flex flex-row gap-8 h-full justify-end">
         <div class="pt-2 flex gap-8 flex-row">
             <button class="flex font-bold flex flex-col items-center">
-                <p>Home</p>
+                <p class="text-[#22092C]">Beranda</p>
                 <div class="w-8 border-b-4 border-[#FF9130]"></div>
             </button>
             <button>
-                Layanan
+                <p class="text-[#22092C]">Layanan</p>
             </button>
             <button>
-                Career
+                <p class="text-[#22092C]">Karir</p>
             </button>
             <button class="font-bold text-[#FF9130]">
                 SignUp
