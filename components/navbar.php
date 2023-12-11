@@ -1,5 +1,4 @@
-<!-- <nav class="w-full h-20 p-1 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] items-center"> -->
-<nav class="w-full h-14 p-1 px-4 md:px-12 pt-4 md:pt-8 justify-between flex flex-row">
+<nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] shadow-2xl">
     <div class="flex flex-row items-center gap-2 h-full">
         <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="./assets/svg/alternate_icon.svg">
 
@@ -20,23 +19,24 @@
                 <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
             </button>
             <button class="flex flex-col items-center">
-                <p class="hover:text-[#FF9130] text-[#22092C]">Karir</p>
+                <p class="hover:text-[#FF9130] text-[#22092C]">Lacak</p>
                 <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
             </button>
             <!-- TODO: Remove when user logged-in -->
             <button class="flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center">
-                SignUp
+                Daftar
                 <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
             </button>
         </div>
 
         <!-- TODO: Remove when user logged-in -->
-        <button class="text-white font-bold rounded-md h-10 w-28 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
-            SignIn
+        <button class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
+            <i class="text-white fa-solid fa-right-to-bracket"></i>
+            <p>Masuk</p>
         </button>
     </div>
 
-    <div class="flex md:hidden flex-col w-32 gap-8" x-data="{ open: false }">
+    <div class="flex md:hidden flex-col w-32 gap-4 mt-3" x-data="{ open: false }">
         <button x-on:click="open = ! open" class="h-10 w-10 items-center ml-auto">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" fill="none" id="navbar">
                 <defs>
@@ -65,20 +65,20 @@
             </button>
 
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
-                <i class="text-white fa-solid fa-user"></i>
-                <p class="text-white font-bold text-lg">Karir</p>
+                <i class="text-white fa-solid fa-location-dot"></i>
+                <p class="text-white font-bold text-lg">Lacak</p>
             </button>
 
             <!-- TODO: Remove if user has logged-in -->
 
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-user-plus"></i>
-                <p class="text-white font-bold text-lg">SignUp</p>
+                <p class="text-white font-bold text-lg">Daftar</p>
             </button>
 
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-right-to-bracket"></i>
-                <p class="text-white font-bold text-lg">SignIn</p>
+                <p class="text-white font-bold text-lg">Masuk</p>
             </button>
         </div>
     </div>
