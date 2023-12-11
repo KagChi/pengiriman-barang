@@ -1,3 +1,4 @@
+<!-- <nav class="w-full h-20 p-1 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] items-center"> -->
 <nav class="w-full h-14 p-1 px-4 md:px-12 pt-4 md:pt-8 justify-between flex flex-row">
     <div class="flex flex-row items-center gap-2 h-full">
         <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="./assets/svg/alternate_icon.svg">
@@ -35,7 +36,7 @@
         </button>
     </div>
 
-    <div class="flex md:hidden flex-col w-32 gap-2" x-data="{ open: false }">
+    <div class="flex md:hidden flex-col w-32 gap-8" x-data="{ open: false }">
         <button x-on:click="open = ! open" class="h-10 w-10 items-center ml-auto">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" fill="none" id="navbar">
                 <defs>
@@ -55,29 +56,29 @@
         <div class="flex flex-col gap-2 bg-[#FFD28F] rounded-md p-2" x-show="open">
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-house"></i>
-                <p class="text-white font-bold text-xl">Beranda</p>
+                <p class="text-white font-bold text-lg">Beranda</p>
             </button>
 
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-box"></i>
-                <p class="text-white font-bold text-xl">Layanan</p>
+                <p class="text-white font-bold text-lg">Layanan</p>
             </button>
 
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-user"></i>
-                <p class="text-white font-bold text-xl">Karir</p>
+                <p class="text-white font-bold text-lg">Karir</p>
             </button>
 
             <!-- TODO: Remove if user has logged-in -->
 
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-user-plus"></i>
-                <p class="text-white font-bold text-xl">SignUp</p>
+                <p class="text-white font-bold text-lg">SignUp</p>
             </button>
 
             <button class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-right-to-bracket"></i>
-                <p class="text-white font-bold text-xl">SignIn</p>
+                <p class="text-white font-bold text-lg">SignIn</p>
             </button>
         </div>
     </div>
