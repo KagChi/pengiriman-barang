@@ -6,7 +6,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /app
 
-COPY . /app
+COPY .*php /app
+COPY components /app
+COPY assets /app
+COPY composer.json /app
 
 RUN composer install
 
