@@ -12,8 +12,8 @@
         include "./components/navbar.php";
     ?>
     <section class="flex-1 pl-4 pr-4 md:pr-0 md:pl-12 pt-32 flex flex-col md:flex-row mb-20 gap-4">
-        <div class="w-full md:pl-14 md:w-1/2 pt-8 flex flex-col px-3 justify-center">
-            <div class="flex flex-row md:flex-col gap-1">
+        <div class="w-full md:pl-14 md:w-1/2 pt-8 flex flex-col px-3">
+            <div class="flex flex-row md:flex-col gap-1 md:pt-10 lg:pt-12">
                 <span class="text-4xl md:text-5xl lg:text-7xl font-extrabold flex flex-row gap-1 md:gap-5 text-[#22092C]">Mau <p class="text-[#FF9130]">Kirim</p></span>
                 <span class="text-4xl md:text-5xl lg:text-7xl font-extrabold flex flex-row gap-1 md:gap-5 text-[#22092C]"><p class="text-[#FF9130]">Apa</p> Nih?</span>
             </div>
