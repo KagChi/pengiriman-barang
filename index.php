@@ -25,7 +25,7 @@
             </button>
         </div>
 
-        <div class="w-full pl-3 pr-3 md:pr-0 lg:h-[500px] lg:w-[780px]">
+        <div class="w-full pl-3 pr-3 md:pr-0 lg:h-[500px] lg:w-[780px] pt-8 md:pt-0">
             <img class="ml-auto shadow-2xl rounded-l-lg rounded-r-lg md:rounded-l-[4rem] md:rounded-r-none aspect-[3/2]" src="./assets/images/home.jpg">
         </div>
     </section>
