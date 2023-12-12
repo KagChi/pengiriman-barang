@@ -1,4 +1,4 @@
-FROM php:latest-alpine
+FROM php:8.2.12-alpine
 
 RUN apt-get update && \
     apt-get install -y \
