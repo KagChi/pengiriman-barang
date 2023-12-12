@@ -30,6 +30,24 @@
         </div>
     </section>
 
+    <div class="grid grid-cols-1 w-full px-4 mb-16 justify-center gap-6">
+        <div class="grid grid-cols-1 text-center">
+            <p class="text-[#22092C] text-2xl md:text-4xl font-bold">
+                Jaringan Kami
+            </p>
+
+            <p class="text-xs md:text-base text-[#22092C]">
+                Perusahaan yang mempercayai kami lebih dari sekedar pengiriman
+            </p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 place-items-center px-4 md:px-32">
+            <img class="h-24 md:h-32" src="./assets/svg/e-commerce/bukalapak.svg">
+            <img class="h-24 md:h-32" src="./assets/svg/e-commerce/shopee.svg">
+            <img class="h-24 md:h-32" src="./assets/svg/e-commerce/tokped.svg">
+            <img class="h-24 md:h-32" src="./assets/svg/e-commerce/blibli.svg">
+        </div>
+    </div>
+
     <?php
         include "./components/footer.php";
     ?>
