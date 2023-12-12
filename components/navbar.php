@@ -26,22 +26,20 @@
 
     <div class="hidden md:flex flex-row gap-8 h-full justify-end items-center">
         <div class="pt-2 flex gap-8 flex-row">
-            <a href="./index.php" class="flex flex-col font-bold items-center">
-                <p class="text-[#22092C]">Beranda</p>
+            <a href="./index.php" class="flex flex-col items-center">
+                <p :class="page === 'home' ? 'text-[#22092C] font-bold' : '' ">Beranda</p>
                 <div :class="page === 'home' ? 'w-8 border-b-4 border-[#FF9130]' : '' "></div>
             </a>
             <a class="flex flex-col items-center">
                 <p class="hover:text-[#FF9130] text-[#22092C]">Layanan</p>
-                <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
             </a>
             <a class="flex flex-col items-center">
                 <p class="hover:text-[#FF9130] text-[#22092C]">Lacak</p>
-                <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
             </a>
             <!-- TODO: Remove when user logged-in -->
-            <a href="./account.php?ref=register" class="flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center">
+            <a href="./account.php?ref=register" :class="page === 'account' ? 'flex flex-col font-bold text-[#EE7214] items-center' : 'flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center' ">
                 Daftar
-                <div class="hidden w-8 border-b-4 border-[#FF9130]"></div>
+                <div :class="page === 'account' ? 'w-8 border-b-4 border-[#FF9130]' : '' "></div>
             </a>
         </div>
 
