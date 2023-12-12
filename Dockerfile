@@ -8,4 +8,4 @@ COPY . .
 
 RUN composer install
 
-CMD ["/usr/local/bin/php", "0.0.0.0:8000"]
+CMD ["php", "0.0.0.0:8000"]
