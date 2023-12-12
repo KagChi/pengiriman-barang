@@ -70,7 +70,7 @@
         </a>
 
         <div class="flex flex-col gap-2 bg-[#FFD28F] rounded-md p-2" x-show="open">
-            <a class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a href="./index.php" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-house"></i>
                 <p class="text-white font-bold text-lg">Beranda</p>
             </a>
