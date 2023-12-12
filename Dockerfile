@@ -13,4 +13,4 @@ COPY composer.json /app
 
 RUN composer install
 
-CMD ["php -S", "0.0.0.0:8000"]
+CMD ["/usr/local/bin/php -S", "0.0.0.0:8000"]
