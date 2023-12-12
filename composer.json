@@ -1,0 +1,11 @@
+{
+    "name": "kagchi/pengiriman-barang",
+    "type": "project",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "KagChi"
+        }
+    ],
+    "require": {}
+}
