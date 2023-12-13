@@ -1,5 +1,5 @@
 <?php
-include "./components/head.php";
+include "./src/components/head.php";
 ?>
 
 <title>Halaman Akun</title>
@@ -9,18 +9,18 @@ include "./components/head.php";
 
 <body class="min-h-screen flex flex-col">
     <?php
-    include "./components/navbar.php";
+    include "./src/components/navbar.php";
     ?>
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] === "GET" && $ref === "login") {
-        include "./components/account/login.php";
+        include "./src/components/account/login.php";
     }
     ?>
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] === "GET" && $ref === "register") {
-        include "./components/account/register.php";
+        include "./src/components/account/register.php";
     }
     ?>
 
@@ -37,15 +37,15 @@ include "./components/head.php";
 
         if ($Result->num_rows > 0) {
             $success = false;
-            include "./components/account/register.php";
+            include "./src/components/account/register.php";
         } else {
             $sql = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email`, `phone`, `password`) VALUES ('$Username','$FirstName','$LastName','$Email','$Phone','$Password')";
             if ($connection->query($sql)) {
                 $success = true;
-                include "./components/account/register.php";
+                include "./src/components/account/register.php";
             } else {
                 $success = false;
-                include "./components/account/register.php";
+                include "./src/components/account/register.php";
             }
         }
         $connection->close();
@@ -53,7 +53,7 @@ include "./components/head.php";
     ?>
 
     <?php
-        include "./components/footer.php";
+        include "./src/components/footer.php";
     ?>
 </body>
 
