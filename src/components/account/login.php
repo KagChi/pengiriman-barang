@@ -2,7 +2,7 @@
     <div class="w-full h-screen rounded-md">
         <form class="grid grid-cols-1 gap-4" action="./account.php" method="POST">
             <div class="grid grid-cols-1 place-items-center gap-4">
-                <img class="bg-[#FF9130] rounded-md md:w-20 md:h-20 lg:w-32 lg:h-32" src="./assets/svg/icon.svg">
+                <img class="bg-[#FF9130] rounded-md md:w-20 md:h-20 lg:w-32 lg:h-32" src="./public/assets/svg/icon.svg">
                 <p class="font-bold uppercase text-[#22092c] lg:text-2xl">masuk ke akunmu</p>
             </div>
 
