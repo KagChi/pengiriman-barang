@@ -22,7 +22,7 @@ include "./src/components/head.php";
         <form class="flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 mt-12 md:mt-0" x-data="{ next: false }" autocomplete="do-not-autofill">
             <p class="font-extrabold text-4xl">Buat Akun</p>
 
-            <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="!next" class="animate__bounceInLeft grid grid-cols-1 gap-2 w-full md:px-20 lg:px-48">
+            <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="!next" class="grid grid-cols-1 gap-2 w-full md:px-20 lg:px-48">
                 <div class="grid grid-cols-1">
                     <p>Nama Depan<span class="text-[#FF0000]">*</span></p>
                     <input class="bg-[#22092c20] text-[#22092c] focus:outline-none rounded-md p-1 h-10 px-4" name="first_name" type="first_name" autocomplete="off" required>
