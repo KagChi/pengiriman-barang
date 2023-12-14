@@ -10,7 +10,7 @@
     </div>
 
     <form class="flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 mt-12 md:mt-0" x-data="{ next: false }" autocomplete="do-not-autofill">
-        <p class="font-black text-4xl">Buat Akun</p>
+        <p class="font-extrabold	 text-4xl">Buat Akun</p>
 
         <div x-show="!next" class="grid grid-cols-1 gap-2 w-full md:px-20 lg:px-48">
             <div class="grid grid-cols-1">
@@ -43,10 +43,10 @@
             </div>
 
             <div class="flex flex-row justify-between lg:justify-end mt-4">
-                <a href="./" class="flex lg:hidden flex justify-center items-center h-10 w-20 rounded-md bg-[#FF9130] drop-shadow-2xl">
+                <a href="./" class="flex lg:hidden flex justify-center items-center h-10 w-20 rounded-md bg-[#FF9130]">
                     <i class="text-white fa-solid fa-arrow-left fa-xl"></i>
                 </a>
-                <button @click="next = ! next" class="flex justify-center items-center w-20 h-10 rounded-md bg-[#FF9130] drop-shadow-2xl">
+                <button @click="next = ! next" class="flex justify-center items-center w-20 h-10 rounded-md bg-[#FF9130]" style="box-shadow: 0 8px 10px 4px rgb(0 0 0 / 0.1);">
                     <i class="text-white fa-solid fa-arrow-right fa-xl"></i>
                 </button>
             </div>
@@ -75,10 +75,10 @@
             </div>
 
             <div class="flex flex-row justify-between mt-4">
-                <a @click="next = ! next" class="flex justify-center items-center h-10 w-20 rounded-md bg-[#FF9130] drop-shadow-2xl">
+                <a @click="next = ! next" class="flex justify-center items-center h-10 w-20 rounded-md bg-[#FF9130]" style="box-shadow: 0 8px 10px 4px rgb(0 0 0 / 0.1);">
                     <i class="text-white fa-solid fa-arrow-left fa-xl"></i>
                 </a>
-                <button type="submit" class="flex justify-center items-center w-20 h-10 rounded-md bg-[#FF9130] drop-shadow-2xl">
+                <button type="submit" class="flex justify-center items-center w-20 h-10 rounded-md bg-[#FF9130]" style="box-shadow: 0 8px 10px 4px rgb(0 0 0 / 0.1);">
                     <i class="text-white fa-solid fa-arrow-right fa-xl"></i>
                 </button>
             </div>
