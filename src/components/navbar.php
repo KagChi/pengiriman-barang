@@ -1,24 +1,3 @@
-<?php
-    $page = "";  
-    switch (substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"],"/") + 1)) {
-        case "index.php":
-            $page = "home";
-            break;
-        case "account.php":
-            $page = "account";
-            break;
-
-        default:
-            $page = "unknown";
-            break;
-    }
-
-    $ref = "";
-    if (isset($_GET["ref"])) {
-        $ref = $_GET["ref"];
-    }
-?>
-
 <nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] shadow-2xl" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>' }">
     <a href="./" class="flex flex-row items-center gap-2 h-full">
         <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="./public/assets/svg/icon.svg">
