@@ -27,7 +27,7 @@ services:
       - "traefik.http.services.web.loadbalancer.server.port=8000"
 
   phpmyadmin:
-    image: phpmyadmin:latest-alpine
+    image: phpmyadmin:5.2.1-fpm-alpine
     restart: unless-stopped
     deploy:
       resources:
@@ -54,7 +54,7 @@ services:
         limits:
           memory: "96M"
     restart: unless-stopped
-    image: jbergstroem/mariadb-alpine
+    image: jbergstroem/mariadb-alpine:10.11.5
     env_file:
       - .env
     networks:
