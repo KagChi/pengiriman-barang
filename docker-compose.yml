@@ -14,6 +14,9 @@ services:
       internet:
         aliases:
           - web.internet
+      compose_internet:
+        aliases:
+          - web.compose_internet
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`pengiriman.kagchi.my.id`)"
@@ -22,6 +25,20 @@ services:
       - "traefik.http.routers.web.tls.options=cloudflare@file"
       - "traefik.http.routers.web.middlewares=cloudflare-real-ip@file"
       - "traefik.http.services.web.loadbalancer.server.port=8000"
+  
+  maria_db:
+    deploy:
+      resources:
+        limits:
+          memory: "128M"
+    restart: unless-stopped
+    image: mariadb
+    env_file:
+      - .env
+    networks:
+      internet:
+        aliases:
+          - maria_db.internet
 
 networks:
   internet:
@@ -30,3 +47,5 @@ networks:
       config:
         - subnet: 10.0.35.0/24
     internal: false
+  compose_internet:
+    external: true
