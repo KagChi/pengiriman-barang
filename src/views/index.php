@@ -38,19 +38,6 @@
 
             <p class="text-xs md:text-base text-[#22092C]">
                 Perusahaan yang mempercayai kami lebih dari sekedar pengiriman
-
-                <?php
-                    $currentTimestamp = time();
-
-                    // Add 5 minutes (300 seconds) to the current timestamp
-                    $newTimestamp = $currentTimestamp + 300;
-                    
-                    // Format the new timestamp as a date and time
-                    $newDateTime = date('Y-m-d H:i:s', $newTimestamp);
-                    
-                    echo "Current Date and Time: " . date('Y-m-d H:i:s') . PHP_EOL;
-                    echo "New Date and Time (after adding 5 minutes): " . $newDateTime;
-                ?>
             </p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 place-items-center px-4 md:px-32">
