@@ -29,7 +29,7 @@ services:
   phpmyadmin:
     image: phpmyadmin
     restart: unless-stopped
-        deploy:
+    deploy:
       resources:
         limits:
           memory: "128M"
