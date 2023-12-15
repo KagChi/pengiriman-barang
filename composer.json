@@ -11,6 +11,8 @@
         "vlucas/phpdotenv": "^5.6",
         "slim/php-view": "^3.2",
         "slim/slim": "4.*",
-        "slim/psr7": "^1.6"
+        "slim/psr7": "^1.6",
+        "firebase/php-jwt": "^6.10",
+        "paragonie/sodium_compat": "^1.20"
     }
 }

@@ -1,8 +1,4 @@
 <?php
-    include "./src/components/database/connection.php";
-?>
-
-<?php
     $page = "";  
     switch (substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"],"/") + 1)) {
         case "index.php":

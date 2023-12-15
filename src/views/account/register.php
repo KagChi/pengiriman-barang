@@ -21,6 +21,7 @@ include "./src/components/head.php";
 
         <form class="flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 mt-12 md:mt-0" x-data="{ next: false }" autocomplete="do-not-autofill">
             <p class="font-extrabold text-4xl">Buat Akun</p>
+            <input hidden value="<?= $csrf ?>" name="csrf_token">
 
             <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="!next" class="grid grid-cols-1 gap-2 w-full md:px-20 lg:px-48">
                 <div class="grid grid-cols-1">
