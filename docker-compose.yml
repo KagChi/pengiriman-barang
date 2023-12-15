@@ -5,7 +5,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "128M"
+          memory: "64M"
     restart: unless-stopped
     image: 'ghcr.io/kagchi/pengiriman-barang:latest-dev'
     env_file:
@@ -32,7 +32,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "128M"
+          memory: "64M"
     env_file:
       - .env
     networks:
@@ -52,7 +52,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "128M"
+          memory: "96M"
     restart: unless-stopped
     image: jbergstroem/mariadb-alpine
     env_file:
