@@ -4,11 +4,11 @@ include "./src/components/head.php";
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const element = document.getElementById("login");
+        const element = document.getElementById("reset");
         element.addEventListener("submit", function(e) {
             e.preventDefault();
             const formData = new FormData(e.target);
-            fetch("./api/account/login", {
+            fetch("./api/account/reset", {
                 method: "POST",
                 body: formData,
                 credentials: "same-origin"
@@ -62,8 +62,8 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <form id="login" class="flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 md:mt-12 lg:mt-0" autocomplete="do-not-autofill">
-            <p class="font-extrabold text-4xl">Login Akun</p>
+        <form id="reset" class="flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 md:mt-12 lg:mt-0" autocomplete="do-not-autofill">
+            <p class="font-extrabold text-4xl">Reset Password</p>
             <input hidden value="<?= $csrf ?>" name="csrf_token">
             <div class="grid grid-cols-1 gap-2 w-full md:px-20 lg:px-44">
                 <div class="grid grid-cols-1">
@@ -71,28 +71,13 @@ include "./src/components/head.php";
                     <input class="bg-[#22092c20] text-[#22092c] focus:outline-none rounded-md p-1 h-10 px-4" name="email" type="text" autocomplete="off" required>
                 </div>
 
-                <div class="grid grid-cols-1">
-                    <p>Password<span class="text-[#FF0000]">*</span></p>
-                    <div class="flex flex-row bg-[#22092c20] text-[#22092c] rounded-md p-1 h-10 justify-center items-center gap-2 px-4">
-                        <input id="password" class="bg-transparent w-full focus:outline-none" name="password" type="password" autocomplete="off" required>
-                        <i id="password-icon" onclick="revealPassword('password')" class="text-[#22092C] fa-solid fa-eye"></i>
-                    </div>
-                </div>
-
-                <div class="flex flex-row justify-between">
-                    <div class="flex flex-col md:flex-row gap-2 mt-2">
-                        <a class="text-xs">
-                            Belum mempunyai akun?
-                        </a>
-                        <a href="./account?ref=register" class="text-xs underline">
-                            Daftar sekarang
-                        </a>
-                    </div>
-                    <div class="flex flex-col md:flex-row  gap-2 mt-2">
-                        <a href="./account?ref=reset" class="text-xs underline">
-                            Lupa password?
-                        </a>
-                    </div>
+                <div class="flex flex-col md:flex-row gap-2 mt-2">
+                    <a class="text-xs">
+                        Belum mempunyai akun?
+                    </a>
+                    <a href="./account?ref=register" class="text-xs underline">
+                        Daftar sekarang
+                    </a>
                 </div>
 
                 <div class="flex flex-row justify-between lg:justify-end mt-4">

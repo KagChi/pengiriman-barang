@@ -8,15 +8,15 @@ $projectName = basename(__DIR__);
 $renderer = new PhpRenderer(__DIR__ . '/src/views');
 $app = AppFactory::create();
 
-$app->addRoutingMiddleware();
+// $app->addRoutingMiddleware();
 
-$customErrorHandler = function () use ($app, $renderer) {
-    $response = $app->getResponseFactory() -> createResponse();
-    return $renderer->render($response, "error/404.php");
-};
+// $customErrorHandler = function () use ($app, $renderer) {
+//     $response = $app->getResponseFactory() -> createResponse();
+//     return $renderer->render($response, "error/404.php");
+// };
 
-$errorMiddleware = $app -> addErrorMiddleware(true, true, true);
-$errorMiddleware -> setDefaultErrorHandler($customErrorHandler);
+// $errorMiddleware = $app -> addErrorMiddleware(true, true, true);
+// $errorMiddleware -> setDefaultErrorHandler($customErrorHandler);
 
 try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);

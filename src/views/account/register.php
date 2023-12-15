@@ -2,6 +2,47 @@
 include "./src/components/head.php";
 ?>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const element = document.getElementById("register");
+        element.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            fetch("./api/account/create", {
+                method: "POST",
+                body: formData,
+                credentials: "same-origin"
+            }).then(async x => {
+                try {
+                    const response = await x.json();
+                    iziToast.show({
+                        title: `<div class="flex justify-center items-center w-4 h-4 mr-4"><i class="fa-solid ${x.ok ? "fa-check" : "fa-x"} fa-2xl"></i></div>`,
+                        message: response.message,
+                        position: 'topRight',
+                        color: "#EE7214",
+                        titleColor: "#FCFCFC",
+                        messageColor: "#FCFCFC"
+                    });
+
+                    if (x.ok) {
+                        setTimeout(() => window.location.search = window.location.search.replace("?ref=register", "?ref=login"), 2000);
+                    }
+
+                } catch {
+                    iziToast.show({
+                        title: '<div class="flex justify-center items-center w-4 h-4 mr-4"><i class="fa-solid fa-x fa-2xl"></i></div>',
+                        message: "Sebuah kesalahan, mohon refresh browser anda.",
+                        position: 'topRight',
+                        color: "#EE7214",
+                        titleColor: "#FCFCFC",
+                        messageColor: "#FCFCFC"
+                    });
+                }
+            })
+        })
+    })
+</script>
+
 <title>Halaman Akun</title>
 
 <!DOCTYPE html>
@@ -19,7 +60,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <form class="flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 mt-12 md:mt-0" x-data="{ next: false }" autocomplete="do-not-autofill">
+        <form id="register" action="POST" class="form flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 md:mt-12 lg:mt-0" x-data="{ next: false }" autocomplete="do-not-autofill">
             <p class="font-extrabold text-4xl">Buat Akun</p>
             <input hidden value="<?= $csrf ?>" name="csrf_token">
 
@@ -49,7 +90,7 @@ include "./src/components/head.php";
                         Sudah mempunyai akun?
                     </a>
                     <a href="./account?ref=login" class="text-xs underline">
-                        login sekarang
+                        Login sekarang
                     </a>
                 </div>
 
@@ -57,9 +98,9 @@ include "./src/components/head.php";
                     <a href="./" class="flex lg:hidden flex justify-center items-center h-10 w-20 rounded-md bg-[#FF9130]">
                         <i class="text-white fa-solid fa-arrow-left fa-xl"></i>
                     </a>
-                    <button @click="next = ! next" class="flex justify-center items-center w-20 h-10 rounded-md bg-[#FF9130]" style="box-shadow: 0 8px 10px 4px rgb(0 0 0 / 0.1);">
+                    <a type="button" @click="next = ! next" class="cursor-pointer flex justify-center items-center w-20 h-10 rounded-md bg-[#FF9130]" style="box-shadow: 0 8px 10px 4px rgb(0 0 0 / 0.1);">
                         <i class="text-white fa-solid fa-arrow-right fa-xl"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -72,16 +113,16 @@ include "./src/components/head.php";
                 <div class="grid grid-cols-1">
                     <p>Password<span class="text-[#FF0000]">*</span></p>
                     <div class="flex flex-row bg-[#22092c20] text-[#22092c] rounded-md p-1 h-10 justify-center items-center gap-2 px-4">
-                        <input class="bg-transparent w-full focus:outline-none" name="password" type="password" autocomplete="off" required>
-                        <i class="text-[#22092C] fa-solid fa-eye"></i>
+                        <input id="password" class="bg-transparent w-full focus:outline-none" name="password" type="password" autocomplete="off" required>
+                        <i id="password-icon" onclick="revealPassword('password')" class="cursor-pointer text-[#22092C] fa-solid fa-eye"></i>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1">
                     <p>Konfirmasi Password<span class="text-[#FF0000]">*</span></p>
                     <div class="flex flex-row bg-[#22092c20] text-[#22092c] rounded-md p-1 h-10 justify-center items-center gap-2 px-4">
-                        <input class="bg-transparent w-full focus:outline-none" name="konfirmasi_password" type="password" autocomplete="off" required>
-                        <i class="text-[#22092C] fa-solid fa-eye"></i>
+                        <input id="konfirmasi-password" class="bg-transparent w-full focus:outline-none" name="konfirmasi_password" type="password" autocomplete="off" required>
+                        <i id="konfirmasi-password-icon" onclick="revealPassword('konfirmasi-password')" class="cursor-pointer text-[#22092C] fa-solid fa-eye"></i>
                     </div>
                 </div>
 

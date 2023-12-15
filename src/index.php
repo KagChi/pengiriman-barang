@@ -2,7 +2,11 @@
 
 use Slim\App;
 
-require "./src/utilities/JWT/createCSRFJWT.php";
+require "./src/utilities/JWT/CSRFSecret.php";
+require "./src/utilities/JWT/SessionSecret.php";
+require "./src/utilities/JWT/index.php";
+require "./src/utilities/Security/EncryptDecrypt.php";
+require "./src/utilities/connection.php";
 
 $isApache = false;
 
@@ -10,15 +14,21 @@ if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'A
     $isApache = true;
 }
 
-return function (App $app, $renderer, $projectName) use ($isApache) {
+return function (App $app, $renderer, $projectName) use ($isApache, $connection) {
     $app->get($isApache ? "/$projectName/" : "/", function ($request, $response, $args) use ($renderer) {
         return $renderer->render($response, "index.php", $args);
     })->setName('home');
-    
+
     $app->get($isApache ? "/$projectName/account" : "/account", function ($request, $response, $args) use ($renderer) {
         $refCode = array_key_exists("ref", $request->getQueryParams()) ? $request->getQueryParams()["ref"] : "unknown";
         $csrf = createCSRFJWT();
-    
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
         if ($refCode === "register") {
             return $renderer->render($response, "/account/register.php", [
                 "csrf" => $csrf
@@ -27,13 +37,16 @@ return function (App $app, $renderer, $projectName) use ($isApache) {
             return $renderer->render($response, "/account/login.php", [
                 "csrf" => $csrf
             ]);
+        } else if ($refCode === "reset") {
+            return $renderer->render($response, "/account/reset.php", [
+                "csrf" => $csrf
+            ]);
         }
         return $renderer->render($response, "/account/index.php", [
             "csrf" => $csrf
         ]);
     })->setName('account');
 
-    // $app->get($isApache ? "/$projectName/api/csrf" : "/api/csrf", function ($request, $response, $args) use ($renderer) {
-
-    // }
+    $apiRoutes = require './src/api/index.php';
+    $apiRoutes($app, $renderer, $projectName);
 };
