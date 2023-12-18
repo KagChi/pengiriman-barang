@@ -89,7 +89,7 @@ include "./src/components/head.php";
                     <a class="text-xs">
                         Sudah mempunyai akun?
                     </a>
-                    <a href="/account?ref=login" class="text-xs underline">
+                    <a href="/login" class="text-xs underline">
                         Login sekarang
                     </a>
                 </div>

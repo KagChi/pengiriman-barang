@@ -22,13 +22,13 @@
             <p class="hover:text-[#FF9130] text-[#22092C]" :class="page === 'lacak' && 'text-[#22092C] font-bold'">Lacak</p>
                 <div :class="page === 'lacak' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
-            <a x-show="!sessionActive" href="/account?ref=register" :class="page === 'account' ? 'flex flex-col font-bold text-[#EE7214] items-center' : 'flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center' ">
+            <a x-show="!sessionActive" href="/register" class="flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center">
                 Daftar
                 <div :class="ref === 'register' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
         </div>
 
-        <a x-show="!sessionActive" href="/account?ref=login" class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
+        <a x-show="!sessionActive" href="/login" class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
             <i class="text-white fa-solid fa-right-to-bracket"></i>
             <p>Masuk</p>
         </a>
@@ -67,12 +67,12 @@
                 <p class="text-white font-bold text-lg">Lacak</p>
             </a>
 
-            <a x-show="!sessionActive" href="/account?ref=register" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a x-show="!sessionActive" href="/register" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-user-plus"></i>
                 <p class="text-white font-bold text-lg">Daftar</p>
             </a>
 
-            <a x-show="!sessionActive" href="/account?ref=login" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a x-show="!sessionActive" href="/login" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-right-to-bracket"></i>
                 <p class="text-white font-bold text-lg">Masuk</p>
             </a>

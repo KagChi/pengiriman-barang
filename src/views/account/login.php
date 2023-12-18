@@ -84,12 +84,12 @@ include "./src/components/head.php";
                         <a class="text-xs">
                             Belum mempunyai akun?
                         </a>
-                        <a href="/account?ref=register" class="text-xs underline">
+                        <a href="/register" class="text-xs underline">
                             Daftar sekarang
                         </a>
                     </div>
                     <div class="flex flex-col md:flex-row  gap-2 mt-2">
-                        <a href="/account?ref=reset" class="text-xs underline">
+                        <a href="/reset" class="text-xs underline">
                             Lupa password?
                         </a>
                     </div>

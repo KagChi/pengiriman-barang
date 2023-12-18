@@ -25,8 +25,7 @@ return function (App $app, $renderer) use ($connection) {
         ]);
     })->setName('home');
 
-    $app->get("/account", function ($request, $response, $args) use ($renderer) {
-        $refCode = array_key_exists("ref", $request->getQueryParams()) ? $request->getQueryParams()["ref"] : "unknown";
+    $app->get("/login", function ($request, $response, $args) use ($renderer) {
         $csrf = createCSRFJWT();
 
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
@@ -35,23 +34,38 @@ return function (App $app, $renderer) use ($connection) {
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
         setcookie('csrf_token', $csrfCookie, time() + 300);
 
-        if ($refCode === "register") {
-            return $renderer->render($response, "/account/register.php", [
-                "csrf" => $csrf
-            ]);
-        } else if ($refCode === "login") {
-            return $renderer->render($response, "/account/login.php", [
-                "csrf" => $csrf
-            ]);
-        } else if ($refCode === "reset") {
-            return $renderer->render($response, "/account/reset.php", [
-                "csrf" => $csrf
-            ]);
-        }
-        return $renderer->render($response, "/account/index.php", [
+        return $renderer->render($response, "/account/login.php", [
             "csrf" => $csrf
         ]);
-    })->setName('account');
+    })->setName('account_login');
+
+    $app->get("/register", function ($request, $response, $args) use ($renderer) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        return $renderer->render($response, "/account/register.php", [
+            "csrf" => $csrf
+        ]);
+    })->setName('account_register');
+
+    $app->get("/reset", function ($request, $response, $args) use ($renderer) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        return $renderer->render($response, "/account/reset.php", [
+            "csrf" => $csrf
+        ]);
+    })->setName('account_reset');
 
     $apiRoutes = require './src/api/index.php';
     $apiRoutes($app, $renderer);
