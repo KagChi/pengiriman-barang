@@ -2,6 +2,10 @@
 use Slim\Factory\AppFactory;
 use Slim\Views\PhpRenderer;
 
+require "./src/utilities/JWT/CSRFSecret.php";
+require "./src/utilities/JWT/SessionSecret.php";
+require "./src/utilities/JWT/index.php";
+require "./src/utilities/Security/EncryptDecrypt.php";
 require __DIR__ . '/vendor/autoload.php';
 
 $renderer = new PhpRenderer(__DIR__ . '/src/views');
@@ -11,8 +15,18 @@ $app->addRoutingMiddleware();
 
 $customErrorHandler = function () use ($app, $renderer) {
     $response = $app->getResponseFactory() -> createResponse();
+    $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+    $iv = $_ENV["COOKIE_SECRET_IV"];
+
+    $sessionCookie = [
+        'expired' => true
+    ];
+        
+    if (isset($_COOKIE['session'])) {
+        $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+    }
     return $renderer->render($response, "error/404.php", [
-        "sessionActive" => 'false',
+        "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
     ]);
 };
 

@@ -2,10 +2,6 @@
 
 use Slim\App;
 
-require "./src/utilities/JWT/CSRFSecret.php";
-require "./src/utilities/JWT/SessionSecret.php";
-require "./src/utilities/JWT/index.php";
-require "./src/utilities/Security/EncryptDecrypt.php";
 require "./src/utilities/connection.php";
 
 return function (App $app, $renderer) use ($connection) {
