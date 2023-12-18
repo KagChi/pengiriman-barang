@@ -56,7 +56,7 @@ include "./src/components/head.php";
             <a href="/" class="hidden lg:flex w-4 h-4 border-white border-4 justify-center items-center rounded-full p-4">
                 <i class="text-white fa-solid fa-arrow-left text-xl"></i>
             </a>
-            <div class="flex flex-col justify-center items-center lg:h-screen">
+            <div class="flex flex-col justify-center items-center lg:h-screen lg:mb-28">
                 <img class="w-20 h-20 md:w-48 md:h-48" src="/public/assets/svg/icon.svg">
                 <p class="text-4xl md:text-5xl font-bold text-white">AnterKuy</p>
             </div>
