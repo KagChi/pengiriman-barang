@@ -19,7 +19,9 @@ return function (App $app, $renderer, $projectName) use ($isApache, $connection)
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
-        $sessionCookie = [];
+        $sessionCookie = [
+            'expired' => true
+        ];
         
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
