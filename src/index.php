@@ -6,6 +6,10 @@ require "./src/utilities/connection.php";
 
 return function (App $app, $renderer) use ($connection) {
     $app->get("/", function ($request, $response, $args) use ($renderer) {
+        return $response->withHeader('Location', '/home')->withStatus(302);
+    })->setName('root');
+
+    $app->get("/home", function ($request, $response, $args) use ($renderer) {
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
         $iv = $_ENV["COOKIE_SECRET_IV"];
 

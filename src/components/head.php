@@ -1,20 +1,12 @@
 <?php
-    $page = "";  
-    switch (substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/") + 1)) {
-        case "index.php":
-            $page = "home";
-            break;
-        case "account.php":
-            $page = "account";
-            break;
+    $page = "";
 
-        case "dashboard.php":
-            $page = "dashboard";
-            break;
-
-        default:
-            $page = "unknown";
-            break;
+    if (strpos($_SERVER['REQUEST_URI'], "home")) {
+        $page = "home";
+    } elseif (strpos($_SERVER['REQUEST_URI'], "dashboard")) {
+        $page = "dashboard";
+    } elseif (strpos($_SERVER['REQUEST_URI'], "lacak")) {
+        $page = "lacak";
     }
 
     $ref = "";
