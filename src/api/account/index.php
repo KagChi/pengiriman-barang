@@ -2,14 +2,8 @@
 
 use Slim\App;
 
-$isApache = false;
-
-if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
-    $isApache = true;
-}
-
-return function (App $app, $renderer, $projectName) use ($isApache, $connection) {
-    $app->post($isApache ? "/$projectName/api/account/create" : "/api/account/create", function ($request, $response, $args) use ($renderer, $connection) {
+return function (App $app, $renderer) use ($connection) {
+    $app->post("/api/account/create", function ($request, $response, $args) use ($renderer, $connection) {
         $parsedBody = $request->getParsedBody();
 
         $data = [
@@ -106,7 +100,7 @@ return function (App $app, $renderer, $projectName) use ($isApache, $connection)
         }
     })->setName("account_create_api");
 
-    $app->post($isApache ? "/$projectName/api/account/login" : "/api/account/login", function ($request, $response, $args) use ($renderer, $connection) {
+    $app->post("/api/account/login", function ($request, $response, $args) use ($renderer, $connection) {
         $parsedBody = $request->getParsedBody();
 
         $data = [

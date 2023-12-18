@@ -1,6 +1,6 @@
 <nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] shadow-2xl" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>', sessionActive: <?= $sessionActive; ?> }">
-    <a href="./" class="flex flex-row items-center gap-2 h-full">
-        <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . 'public/assets/svg/icon.svg' ?>">
+    <a href="/" class="flex flex-row items-center gap-2 h-full">
+        <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="/public/assets/svg/icon.svg">
 
         <div class="text-[#22092C] font-bold text-lg md:text-2xl flex flex-row">
             <p>Anter</p>
@@ -10,24 +10,24 @@
 
     <div class="hidden md:flex flex-row gap-8 h-full justify-end items-center">
         <div class="pt-2 flex gap-8 flex-row">
-            <a href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './' ?>" class="flex flex-col items-center">
+            <a href="/" class="flex flex-col items-center">
                 <p class="hover:text-[#EE7214]" :class="page === 'home' && 'text-[#22092C] font-bold' ">Beranda</p>
                 <div :class="page === 'home' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
-            <a href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './dashboard' ?>" class="flex flex-col items-center">
+            <a href="/dashboard" class="flex flex-col items-center">
                 <p class="hover:text-[#FF9130] text-[#22092C]">Dashboard</p>
                 <div :class="page === 'dashboard' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
-            <a href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './lacak' ?>" class="flex flex-col items-center">
+            <a href="/lacak" class="flex flex-col items-center">
                 <p class="hover:text-[#FF9130] text-[#22092C]">Lacak</p>
             </a>
-            <a x-show="!sessionActive" href="./account?ref=register" :class="page === 'account' ? 'flex flex-col font-bold text-[#EE7214] items-center' : 'flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center' ">
+            <a x-show="!sessionActive" href="/account?ref=register" :class="page === 'account' ? 'flex flex-col font-bold text-[#EE7214] items-center' : 'flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center' ">
                 Daftar
                 <div :class="ref === 'register' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
         </div>
 
-        <a x-show="!sessionActive" href="./account?ref=login" class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
+        <a x-show="!sessionActive" href="/account?ref=login" class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center hover:bg-[#EE7214] bg-[#FF9130]">
             <i class="text-white fa-solid fa-right-to-bracket"></i>
             <p>Masuk</p>
         </a>
@@ -51,29 +51,27 @@
         </a>
 
         <div class="flex flex-col gap-2 bg-[#FFD28F] rounded-md p-2" x-show="open">
-            <a href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './' ?>" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a href="/" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-house"></i>
                 <p class="text-white font-bold text-lg">Beranda</p>
             </a>
 
-            <a href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './dashboard' ?>" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a href="/dashboard" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-box"></i>
                 <p class="text-white font-bold text-lg">Dashboard</p>
             </a>
 
-            <a href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './lacak' ?>" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a href="/lacak" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-location-dot"></i>
                 <p class="text-white font-bold text-lg">Lacak</p>
             </a>
 
-            <!-- TODO: Remove if user has logged-in -->
-
-            <a x-show="!sessionActive" href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './account?ref=register' ?>" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a x-show="!sessionActive" href="/account?ref=register" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-user-plus"></i>
                 <p class="text-white font-bold text-lg">Daftar</p>
             </a>
 
-            <a x-show="!sessionActive" href="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . './account?ref=login' ?>" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a x-show="!sessionActive" href="/account?ref=login" class="flex hover:bg-[#EE7214] bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-right-to-bracket"></i>
                 <p class="text-white font-bold text-lg">Masuk</p>
             </a>

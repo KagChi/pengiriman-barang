@@ -19,14 +19,14 @@
             </div>
             <p class="pt-4 text-sm md:text-xl text-[#22092C]">Murah, Aman, Cepat, dan Terpercaya.</p>
 
-            <a href="./dashboard/order" class="flex flex-row w-52 items-center justify-center gap-2 h-10 hover:bg-[#EE7214] bg-[#FF9130] text-[#FCFCFC] rounded-md text-xl mt-4 shadow-2xl px-3 py-6">
+            <a href="/dashboard/order" class="flex flex-row w-52 items-center justify-center gap-2 h-10 hover:bg-[#EE7214] bg-[#FF9130] text-[#FCFCFC] rounded-md text-xl mt-4 shadow-2xl px-3 py-6">
                 <i class="fa-solid fa-paper-plane"></i>
                 <p>Kirim Sekarang</p>
             </a>
         </div>
 
         <div class="w-full pl-3 pr-3 md:pr-0 lg:h-[500px] lg:w-[780px] pt-8 md:pt-0">
-            <img class="ml-auto shadow-2xl rounded-l-lg rounded-r-lg md:rounded-l-[4rem] md:rounded-r-none aspect-[3/2]" src="./public/assets/images/home.jpg">
+            <img class="ml-auto shadow-2xl rounded-l-lg rounded-r-lg md:rounded-l-[4rem] md:rounded-r-none aspect-[3/2]" src="/public/assets/images/home.jpg">
         </div>
     </section>
 
@@ -41,10 +41,10 @@
             </p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 place-items-center px-4 md:px-32">
-            <img class="h-24 md:h-32" src="./public/assets/svg/e-commerce/bukalapak.svg">
-            <img class="h-24 md:h-32" src="./public/assets/svg/e-commerce/shopee.svg">
-            <img class="h-24 md:h-32" src="./public/assets/svg/e-commerce/tokped.svg">
-            <img class="h-24 md:h-32" src="./public/assets/svg/e-commerce/blibli.svg">
+            <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/bukalapak.svg">
+            <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/shopee.svg">
+            <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/tokped.svg">
+            <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/blibli.svg">
         </div>
     </div>
 

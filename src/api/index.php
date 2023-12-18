@@ -2,15 +2,9 @@
 
 use Slim\App;
 
-$isApache = false;
-
-if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
-    $isApache = true;
-}
-
-return function (App $app, $renderer, $projectName) use ($isApache, $connection) {
+return function (App $app, $renderer) use ($connection) {
     $apiRoutes = require './src/api/account/index.php';
-    $apiRoutes($app, $renderer, $projectName);
+    $apiRoutes($app, $renderer);
 }
 
 ?>

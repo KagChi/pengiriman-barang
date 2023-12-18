@@ -8,8 +8,8 @@ require "./src/utilities/JWT/index.php";
 require "./src/utilities/Security/EncryptDecrypt.php";
 require "./src/utilities/connection.php";
 
-return function (App $app, $renderer, $projectName) use ($connection) {
-    $app->get($projectName ? "/$projectName/" : "/", function ($request, $response, $args) use ($renderer) {
+return function (App $app, $renderer) use ($connection) {
+    $app->get("/", function ($request, $response, $args) use ($renderer) {
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
@@ -25,7 +25,7 @@ return function (App $app, $renderer, $projectName) use ($connection) {
         ]);
     })->setName('home');
 
-    $app->get($projectName ? "/$projectName/account" : "/account", function ($request, $response, $args) use ($renderer) {
+    $app->get("/account", function ($request, $response, $args) use ($renderer) {
         $refCode = array_key_exists("ref", $request->getQueryParams()) ? $request->getQueryParams()["ref"] : "unknown";
         $csrf = createCSRFJWT();
 
@@ -54,5 +54,5 @@ return function (App $app, $renderer, $projectName) use ($connection) {
     })->setName('account');
 
     $apiRoutes = require './src/api/index.php';
-    $apiRoutes($app, $renderer, $projectName);
+    $apiRoutes($app, $renderer);
 };

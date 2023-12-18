@@ -8,7 +8,7 @@ include "./src/components/head.php";
         element.addEventListener("submit", function(e) {
             e.preventDefault();
             const formData = new FormData(e.target);
-            fetch("./api/account/login", {
+            fetch("/api/account/login", {
                 method: "POST",
                 body: formData,
                 credentials: "same-origin"
@@ -26,7 +26,7 @@ include "./src/components/head.php";
 
                     if (x.ok) {
                         setTimeout(() => {
-                            window.location.replace("./dashboard")
+                            window.location.replace("/dashboard")
                         }, 2000);
                     }
 
@@ -53,11 +53,11 @@ include "./src/components/head.php";
 <body class="min-h-screen flex flex-col">
     <section class="flex flex-col lg:flex-row w-full h-screen">
         <div class="flex flex-col bg-[#FF9130] w-full h-64 md:h-80 lg:w-2/5 lg:h-screen md:p-4 justify-center md:justify-start">
-            <a href="./" class="hidden lg:flex w-4 h-4 border-white border-4 justify-center items-center rounded-full p-4">
+            <a href="/" class="hidden lg:flex w-4 h-4 border-white border-4 justify-center items-center rounded-full p-4">
                 <i class="text-white fa-solid fa-arrow-left text-xl"></i>
             </a>
             <div class="flex flex-col justify-center items-center lg:h-screen">
-                <img class="w-20 h-20 md:w-48 md:h-48" src="./public/assets/svg/icon.svg">
+                <img class="w-20 h-20 md:w-48 md:h-48" src="/public/assets/svg/icon.svg">
                 <p class="text-4xl md:text-5xl font-bold text-white">AnterKuy</p>
             </div>
         </div>
@@ -84,19 +84,19 @@ include "./src/components/head.php";
                         <a class="text-xs">
                             Belum mempunyai akun?
                         </a>
-                        <a href="./account?ref=register" class="text-xs underline">
+                        <a href="/account?ref=register" class="text-xs underline">
                             Daftar sekarang
                         </a>
                     </div>
                     <div class="flex flex-col md:flex-row  gap-2 mt-2">
-                        <a href="./account?ref=reset" class="text-xs underline">
+                        <a href="/account?ref=reset" class="text-xs underline">
                             Lupa password?
                         </a>
                     </div>
                 </div>
 
                 <div class="flex flex-row justify-between lg:justify-end mt-4">
-                    <a href="./" class="flex lg:hidden flex justify-center items-center h-10 w-20 rounded-md bg-[#FF9130]">
+                    <a href="/" class="flex lg:hidden flex justify-center items-center h-10 w-20 rounded-md bg-[#FF9130]">
                         <i class="text-white fa-solid fa-arrow-left fa-xl"></i>
                     </a>
                     <button type="submit" class="flex justify-center items-center w-20 h-10 rounded-md bg-[#FF9130]" style="box-shadow: 0 8px 10px 4px rgb(0 0 0 / 0.1);">

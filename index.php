@@ -23,7 +23,7 @@ try {
 } catch(Exception $e) { }
 
 $routes = require __DIR__ . '/src/index.php';
-$routes($app, $renderer, $_ENV["PROJECT_NAME"]);
+$routes($app, $renderer);
 
 $app->run()
 ?>
