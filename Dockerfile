@@ -1,4 +1,4 @@
-FROM php:8.3.0-alpine
+FROM php:8.3.0-apache
 
 RUN apk add git unzip php-mysqli
 
@@ -6,8 +6,6 @@ RUN docker-php-ext-install mysqli
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY . .
-
 RUN composer install
 
-CMD ["php", "-S", "0.0.0.0:8000"]
+COPY . /var/www/html/.
