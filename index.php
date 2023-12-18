@@ -4,7 +4,6 @@ use Slim\Views\PhpRenderer;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$projectName = basename(__DIR__);
 $renderer = new PhpRenderer(__DIR__ . '/src/views');
 $app = AppFactory::create();
 
@@ -24,7 +23,7 @@ try {
 } catch(Exception $e) { }
 
 $routes = require __DIR__ . '/src/index.php';
-$routes($app, $renderer, $projectName);
+$routes($app, $renderer, $_ENV["PROJECT_NAME"]);
 
 $app->run()
 ?>

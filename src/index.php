@@ -8,14 +8,8 @@ require "./src/utilities/JWT/index.php";
 require "./src/utilities/Security/EncryptDecrypt.php";
 require "./src/utilities/connection.php";
 
-$isApache = false;
-
-if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
-    $isApache = true;
-}
-
-return function (App $app, $renderer, $projectName) use ($isApache, $connection) {
-    $app->get($isApache ? "/$projectName/" : "/", function ($request, $response, $args) use ($renderer) {
+return function (App $app, $renderer, $projectName) use ($connection) {
+    $app->get($projectName ? "/$projectName/" : "/", function ($request, $response, $args) use ($renderer) {
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
@@ -31,7 +25,7 @@ return function (App $app, $renderer, $projectName) use ($isApache, $connection)
         ]);
     })->setName('home');
 
-    $app->get($isApache ? "/$projectName/account" : "/account", function ($request, $response, $args) use ($renderer) {
+    $app->get($projectName ? "/$projectName/account" : "/account", function ($request, $response, $args) use ($renderer) {
         $refCode = array_key_exists("ref", $request->getQueryParams()) ? $request->getQueryParams()["ref"] : "unknown";
         $csrf = createCSRFJWT();
 
