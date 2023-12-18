@@ -19,10 +19,10 @@
             </div>
             <p class="pt-4 text-sm md:text-xl text-[#22092C]">Murah, Aman, Cepat, dan Terpercaya.</p>
 
-            <button class="flex flex-row w-52 items-center justify-center gap-2 h-10 hover:bg-[#EE7214] bg-[#FF9130] text-[#FCFCFC] rounded-md text-xl mt-4 shadow-2xl px-3 py-6">
+            <a href="./dashboard/order" class="flex flex-row w-52 items-center justify-center gap-2 h-10 hover:bg-[#EE7214] bg-[#FF9130] text-[#FCFCFC] rounded-md text-xl mt-4 shadow-2xl px-3 py-6">
                 <i class="fa-solid fa-paper-plane"></i>
                 <p>Kirim Sekarang</p>
-            </button>
+            </a>
         </div>
 
         <div class="w-full pl-3 pr-3 md:pr-0 lg:h-[500px] lg:w-[780px] pt-8 md:pt-0">

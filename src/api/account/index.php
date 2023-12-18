@@ -17,10 +17,23 @@ return function (App $app, $renderer, $projectName) use ($isApache, $connection)
             'status' => 'failed',
             'success' => false
         ];
+        
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+
+            if ($sessionCookie["token"]) {
+                $data["message"] = "Terdeteksi sudah login !";
+                $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+                $response->getBody()->write($jsonResponse);
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            }
+        }
 
         if (isset($_COOKIE['csrf_token'])) {
-            $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
-            $iv = $_ENV["COOKIE_SECRET_IV"];
             $csrfCookie = decryptJWT(decryptData($_COOKIE['csrf_token'], $encryptionKey, $iv));
 
             if (!$csrfCookie["expired"] && $csrfCookie["token"] !== $parsedBody["csrf_token"]) {
@@ -102,9 +115,22 @@ return function (App $app, $renderer, $projectName) use ($isApache, $connection)
             'success' => false
         ];
 
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+
+            if ($sessionCookie["token"]) {
+                $data["message"] = "Terdeteksi sudah login !";
+                $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+                $response->getBody()->write($jsonResponse);
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            }
+        }
+
         if (isset($_COOKIE['csrf_token'])) {
-            $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
-            $iv = $_ENV["COOKIE_SECRET_IV"];
             $csrfCookie = decryptJWT(decryptData($_COOKIE['csrf_token'], $encryptionKey, $iv));
 
             if (!$csrfCookie["expired"] && $csrfCookie["token"] !== $parsedBody["csrf_token"]) {
@@ -140,7 +166,7 @@ return function (App $app, $renderer, $projectName) use ($isApache, $connection)
                     $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
                     $iv = $_ENV["COOKIE_SECRET_IV"];
 
-                    setcookie("session", encryptData($JWTToken, $encryptionKey, $iv));
+                    setcookie("session", encryptData($JWTToken, $encryptionKey, $iv), time() + 5 * 60 * 60, "/");
 
                     $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
 

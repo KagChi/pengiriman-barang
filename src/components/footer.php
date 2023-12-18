@@ -6,7 +6,7 @@
     <div class="w-full bg-[#FF9130] h-auto flex flex-col px-4 md:px-16 gap-6">
         <div class="flex flex-col md:flex-row md:justify-between gap-4 md:pt-16">
             <div class="flex flex-row mt-8 gap-4">
-                <img class="w-16 h-16 bg-[#22092C] rounded-md" src="./public/assets/svg/icon.svg">
+                <img class="w-16 h-16 bg-[#22092C] rounded-md" src="<?= substr_count($currentURI, '/') === 0 ? './' : './' . str_repeat('../', substr_count($currentURI, '/') - 2) . 'public/assets/svg/icon.svg' ?>"">
                 <div class="flex flex-col">
                     <p class="text-4xl font-bold text-[#22092C]">AnterKuy</p>
                     <p class="text-[#22092C] font-bold text-sm">Murah, Aman, Cepat, dan Terpercaya.</p>

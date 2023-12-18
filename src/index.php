@@ -16,7 +16,17 @@ if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'A
 
 return function (App $app, $renderer, $projectName) use ($isApache, $connection) {
     $app->get($isApache ? "/$projectName/" : "/", function ($request, $response, $args) use ($renderer) {
-        return $renderer->render($response, "index.php", $args);
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $sessionCookie = [];
+        
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+        return $renderer->render($response, "index.php", [
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+        ]);
     })->setName('home');
 
     $app->get($isApache ? "/$projectName/account" : "/account", function ($request, $response, $args) use ($renderer) {
