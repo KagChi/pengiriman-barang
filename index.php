@@ -11,7 +11,9 @@ $app->addRoutingMiddleware();
 
 $customErrorHandler = function () use ($app, $renderer) {
     $response = $app->getResponseFactory() -> createResponse();
-    return $renderer->render($response, "error/404.php");
+    return $renderer->render($response, "error/404.php", [
+        "sessionActive" => 'false',
+    ]);
 };
 
 $errorMiddleware = $app -> addErrorMiddleware(true, true, true);
