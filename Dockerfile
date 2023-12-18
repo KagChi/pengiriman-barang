@@ -1,6 +1,6 @@
 FROM php:8.3.0-apache
 
-RUN apt-get update && apt-get install git unzip php-mysqli -y
+RUN apt-get update && apt-get install git unzip -y
 
 RUN docker-php-ext-install mysqli
 
