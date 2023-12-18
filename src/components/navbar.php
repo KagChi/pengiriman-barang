@@ -11,15 +11,16 @@
     <div class="hidden md:flex flex-row gap-8 h-full justify-end items-center">
         <div class="pt-2 flex gap-8 flex-row">
             <a href="/" class="flex flex-col items-center">
-                <p class="hover:text-[#EE7214]" :class="page === 'home' && 'text-[#22092C] font-bold' ">Beranda</p>
+                <p class="hover:text-[#EE7214] text-[#22092C]" :class="page === 'home' && 'text-[#22092C] font-bold'">Beranda</p>
                 <div :class="page === 'home' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
             <a href="/dashboard" class="flex flex-col items-center">
-                <p class="hover:text-[#FF9130] text-[#22092C]">Dashboard</p>
+                <p class="hover:text-[#FF9130] text-[#22092C]" :class="page === 'dashboard' && 'text-[#22092C] font-bold'">Dashboard</p>
                 <div :class="page === 'dashboard' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
             <a href="/lacak" class="flex flex-col items-center">
-                <p class="hover:text-[#FF9130] text-[#22092C]">Lacak</p>
+            <p class="hover:text-[#FF9130] text-[#22092C]" :class="page === 'lacak' && 'text-[#22092C] font-bold'">Lacak</p>
+                <div :class="page === 'lacak' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
             <a x-show="!sessionActive" href="/account?ref=register" :class="page === 'account' ? 'flex flex-col font-bold text-[#EE7214] items-center' : 'flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center' ">
                 Daftar
