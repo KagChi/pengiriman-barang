@@ -67,6 +67,45 @@ return function (App $app, $renderer) use ($connection) {
         ]);
     })->setName('account_reset');
 
+    $app->get("/logout", function ($request, $response, $args) use ($renderer) {
+        if (isset($_COOKIE['session'])) {
+            setcookie("session", "", time() - 3600);
+        }
+
+        return $response->withHeader('Location', '/home')->withStatus(302);
+    })->setName('account_logout');
+
+    $app->get("/dashboard", function ($request, $response, $args) use ($renderer) {
+        return $response->withHeader('Location', '/dashboard/')->withStatus(302);
+    })->setName('dashboard');
+
+    $app->get("/dashboard/", function ($request, $response, $args) use ($renderer) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+        
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
+        if ($sessionCookie["expired"]) {
+            return $response->withHeader('Location', '/login')->withStatus(302);
+        }
+
+        return $renderer->render($response, "/dashboard/index.php", [
+            "csrf" => $csrf,
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true'
+        ]);
+    })->setName('dashboard_root');
+
     $apiRoutes = require './src/api/index.php';
     $apiRoutes($app, $renderer);
 };

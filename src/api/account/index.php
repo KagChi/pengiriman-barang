@@ -18,7 +18,7 @@ return function (App $app, $renderer) use ($connection) {
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
 
-            if ($sessionCookie["token"]) {
+            if (!$sessionCookie["expired"]) {
                 $data["message"] = "Terdeteksi sudah login !";
                 $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
 
@@ -115,7 +115,7 @@ return function (App $app, $renderer) use ($connection) {
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
 
-            if ($sessionCookie["token"]) {
+            if (!$sessionCookie["expired"]) {
                 $data["message"] = "Terdeteksi sudah login !";
                 $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
 
