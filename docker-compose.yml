@@ -14,9 +14,6 @@ services:
       internet:
         aliases:
           - web.internet
-      compose_internet:
-        aliases:
-          - web.compose_internet
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`pengiriman.kagchi.my.id`)"
@@ -75,5 +72,3 @@ networks:
       config:
         - subnet: 10.0.35.0/24
     internal: false
-  compose_internet:
-    external: true
