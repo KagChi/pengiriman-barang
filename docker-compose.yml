@@ -25,6 +25,7 @@ services:
       - "traefik.http.routers.web.tls.options=cloudflare@file"
       - "traefik.http.routers.web.middlewares=cloudflare-real-ip@file"
       - "traefik.http.services.web.loadbalancer.server.port=80"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   phpmyadmin:
     image: phpmyadmin
