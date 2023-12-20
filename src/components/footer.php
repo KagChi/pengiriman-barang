@@ -1,9 +1,9 @@
 <div class="flex flex-col">
-    <svg preserveAspectRatio="none" class="text-[#FF9130]" viewBox="0 0 1440 48">
+    <svg preserveAspectRatio="none" class="text-[#FF9130] dark:text-[#EE7214]" viewBox="0 0 1440 48">
         <path fill="currentColor" d="M0 22L120 16.7C240 11 480 1.00001 720 0.700012C960 1.00001 1200 11 1320 16.7L1440 22V54H1320C1200 54 960 54 720 54C480 54 240 54 120 54H0V22Z"></path>
     </svg>
 
-    <div class="w-full bg-[#FF9130] h-auto flex flex-col px-4 md:px-16 gap-6">
+    <div class="w-full bg-[#FF9130] dark:bg-[#EE7214] h-auto flex flex-col px-4 md:px-16 gap-6">
         <div class="flex flex-col md:flex-row md:justify-between gap-4 md:pt-16">
             <div class="flex flex-row mt-8 gap-4">
                 <img class="w-16 h-16 bg-[#22092C] rounded-md" src="/public/assets/svg/icon.svg">
