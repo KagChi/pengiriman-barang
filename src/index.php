@@ -53,7 +53,7 @@ return function (App $app, $renderer) use ($connection) {
         ]);
     })->setName('account_register');
 
-    $app->get("/reset", function ($request, $response, $args) use ($renderer) {
+    $app->get("/reset", function ($request, $response, $args) use ($renderer, $connection) {
         $csrf = createCSRFJWT();
 
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
@@ -61,6 +61,17 @@ return function (App $app, $renderer) use ($connection) {
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
         setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        $token = array_key_exists("token", $request->getQueryParams()) ? $request->getQueryParams()["token"] : "unknown";
+        $result = $connection->query("SELECT `user_id` FROM `password_reset` WHERE `token` = ('$token');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                return $renderer->render($response, "/account/reset_password.php", [
+                    "csrf" => $csrf,
+                    "token" => $token
+                ]);
+            }
+        }
 
         return $renderer->render($response, "/account/reset.php", [
             "csrf" => $csrf

@@ -8,7 +8,7 @@ include "./src/components/head.php";
         element.addEventListener("submit", function(e) {
             e.preventDefault();
             const formData = new FormData(e.target);
-            fetch("/api/account/reset", {
+            fetch("/api/account", {
                 method: "POST",
                 body: formData,
                 credentials: "same-origin"
@@ -65,10 +65,22 @@ include "./src/components/head.php";
         <form id="reset" class="flex flex-col p-8 w-full h-auto md:h-screen justify-center items-center gap-4 md:mt-12 lg:mt-0" autocomplete="do-not-autofill">
             <p class="font-extrabold text-4xl dark:text-[#FCFCFC]">Reset Password</p>
             <input hidden value="<?= $csrf ?>" name="csrf_token">
+            <input hidden value="<?= $token ?>" name="token">
             <div class="grid grid-cols-1 gap-2 w-full md:px-20 lg:px-44">
                 <div class="grid grid-cols-1">
-                    <p class="dark:text-[#FCFCFC]">Email<span class="text-[#FF0000]">*</span></p>
-                    <input class="bg-[#22092c20] dark:bg-[#FCFCFC20] text-[#22092c] dark:text-[#FCFCFC] focus:outline-none rounded-md p-1 h-10 px-4" name="email" type="text" autocomplete="off" required>
+                    <p class="dark:text-[#FCFCFC]">Password<span class="text-[#FF0000]">*</span></p>
+                    <div class="flex flex-row bg-[#22092c20] dark:bg-[#FCFCFC20] text-[#22092c] dark:text-[#FCFCFC] rounded-md p-1 h-10 justify-center items-center gap-2 px-4">
+                        <input id="password" class="bg-transparent w-full focus:outline-none" name="password" type="password" autocomplete="off" required>
+                        <i id="password-icon" onclick="revealPassword('password')" class="cursor-pointer text-[#22092C] dark:text-[#FCFCFC] fa-solid fa-eye"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1">
+                    <p class="dark:text-[#FCFCFC]">Konfirmasi Password<span class="text-[#FF0000]">*</span></p>
+                    <div class="flex flex-row bg-[#22092c20] dark:bg-[#FCFCFC20] text-[#22092c] dark:text-[#FCFCFC] rounded-md p-1 h-10 justify-center items-center gap-2 px-4">
+                        <input id="konfirmasi-password" class="bg-transparent w-full focus:outline-none" name="konfirmasi_password" type="password" autocomplete="off" required>
+                        <i id="konfirmasi-password-icon" onclick="revealPassword('konfirmasi-password')" class="cursor-pointer text-[#22092C] dark:text-[#FCFCFC] fa-solid fa-eye"></i>
+                    </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-2 mt-2">
