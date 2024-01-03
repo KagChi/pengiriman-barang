@@ -117,6 +117,37 @@ return function (App $app, $renderer) use ($connection) {
         ]);
     })->setName('dashboard_root');
 
+    $app->get("/dashboard/kirim", function ($request, $response, $args) use ($renderer) {
+        return $response->withHeader('Location', '/dashboard/kirim/')->withStatus(302);
+    })->setName('dashboard-kirim');
+
+    $app->get("/dashboard/kirim/", function ($request, $response, $args) use ($renderer) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+        
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
+        if ($sessionCookie["expired"]) {
+            return $response->withHeader('Location', '/login')->withStatus(302);
+        }
+
+        return $renderer->render($response, "/dashboard/send.php", [
+            "csrf" => $csrf,
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true'
+        ]);
+    })->setName('dashboard_kirim');
+
     $apiRoutes = require './src/api/index.php';
     $apiRoutes($app, $renderer);
 };
