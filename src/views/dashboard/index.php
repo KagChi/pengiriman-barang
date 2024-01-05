@@ -9,7 +9,7 @@ include "./src/components/head.php";
 
 <body class="min-h-screen flex flex-col dark:bg-[#121212]" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>', sessionActive: <?= $sessionActive; ?> }">
     <div class="flex flex-col md:flex-row">
-        <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] md:h-full py-4 px-6 gap-4">
+        <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] md:h-screen py-4 px-6 gap-4">
             <a href="/" class="flex flex-row justify-center items-center h-12 md:h-24 mr-2">
                 <img class="w-14 h-14 lg:w-18 lg:h-18" src="/public/assets/svg/icon.svg">
                 <p class="md:hidden lg:flex text-xl font-bold text-white">AnterKuy</p>
@@ -19,7 +19,7 @@ include "./src/components/head.php";
                 <div class="flex flex-col gap-4">
                     <p class="hidden lg:flex uppercase text-white">menu</p>
                     <div class="flex flex-col w-full gap-2">
-                        <a href="/dashboard" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4" :class="page === 'dashboard' && 'bg-[#b85e20]' ">
+                        <a href="/dashboard" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
                             <i class="lg:w-4 text-white font-bold fa-solid fa-house text-lg"></i>
                             <p class="hidden lg:flex text-white font-bold text-lg">Beranda</p>
                         </a>
@@ -135,7 +135,7 @@ include "./src/components/head.php";
                 </div>
             </div>
 
-            <div class="flex w-full h-[34rem] md:pt-[3.75rem]">
+            <div data-aos="fade-left" class="flex w-full h-[34rem] md:pt-[3.75rem]">
                 <div class="w-full h-full bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
                     <a href="/dashboard/lacak" class="flex flex-col h-1/2 w-full justify-center items-center gap-4 border-b border-[#83838350] py-8">
                         <div class="text-[#22092c]">

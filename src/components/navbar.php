@@ -1,4 +1,4 @@
-<nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] dark:bg-[#121212] shadow-2xl" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>', sessionActive: <?= $sessionActive; ?> }">
+<nav class="absolute w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] dark:bg-[#121212] shadow-2xl z-99" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>', sessionActive: <?= $sessionActive; ?> }">
     <a href="/" class="flex flex-row items-center gap-2 h-full">
         <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="/public/assets/svg/icon.svg">
 
