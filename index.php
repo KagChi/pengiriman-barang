@@ -10,6 +10,8 @@ require "./src/utilities/JWT/index.php";
 require "./src/utilities/Security/EncryptDecrypt.php";
 require __DIR__ . '/vendor/autoload.php';
 
+date_default_timezone_set('Asia/Jakarta'); // Sesuaikan dengan zona waktu Anda
+
 $renderer = new PhpRenderer(__DIR__ . '/src/views');
 $app = AppFactory::create();
 

@@ -69,7 +69,7 @@ include "./src/components/head.php";
 
         <div class="p-6 md:p-10 w-full h-auto flex flex-col md:flex-row mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
             <div class="w-full h-auto md:h-full flex flex-col md:gap-6">
-                <p class="font-bold text-3xl dark:text-[#FCFCFC]">Selamat siang, Wibu !</p>
+                <p class="font-bold text-2xl md:text-3xl dark:text-[#FCFCFC]">Selamat <?= $time ?>, <?= $name ?> !</p>
                 <div class="flex flex-col gap-10 mt-2 md:mt-0">
                     <a href="/dashboard/lacak/YlvejVyADlKMhTAnRNGw6" class="flex flex-col w-full h-32 bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
                         <div class="flex items-center h-8 w-full border-b border-[#83838350] dark:border-[#b85e20] px-4 py-5 mt-1">
@@ -120,16 +120,16 @@ include "./src/components/head.php";
                         </div>
                         <div class="flex flex-row justify-center items-center p-4 gap-4 border-r border-[#83838350] dark:border-[#b85e20]">
                             <img class="w-20 h-20 md:w-14 md:h-14 lg:w-20 lg:h-20" src="/public/assets/images/dashboard/Asset 16.svg">
-                            <div class="flex flex-col">
+                            <div class="flex flex-col md:mr-auto">
                                 <p class="text-[#22092c] font-bold text-lg">5+</p>
-                                <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Sedang Ditahan</p>
+                                <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Selesai</p>
                             </div>
                         </div>
                         <div class="flex flex-row justify-center items-center p-4 gap-4">
                             <img class="w-20 h-20 md:w-14 md:h-14 lg:w-20 lg:h-20" src="/public/assets/images/dashboard/Asset 4.svg">
                             <div class="flex flex-col">
                                 <p class="text-[#22092c] font-bold text-lg">5+</p>
-                                <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Sedang Ditahan</p>
+                                <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Dikembalikan</p>
                             </div>
                         </div>
                     </div>

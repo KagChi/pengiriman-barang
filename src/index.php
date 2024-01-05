@@ -16,7 +16,7 @@ return function (App $app, $renderer) use ($connection) {
         $sessionCookie = [
             'expired' => true
         ];
-        
+
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
         }
@@ -90,7 +90,7 @@ return function (App $app, $renderer) use ($connection) {
         return $response->withHeader('Location', '/dashboard/')->withStatus(302);
     })->setName('dashboard');
 
-    $app->get("/dashboard/", function ($request, $response, $args) use ($renderer) {
+    $app->get("/dashboard/", function ($request, $response, $args) use ($renderer, $connection) {
         $csrf = createCSRFJWT();
 
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
@@ -102,7 +102,7 @@ return function (App $app, $renderer) use ($connection) {
         $sessionCookie = [
             'expired' => true
         ];
-        
+
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
         }
@@ -111,18 +111,47 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
-        return $renderer->render($response, "/dashboard/index.php", [
-            "csrf" => $csrf,
-            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-            'role' => $sessionCookie["info"] -> role
-        ]);
+        $user_id = $sessionCookie["info"]->user_id;
+
+
+        $result = $connection->query("SELECT `role`, `first_name` FROM `user` WHERE `id` = ('$user_id');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                $currentHour = date('G');
+
+                if ($currentHour >= 5 && $currentHour < 12) {
+                    $timeOfDay = 'Pagi';
+                } elseif ($currentHour >= 12 && $currentHour < 17) {
+                    $timeOfDay = 'Siang';
+                } elseif ($currentHour >= 17 && $currentHour < 20) {
+                    $timeOfDay = 'Sore';
+                } else {
+                    $timeOfDay = 'Malam';
+                }
+
+                return $renderer->render($response, "/dashboard/index.php", [
+                    "csrf" => $csrf,
+                    "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+                    'role' => $row["role"],
+                    'name' => $row["first_name"],
+                    'time' => $timeOfDay
+                ]);
+            }
+        }
+
+        // That user probably was deleted, reset their cookie.
+        setcookie("session", "", time() - 3600);
+
+        return $response->withHeader('Location', '/login')->withStatus(302);
     })->setName('dashboard_root');
 
     $app->get("/dashboard/kirim", function ($request, $response, $args) use ($renderer) {
         return $response->withHeader('Location', '/dashboard/kirim/')->withStatus(302);
     })->setName('dashboard-kirim');
 
-    $app->get("/dashboard/kirim/", function ($request, $response, $args) use ($renderer) {
+    $app->get("/dashboard/kirim/", function ($request, $response, $args) use ($renderer, $connection) {
         $csrf = createCSRFJWT();
 
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
@@ -134,7 +163,7 @@ return function (App $app, $renderer) use ($connection) {
         $sessionCookie = [
             'expired' => true
         ];
-        
+
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
         }
@@ -143,11 +172,25 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
-        return $renderer->render($response, "/dashboard/send.php", [
-            "csrf" => $csrf,
-            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-            'role' => $sessionCookie["info"] -> role
-        ]);
+        $user_id = $sessionCookie["info"]->user_id;
+
+        $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                return $renderer->render($response, "/dashboard/send.php", [
+                    "csrf" => $csrf,
+                    "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+                    'role' => $row["role"]
+                ]);
+            }
+        }
+
+        // That user probably was deleted, reset their cookie.
+        setcookie("session", "", time() - 3600);
+
+        return $response->withHeader('Location', '/login')->withStatus(302);
     })->setName('dashboard_kirim');
 
     $apiRoutes = require './src/api/index.php';
