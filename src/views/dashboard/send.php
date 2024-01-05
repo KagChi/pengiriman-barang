@@ -7,6 +7,50 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('send', () => ({
+            state: "city",
+            districts: [],
+            cities: [],
+            init() {
+                fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json").then(async res => {
+                    const provincies = [
+                        "DKI JAKARTA",
+                        "JAWA BARAT",
+                        "JAWA TENGAH",
+                        "JAWA TIMUR",
+                        "BANTEN"
+                    ];
+                    const values = await res.json();
+                    const selectedProvincies = [];
+                    for (const provinci of values) {
+                        if (provincies.includes(provinci.name)) selectedProvincies.push(provinci);
+                    }
+
+                    for (const provinci of selectedProvincies) {
+                        const x = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinci.id}.json`);
+                        const values = await x.json();
+                        this.cities.push(...values);
+                    }
+                })
+            },
+            updateDistricts(event) {
+                const client_city = event.target.value;
+                this.districts = [];
+                for (const city of this.cities) {
+                        if (city.name === client_city) {
+                            fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city.id}.json`).then(async res => {
+                                const values = await res.json();
+                                this.districts.push(...values);
+                            })
+                        }
+                }
+            },
+        }));
+    })
+</script>
+
 <body class="min-h-screen flex flex-col dark:bg-[#121212]" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>', sessionActive: <?= $sessionActive; ?> }">
     <div class="flex flex-col md:flex-row">
         <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] md:h-screen py-4 px-6 gap-4">
@@ -20,7 +64,7 @@ include "./src/components/head.php";
                     <p class="hidden lg:flex uppercase text-white">menu</p>
                     <div class="flex flex-col w-full gap-2">
                         <a href="/dashboard" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4"">
-                            <i class="lg:w-4 text-white font-bold fa-solid fa-house text-lg"></i>
+                            <i class=" lg:w-4 text-white font-bold fa-solid fa-house text-lg"></i>
                             <p class="hidden lg:flex text-white font-bold text-lg">Beranda</p>
                         </a>
                         <a href="/dashboard/lacak" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
@@ -76,67 +120,27 @@ include "./src/components/head.php";
                         <input class="border border-2 rounded-lg px-3 font-bold h-8" name="receiver" placeholder="Masukan nama penerima">
                     </div>
 
-                    <div class="flex flex-col gap-5 md:gap-4 bg-[#FF9130] rounded-lg p-3">
+                    <div class="flex flex-col">
+                        <p class="font-bold dark:text-white">Nama Barang</p>
+                        <input class="border rounded-md p-2" placeholder="Masukan nama barang">
+                    </div>
+
+                    <div x-data="send" class="flex flex-col gap-5 md:gap-4 bg-[#FF9130] rounded-lg p-3">
                         <p class="text-white font-bold dark:text-white">Silahkan pilih Kota/Kabupaten & Kecamatan</p>
-                        <div class="flex flex-row justify-between gap-4">
-                            <div @click="state = 'city' " :class="state === 'city' && 'bg-[#b85e20]'" class="cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full">
-                                <p class="text-xs text-white font-bold">Kota/Kabupaten</p>
-                            </div>
+                        <div class="flex flex-col justify-between gap-4">
+                            <select x-show="cities.length > 0" @change="updateDistricts" @click="state = 'city' " :class="state === 'city' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="cities">
+                                <option class="text-[#FF9130]" value="" disabled selected>Kota/Kabupaten</option>
+                                <template x-for="city in cities" :key="city.id">
+                                    <option x-text="city.name" class="hover:bg-[#FF9130]"></option>
+                                </template>
+                            </select>
 
-                            <div @click="state = 'district' " :class="state === 'district' && 'bg-[#b85e20]'" class="cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full">
-                                <p class="text-xs text-white font-bold">Kecamatan</p>
-                            </div>
-                        </div>
-
-                        <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="state === 'city' " class="bg-white flex flex-col overflow-y-auto h-48 rounded-md p-2">
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Planet Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Planet Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Planet Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Planet Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Planet Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Planet Bekasi</p>
-                            </div>
-                        </div>
-
-                        <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="state === 'district' " class="bg-white flex flex-col overflow-y-auto h-48 rounded-md p-2">
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
-                            <div class="p-1 px-2">
-                                <p class="text-black font-bold">Kota Bekasi</p>
-                            </div>
+                            <select x-show="districts.length > 0" @click="state = 'district' " :class="state === 'district' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="districts">
+                                <option class="text-[#FF9130] rounded-md" value="" disabled selected>Kecamatan</option>
+                                <template x-for="district in districts" :key="district.id">
+                                    <option x-text="district.name" class="hover:bg-[#FF9130]"></option>
+                                </template>
+                            </select>
                         </div>
                     </div>
 
@@ -152,11 +156,6 @@ include "./src/components/head.php";
                 </div>
 
                 <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="next" class="flex flex-col gap-5 md:gap-4 w-full">
-                    <div class="flex flex-col">
-                        <p class="font-bold dark:text-white">Nama Penerima</p>
-                        <input class="border rounded-md p-2" placeholder="Masukan nama barang">
-                    </div>
-
                     <div class="flex flex-col">
                         <p class="font-bold dark:text-white">Jumlah Barang</p>
                         <input class="border rounded-md p-2" type="number" placeholder="Masukan jumlah barang">
@@ -177,10 +176,10 @@ include "./src/components/head.php";
                             <p class="text-white font-bold">Kembali</p>
                             <i class="text-white fa-solid fa-chevron-left"></i>
                         </a>
-                        <a type="button" @click="next = ! next" class="cursor-pointer flex flex-row justify-center items-center w-72 h-10 bg-[#ef5941] rounded-lg gap-4 px-4">
-                            <p class="text-white font-bold">Ajukan Pengiriman</p>
+                        <button type="submit" class="cursor-pointer flex flex-row justify-center items-center w-auto h-10 bg-[#ef5941] rounded-lg gap-4 px-4">
+                            <p class="text-white font-bold">Kirim</p>
                             <i class="text-white fa-solid fa-paper-plane"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -193,7 +192,7 @@ include "./src/components/head.php";
         </a>
     </div>
 
-    <footer  class="sticky inset-x-0 bottom-0 z-10 md:hidden w-full mt-auto px-4">
+    <footer class="sticky inset-x-0 bottom-0 z-10 md:hidden w-full mt-auto px-4">
         <div class="flex w-full h-[4.5rem] justify-between bg-[#FF9130] dark:bg-[#EE7214] px-4 gap-6 py-1 rounded-full mb-2">
             <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]" :class="page === 'dashboard' && 'bg-[#b85e20]'">
                 <i class="text-white font-bold fa-solid fa-house text-2xl"></i>

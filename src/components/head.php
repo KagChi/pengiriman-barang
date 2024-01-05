@@ -29,8 +29,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script type="text/javascript" src="/public/assets/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+    <script type="text/javascript" src="/public/assets/script.js"></script>
 
     <!-- Cascading Style Sheet's -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">

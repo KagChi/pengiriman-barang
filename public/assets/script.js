@@ -41,7 +41,7 @@ tailwind.config = {
 let lenis;
 
 const init = () => {
-    gsap.registerPlugin(ScrollTrigger); 
+    gsap.registerPlugin(ScrollTrigger);
     const lenis = new Lenis();
 
     lenis.on('scroll', ScrollTrigger.update)
