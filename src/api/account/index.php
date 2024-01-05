@@ -63,7 +63,7 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `email` = '$Email' OR `phone` = '$Phone'");
+        $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `email` = ('$Email') OR `phone` = ('$Phone')");
 
         if ($result) {
             $row = $result->fetch_assoc();
@@ -146,7 +146,7 @@ return function (App $app, $renderer) use ($connection) {
 
         $Email = $parsedBody["email"];
 
-        $result = $connection->query("SELECT `password`, `id`, `username` FROM `user` WHERE `email` = ('$Email');");
+        $result = $connection->query("SELECT `password`, `id`, `username`, `role` FROM `user` WHERE `email` = ('$Email');");
         if ($result) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -158,7 +158,7 @@ return function (App $app, $renderer) use ($connection) {
                     $data["status"] = "success";
                     $data["success"] = $Status;
 
-                    $JWTToken = createSessionJWT($row["id"], $row["username"]);
+                    $JWTToken = createSessionJWT($row["id"], $row["username"], $row["role"]);
                     $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
                     $iv = $_ENV["COOKIE_SECRET_IV"];
 
@@ -226,7 +226,7 @@ return function (App $app, $renderer) use ($connection) {
                     $row = $result->fetch_assoc();
                     $result->free();
                     $id = $row["id"];
-                    $connection -> query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = $id;");
+                    $connection -> query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = ($id);");
                 }
             }
 
@@ -264,7 +264,7 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $result = $connection->query("SELECT COUNT(*) AS count FROM `password_reset` WHERE `token` = '$Token'");
+        $result = $connection->query("SELECT COUNT(*) AS count FROM `password_reset` WHERE `token` = ('$Token')");
 
         if ($result) {
             $row = $result->fetch_assoc();
@@ -287,14 +287,14 @@ return function (App $app, $renderer) use ($connection) {
                 $row = $result->fetch_assoc();
                 $result->free();
                 $id = $row["user_id"];
-                $result = $connection->query("UPDATE `user` SET `password` = '$Password' WHERE `user`.`id` = $id;");
+                $result = $connection->query("UPDATE `user` SET `password` = '$Password' WHERE `user`.`id` = ('$id');");
                 if ($result) {
                     $data["message"] = "Password sukses di update !";
                     $data["status"] = "success";
                     $data["success"] = true;
 
                     $id = $row["id"];
-                    $connection -> query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = $id;");
+                    $connection -> query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = ('$id');");
 
                     $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
 
@@ -357,7 +357,7 @@ return function (App $app, $renderer) use ($connection) {
         }
 
         $Email = $parsedBody["email"];
-        $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `email` = '$Email'");
+        $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `email` = ('$Email')");
 
         if ($result) {
             $row = $result->fetch_assoc();

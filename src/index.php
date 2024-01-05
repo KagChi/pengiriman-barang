@@ -113,7 +113,8 @@ return function (App $app, $renderer) use ($connection) {
 
         return $renderer->render($response, "/dashboard/index.php", [
             "csrf" => $csrf,
-            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true'
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+            'role' => $sessionCookie["info"] -> role
         ]);
     })->setName('dashboard_root');
 
@@ -144,7 +145,8 @@ return function (App $app, $renderer) use ($connection) {
 
         return $renderer->render($response, "/dashboard/send.php", [
             "csrf" => $csrf,
-            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true'
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+            'role' => $sessionCookie["info"] -> role
         ]);
     })->setName('dashboard_kirim');
 

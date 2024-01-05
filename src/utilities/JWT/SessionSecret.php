@@ -1,7 +1,7 @@
 <?php
     use Firebase\JWT\JWT;
 
-    function createSessionJWT($userId, $username) {
+    function createSessionJWT($userId, $username, $role) {
         $currentTime = time();
         $expirationTime = $currentTime + 7200; // 2 Hours
         $key = $_ENV["JWT_SECRET"];
@@ -11,7 +11,8 @@
             'iat' => $currentTime,
             'exp' => $expirationTime,
             'user_id' => $userId,
-            'username' => $username
+            'username' => $username,
+            'role' => $role
         ];
 
         $token = JWT::encode($payload, $key, 'HS256');

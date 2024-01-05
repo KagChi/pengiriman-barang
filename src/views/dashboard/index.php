@@ -7,7 +7,7 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
-<body class="min-h-screen flex flex-col dark:bg-[#121212]" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>', sessionActive: <?= $sessionActive; ?> }">
+<body class="min-h-screen flex flex-col dark:bg-[#121212]">
     <div class="flex flex-col md:flex-row">
         <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] md:h-screen py-4 px-6 gap-4">
             <a href="/" class="flex flex-row justify-center items-center h-12 md:h-24 mr-2">
@@ -33,7 +33,7 @@ include "./src/components/head.php";
                         </a>
                         <a href="/dashboard/pesanan" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
                             <i class="lg:w-3 text-white font-bold fa-solid fa-file-invoice-dollar lg:ml-1 text-lg"></i>
-                            <p class="hidden lg:flex text-white font-bold text-lg">Pesanan Saya</p>
+                            <p class="hidden lg:flex text-white font-bold text-lg">Kiriman Saya</p>
                         </a>
                     </div>
                 </div>
@@ -48,21 +48,22 @@ include "./src/components/head.php";
                     </div>
                 </div>
 
-                <!-- TODO: Only show if user has admin role -->
-                <div class="flex flex-col gap-4">
-                    <p class="hidden lg:flex uppercase text-white">admin</p>
-                    <div class="flex flex-col w-full gap-2">
-                        <a href="/admin/pesanan" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
-                            <i class="lg:w-3 text-white font-bold fa-solid fa-file-invoice-dollar lg:ml-1 text-lg"></i>
-                            <p class="hidden lg:flex text-white font-bold text-lg">List Pesanan</p>
-                        </a>
+                <?php if ($role == 1) { ?>
+                    <div class="flex flex-col gap-4">
+                        <p class="hidden lg:flex uppercase text-white">admin</p>
+                        <div class="flex flex-col w-full gap-2">
+                            <a href="/admin/pesanan" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                                <i class="lg:w-3 text-white font-bold fa-solid fa-file-invoice-dollar lg:ml-1 text-lg"></i>
+                                <p class="hidden lg:flex text-white font-bold text-lg">List Pesanan</p>
+                            </a>
 
-                        <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
-                            <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
-                            <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
-                        </a>
+                            <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                                <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
+                                <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
 
