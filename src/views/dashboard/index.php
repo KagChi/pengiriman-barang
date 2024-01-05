@@ -136,7 +136,7 @@ include "./src/components/head.php";
                 </div>
             </div>
 
-            <div data-aos="fade-left" class="flex w-full h-[34rem] md:pt-[3.75rem]">
+            <div class="flex w-full h-[34rem] md:pt-[3.75rem]">
                 <div class="w-full h-full bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
                     <a href="/dashboard/lacak" class="flex flex-col h-1/2 w-full justify-center items-center gap-4 border-b border-[#83838350] py-8">
                         <div class="text-[#22092c]">
