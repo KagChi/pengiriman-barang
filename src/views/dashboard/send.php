@@ -111,32 +111,32 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <form class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
+        <form class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/send" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
             <p class="text-6xl font-extrabold text-[#FF9130] dark:text-white">Kirim Kuy</p>
 
             <div data-aos="fade-up" class="flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-between md:mt-2 gap-x-10">
                 <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="!next" class="flex flex-col w-full gap-5 md:gap-4">
                     <div class="flex flex-col gap-2">
                         <p class="font-bold dark:text-white">Nama Penerima</p>
-                        <input class="border border-2 rounded-lg px-3 font-bold h-8" name="receiver" placeholder="Masukan nama penerima">
+                        <input class="border border-2 rounded-lg px-3 font-bold h-8" name="receiver" required placeholder="Masukan nama penerima">
                     </div>
 
                     <div class="flex flex-col">
                         <p class="font-bold dark:text-white">Nama Barang</p>
-                        <input class="border rounded-md p-2" placeholder="Masukan nama barang">
+                        <input class="border rounded-md p-2" name="name" placeholder="Masukan nama barang" required>
                     </div>
 
                     <div x-data="send" class="flex flex-col gap-5 md:gap-4 bg-[#FF9130] rounded-lg p-3">
                         <p class="text-white font-bold dark:text-white">Silahkan pilih Kota/Kabupaten & Kecamatan</p>
                         <div class="flex flex-col justify-between gap-4">
-                            <select x-show="cities.length > 0" @change="updateDistricts" @click="state = 'city' " :class="state === 'city' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="cities">
+                            <select x-show="cities.length > 0" @change="updateDistricts" @click="state = 'city' " :class="state === 'city' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="city" required>
                                 <option class="text-[#FF9130]" value="" disabled selected>Kota/Kabupaten</option>
                                 <template x-for="city in cities" :key="city.id">
                                     <option x-text="city.name" class="hover:bg-[#FF9130]"></option>
                                 </template>
                             </select>
 
-                            <select x-show="districts.length > 0" @click="state = 'district' " :class="state === 'district' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="districts">
+                            <select x-show="districts.length > 0" @click="state = 'district' " :class="state === 'district' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="district" required>
                                 <option class="text-[#FF9130] rounded-md" value="" disabled selected>Kecamatan</option>
                                 <template x-for="district in districts" :key="district.id">
                                     <option x-text="district.name" class="hover:bg-[#FF9130]"></option>
@@ -147,7 +147,7 @@ include "./src/components/head.php";
 
                     <div class="flex flex-col gap-2">
                         <p class="font-bold dark:text-white">Alamat Lengkap</p>
-                        <textarea class="border border-2 rounded-lg px-3 py-1 font-bold h-24" placeholder="Masukan alamat lengkap"></textarea>
+                        <textarea class="border border-2 rounded-lg px-3 py-1 font-bold h-24" name="address" required placeholder="Masukan alamat lengkap"></textarea>
                     </div>
 
                     <a type="button" @click="next = ! next" class="cursor-pointer flex flex-row justify-center items-center w-32 h-10 ml-auto bg-[#ef5941] rounded-lg gap-4 px-4">
@@ -159,17 +159,17 @@ include "./src/components/head.php";
                 <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="next" class="flex flex-col gap-5 md:gap-4 w-full">
                     <div class="flex flex-col">
                         <p class="font-bold dark:text-white">Jumlah Barang</p>
-                        <input class="border rounded-md p-2" type="number" placeholder="Masukan jumlah barang">
+                        <input class="border rounded-md p-2" name="count" required type="number" placeholder="Masukan jumlah barang">
                     </div>
 
                     <div class="flex flex-col">
                         <p class="font-bold dark:text-white">Berat</p>
-                        <input class="border rounded-md p-2" placeholder="Masukan berat barang (Kg)">
+                        <input class="border rounded-md p-2" name="weight" required placeholder="Masukan berat barang (Kg)">
                     </div>
 
                     <div class="flex flex-col gap-2">
                         <p class="font-bold dark:text-white">Notes</p>
-                        <textarea class="border border-2 rounded-lg px-3 py-1 font-bold h-48" placeholder="Masukan note tambahan"></textarea>
+                        <textarea class="border border-2 rounded-lg px-3 py-1 font-bold h-48" name="notes" required placeholder="Masukan note tambahan"></textarea>
                     </div>
 
                     <div class="flex flex-row justify-between">
