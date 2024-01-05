@@ -1,4 +1,4 @@
-<nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] dark:bg-[#121212] shadow-2xl z-99" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>', sessionActive: <?= $sessionActive; ?> }">
+<nav class="w-full h-24 p-1 px-6 md:px-12 pt-4 md:pt-8 justify-between flex flex-row fixed bg-[#FCFCFC] dark:bg-[#121212] shadow-2xl z-99" x-data="{ page: '<?= $page; ?>', ref: '<?= $ref; ?>' }">
     <a href="/" class="flex flex-row items-center gap-2 h-full">
         <img class="w-8 h-8 md:w-10 md:h-10 bg-[#FF9130] rounded-md" src="/public/assets/svg/icon.svg">
 
@@ -19,19 +19,22 @@
                 <div :class="page === 'dashboard' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
             <a href="/lacak" class="flex flex-col items-center">
-            <p class="hover:text-[#FF9130] text-[#22092C] dark:text-[#FCFCFC]" :class="page === 'lacak' && 'text-[#22092C] font-bold'">Lacak</p>
+                <p class="hover:text-[#FF9130] text-[#22092C] dark:text-[#FCFCFC]" :class="page === 'lacak' && 'text-[#22092C] font-bold'">Lacak</p>
                 <div :class="page === 'lacak' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
-            <a x-show="!sessionActive" href="/register" class="flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center">
-                Daftar
-                <div :class="ref === 'register' && 'w-8 border-b-4 border-[#FF9130]' "></div>
-            </a>
+            <?php if (!$sessionActive) { ?>
+                <a href="/register" class="flex flex-col font-bold hover:text-[#EE7214] text-[#FF9130] items-center">
+                    Daftar
+                    <div :class="ref === 'register' && 'w-8 border-b-4 border-[#FF9130]' "></div>
+                </a>
+            <?php } ?>
         </div>
-
-        <a x-show="!sessionActive" href="/login" class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130]">
-            <i class="text-white fa-solid fa-right-to-bracket"></i>
-            <p>Masuk</p>
-        </a>
+        <?php if (!$sessionActive) { ?>
+            <a href="/login" class="flex flex-row gap-2 text-white font-bold rounded-md h-10 w-24 items-center justify-center bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130]">
+                <i class="text-white fa-solid fa-right-to-bracket"></i>
+                <p>Masuk</p>
+            </a>
+        <?php } ?>
     </div>
 
     <div class="flex md:hidden flex-col w-40 gap-4 mt-3" x-data="{ open: false }">
@@ -67,15 +70,17 @@
                 <p class="text-white font-bold text-lg">Lacak</p>
             </a>
 
-            <a x-show="!sessionActive" href="/register" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
-                <i class="text-white fa-solid fa-user-plus"></i>
-                <p class="text-white font-bold text-lg">Daftar</p>
-            </a>
+            <?php if (!$sessionActive) { ?>
+                <a x-show="!sessionActive" href="/register" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+                    <i class="text-white fa-solid fa-user-plus"></i>
+                    <p class="text-white font-bold text-lg">Daftar</p>
+                </a>
 
-            <a x-show="!sessionActive" href="/login" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
-                <i class="text-white fa-solid fa-right-to-bracket"></i>
-                <p class="text-white font-bold text-lg">Masuk</p>
-            </a>
+                <a x-show="!sessionActive" href="/login" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+                    <i class="text-white fa-solid fa-right-to-bracket"></i>
+                    <p class="text-white font-bold text-lg">Masuk</p>
+                </a>
+            <?php } ?>
         </div>
     </div>
 </nav>
