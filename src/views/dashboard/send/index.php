@@ -75,7 +75,7 @@ include "./src/components/head.php";
                             <i class="lg:w-4 text-white font-bold fa-solid fa-paper-plane text-lg"></i>
                             <p class="hidden lg:flex text-white font-bold text-lg">Kirim</p>
                         </a>
-                        <a href="/dashboard/pesanan" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                        <a href="/dashboard/kiriman" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
                             <i class="lg:w-3 text-white font-bold fa-solid fa-file-invoice-dollar lg:ml-1 text-lg"></i>
                             <p class="hidden lg:flex text-white font-bold text-lg">Kiriman Saya</p>
                         </a>
@@ -96,9 +96,9 @@ include "./src/components/head.php";
                     <div class="flex flex-col gap-4">
                         <p class="hidden lg:flex uppercase text-white">admin</p>
                         <div class="flex flex-col w-full gap-2">
-                            <a href="/admin/pesanan" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                            <a href="/admin/kiriman" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
                                 <i class="lg:w-3 text-white font-bold fa-solid fa-file-invoice-dollar lg:ml-1 text-lg"></i>
-                                <p class="hidden lg:flex text-white font-bold text-lg">List Pesanan</p>
+                                <p class="hidden lg:flex text-white font-bold text-lg">List Kiriman</p>
                             </a>
 
                             <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
@@ -111,7 +111,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <form class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/send" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
+        <form class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/kirim" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
             <p class="text-6xl font-extrabold text-[#FF9130] dark:text-white">Kirim Kuy</p>
 
             <div data-aos="fade-up" class="flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-between md:mt-2 gap-x-10">
@@ -132,14 +132,14 @@ include "./src/components/head.php";
                             <select x-show="cities.length > 0" @change="updateDistricts" @click="state = 'city' " :class="state === 'city' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="city" required>
                                 <option class="text-[#FF9130]" value="" disabled selected>Kota/Kabupaten</option>
                                 <template x-for="city in cities" :key="city.id">
-                                    <option x-text="city.name" class="hover:bg-[#FF9130]"></option>
+                                    <option x-text="city.name" x-value="city.name" class="hover:bg-[#FF9130]"></option>
                                 </template>
                             </select>
 
                             <select x-show="districts.length > 0" @click="state = 'district' " :class="state === 'district' && 'bg-[#b85e20]'" class="bg-[#FF9130] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="district" required>
                                 <option class="text-[#FF9130] rounded-md" value="" disabled selected>Kecamatan</option>
                                 <template x-for="district in districts" :key="district.id">
-                                    <option x-text="district.name" class="hover:bg-[#FF9130]"></option>
+                                    <option x-text="district.name" x-bind:value="district.name" class="hover:bg-[#FF9130]"></option>
                                 </template>
                             </select>
                         </div>
@@ -157,6 +157,15 @@ include "./src/components/head.php";
                 </div>
 
                 <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-show="next" class="flex flex-col gap-5 md:gap-4 w-full">
+                    <div x-data="send" class="flex flex-col gap-5 md:gap-4 bg-[#FF9130] rounded-lg p-3">
+                        <p class="text-white font-bold dark:text-white">Silahkan pilih Pengiriman</p>
+                        <select class="bg-[#b85e20] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="type" required>
+                            <option class="text-[#FF9130] rounded-md" value="" disabled selected>Pengiriman</option>
+                            <option value="fast" class="hover:bg-[#FF9130]">Fast (1-2 Hari)</option>
+                            <option value="same_day" class="hover:bg-[#FF9130]">Sameday (1 Hari)</option>
+                            <option value="instant" class="hover:bg-[#FF9130]">Instant (3 - 5 Jam)</option>
+                        </select>
+                    </div>
                     <div class="flex flex-col">
                         <p class="font-bold dark:text-white">Jumlah Barang</p>
                         <input class="border rounded-md p-2" name="count" required type="number" placeholder="Masukan jumlah barang">
@@ -164,7 +173,7 @@ include "./src/components/head.php";
 
                     <div class="flex flex-col">
                         <p class="font-bold dark:text-white">Berat</p>
-                        <input class="border rounded-md p-2" name="weight" required placeholder="Masukan berat barang (Kg)">
+                        <input class="border rounded-md p-2" name="weight" required type="number" placeholder="Masukan berat barang (Kg)">
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -184,44 +193,41 @@ include "./src/components/head.php";
                     </div>
                 </div>
             </div>
-    </div>
-    </form>
+        </form>
 
-    <div class="relative">
-        <a onclick="changeTheme()" id="darkModeToggler" class="cursor-pointer flex justify-center items-center h-14 w-14 bg-[#EE7214] dark:bg-[#22092C] rounded-full text-white p-2 fixed top-0 right-0 mt-3 mr-4">
-            <i id="darkModeTogglerIcon" class="fa-solid fa-moon fa-xl"></i>
-        </a>
-    </div>
+        <div class="relative">
+            <a onclick="changeTheme()" id="darkModeToggler" class="cursor-pointer flex justify-center items-center h-14 w-14 bg-[#EE7214] dark:bg-[#22092C] rounded-full text-white p-2 fixed top-0 right-0 mt-3 mr-4">
+                <i id="darkModeTogglerIcon" class="fa-solid fa-moon fa-xl"></i>
+            </a>
+        </div>
 
-    <footer class="sticky inset-x-0 bottom-0 z-10 md:hidden w-full mt-auto px-4">
-        <div class="flex w-full h-[4.5rem] justify-between bg-[#FF9130] dark:bg-[#EE7214] px-4 gap-6 py-1 rounded-full mb-2">
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]" :class="page === 'dashboard' && 'bg-[#b85e20]'">
-                <i class="text-white font-bold fa-solid fa-house text-2xl"></i>
-            </div>
+        <footer class="sticky inset-x-0 bottom-0 z-10 md:hidden w-full mt-auto px-4">
+            <div class="flex w-full h-[4.5rem] justify-between bg-[#FF9130] dark:bg-[#EE7214] px-4 gap-6 py-1 rounded-full mb-2">
+                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]" :class="page === 'dashboard' && 'bg-[#b85e20]'">
+                    <i class="text-white font-bold fa-solid fa-house text-2xl"></i>
+                </div>
 
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
-                <i class="text-white font-bold fa-solid fa-truck text-2xl"></i>
-            </div>
+                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+                    <i class="text-white font-bold fa-solid fa-truck text-2xl"></i>
+                </div>
 
-            <div class="flex w-12 h-12 relative justify-center">
-                <div class="flex absolute w-20 h-20 bg-[#FCFCFC] rounded-full -top-10 justify-center">
-                    <div class="flex w-16 h-16 bg-[#FF9130] dark:bg-[#EE7214] hover:bg-[#b85e20] rounded-full mt-2 justify-center items-center">
-                        <i class="text-white font-bold fa-solid fa-cart-shopping text-3xl"></i>
+                <div class="flex w-12 h-12 relative justify-center">
+                    <div class="flex absolute w-20 h-20 bg-[#FCFCFC] rounded-full -top-10 justify-center">
+                        <div class="flex w-16 h-16 bg-[#FF9130] dark:bg-[#EE7214] hover:bg-[#b85e20] rounded-full mt-2 justify-center items-center">
+                            <i class="text-white font-bold fa-solid fa-cart-shopping text-3xl"></i>
+                        </div>
                     </div>
                 </div>
+
+                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+                    <i class="text-white font-bold fa-solid fa-file-invoice-dollar text-2xl"></i>
+                </div>
+
+                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+                    <i class="text-white font-bold fa-solid fa-right-from-bracket text-2xl"></i>
+                </div>
             </div>
-
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
-                <i class="text-white font-bold fa-solid fa-file-invoice-dollar text-2xl"></i>
-            </div>
-
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
-                <i class="text-white font-bold fa-solid fa-right-from-bracket text-2xl"></i>
-            </div>
-        </div>
-    </footer>
-
-
+        </footer>
 </body>
 
 </html>

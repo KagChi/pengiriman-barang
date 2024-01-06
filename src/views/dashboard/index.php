@@ -31,7 +31,7 @@ include "./src/components/head.php";
                             <i class="lg:w-4 text-white font-bold fa-solid fa-paper-plane text-lg"></i>
                             <p class="hidden lg:flex text-white font-bold text-lg">Kirim</p>
                         </a>
-                        <a href="/dashboard/pesanan" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                        <a href="/dashboard/kiriman" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
                             <i class="lg:w-3 text-white font-bold fa-solid fa-file-invoice-dollar lg:ml-1 text-lg"></i>
                             <p class="hidden lg:flex text-white font-bold text-lg">Kiriman Saya</p>
                         </a>
@@ -52,9 +52,9 @@ include "./src/components/head.php";
                     <div class="flex flex-col gap-4">
                         <p class="hidden lg:flex uppercase text-white">admin</p>
                         <div class="flex flex-col w-full gap-2">
-                            <a href="/admin/pesanan" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                            <a href="/admin/kiriman" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
                                 <i class="lg:w-3 text-white font-bold fa-solid fa-file-invoice-dollar lg:ml-1 text-lg"></i>
-                                <p class="hidden lg:flex text-white font-bold text-lg">List Pesanan</p>
+                                <p class="hidden lg:flex text-white font-bold text-lg">List Kiriman</p>
                             </a>
 
                             <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
@@ -71,7 +71,7 @@ include "./src/components/head.php";
             <div class="w-full h-auto md:h-full flex flex-col md:gap-6">
                 <p class="font-bold text-2xl md:text-3xl dark:text-[#FCFCFC]">Selamat <?= $time ?>, <?= $name ?> !</p>
                 <div class="flex flex-col gap-10 mt-2 md:mt-0">
-                    <a href="/dashboard/lacak/YlvejVyADlKMhTAnRNGw6" class="flex flex-col w-full h-32 bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
+                    <a href="/dashboard/lacak/Z3UKT3VNFE5" class="flex flex-col w-full h-32 bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
                         <div class="flex items-center h-8 w-full border-b border-[#83838350] dark:border-[#b85e20] px-4 py-5 mt-1">
                             <p class="text-[#838383] dark:text-[#FCFCFC]">
                                 Status Pengiriman Terakhir
@@ -80,23 +80,23 @@ include "./src/components/head.php";
 
                         <div class="flex flex-col px-4 mt-2">
                             <p class="text-[#838383] dark:text-[#FCFCFC] font-bold">
-                                Iphone 15 Pro Max (1Kg)
+                                <?= htmlspecialchars($packet["name"]) ?>
                             </p>
                             <div class="flex flex-row justify-between">
                                 <div class="mt-1 text-left">
                                     <p class="text-xs text-[#838383] dark:text-[#FCFCFC]">
-                                        Sedang ada di Rengasdengklok
-                                    </p>
-                                    <p class="text-xs text-[#838383] dark:text-[#FCFCFC]">
-                                        Jawa Timur
-                                    </p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-xs text-[#838383] dark:text-[#FCFCFC]">
-                                        16 Des
-                                    </p>
-                                    <p class="text-xs text-[#838383] dark:text-[#FCFCFC]">
-                                        16:20
+                                        <?php
+                                        $state = $packet["state"];
+                                        if ($state === "on_going") {
+                                            echo "Dalam Perjalanan";
+                                        } else if ($state === "on_hold") {
+                                            echo "Ditahan";
+                                        } else if ($state === "return") {
+                                            echo "Dikembalikan";
+                                        } else if ($state === "done") {
+                                            echo "Dikirim";
+                                        }
+                                        ?>
                                     </p>
                                 </div>
                             </div>
@@ -107,28 +107,28 @@ include "./src/components/head.php";
                         <div class="flex flex-row justify-center items-center p-4 gap-4 border-b border-r border-[#83838350] dark:border-[#b85e20]">
                             <img class="w-20 h-20 md:w-14 md:h-14 lg:w-20 lg:h-20" src="/public/assets/images/dashboard/Asset 2.svg">
                             <div class="flex flex-col">
-                                <p class="text-[#22092c] font-bold text-lg">30+</p>
+                                <p class="text-[#22092c] font-bold text-lg"><?= htmlspecialchars($onGoingCount) ?>+</p>
                                 <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Sedang Dikirim</p>
                             </div>
                         </div>
                         <div class="flex flex-row justify-center items-center p-4 gap-4 border-b border-[#83838350] dark:border-[#b85e20]">
                             <img class="w-20 h-20 md:w-14 md:h-14 lg:w-20 lg:h-20" src="/public/assets/images/dashboard/Asset 15.svg">
                             <div class="flex flex-col">
-                                <p class="text-[#22092c] font-bold text-lg">5+</p>
+                                <p class="text-[#22092c] font-bold text-lg"><?= htmlspecialchars($onHoldCount) ?>+</p>
                                 <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Sedang Ditahan</p>
                             </div>
                         </div>
                         <div class="flex flex-row justify-center items-center p-4 gap-4 border-r border-[#83838350] dark:border-[#b85e20]">
                             <img class="w-20 h-20 md:w-14 md:h-14 lg:w-20 lg:h-20" src="/public/assets/images/dashboard/Asset 16.svg">
                             <div class="flex flex-col md:mr-auto">
-                                <p class="text-[#22092c] font-bold text-lg">5+</p>
+                                <p class="text-[#22092c] font-bold text-lg"><?= htmlspecialchars($doneCount) ?>+</p>
                                 <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Selesai</p>
                             </div>
                         </div>
                         <div class="flex flex-row justify-center items-center p-4 gap-4">
                             <img class="w-20 h-20 md:w-14 md:h-14 lg:w-20 lg:h-20" src="/public/assets/images/dashboard/Asset 4.svg">
                             <div class="flex flex-col">
-                                <p class="text-[#22092c] font-bold text-lg">5+</p>
+                                <p class="text-[#22092c] font-bold text-lg"><?= htmlspecialchars($returnCount) ?>+</p>
                                 <p class="text-[#838383] dark:text-[#FCFCFC] text-xs lg:text-base">Dikembalikan</p>
                             </div>
                         </div>

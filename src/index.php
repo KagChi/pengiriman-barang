@@ -1,6 +1,7 @@
 <?php
 
 use Slim\App;
+use Hidehalo\Nanoid\Client;
 
 require "./src/utilities/connection.php";
 
@@ -84,11 +85,11 @@ return function (App $app, $renderer) use ($connection) {
         }
 
         return $response->withHeader('Location', '/home')->withStatus(302);
-    })->setName('account_logout');
+    });
 
     $app->get("/dashboard", function ($request, $response, $args) use ($renderer) {
         return $response->withHeader('Location', '/dashboard/')->withStatus(302);
-    })->setName('dashboard');
+    });
 
     $app->get("/dashboard/", function ($request, $response, $args) use ($renderer, $connection) {
         $csrf = createCSRFJWT();
@@ -119,16 +120,52 @@ return function (App $app, $renderer) use ($connection) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
 
+                $onGoingCount = 0;
+                $onHoldCount = 0;
+                $returnCount = 0;
+                $doneCount = 0;
+
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('on_going')");
+                if ($countResult) {
+                    $countRow = $countResult->fetch_assoc();
+                    $onGoingCount = $countRow['count'];
+                }
+
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('on_hold')");
+                if ($countResult) {
+                    $countRow = $countResult->fetch_assoc();
+                    $onHoldCount = $countRow['count'];
+                }
+
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('return')");
+                if ($countResult) {
+                    $countRow = $countResult->fetch_assoc();
+                    $returnCount = $countRow['count'];
+                }
+
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('done')");
+                if ($countResult) {
+                    $countRow = $countResult->fetch_assoc();
+                    $doneCount = $countRow['count'];
+                }
+
                 $currentHour = date('G');
 
                 if ($currentHour >= 5 && $currentHour < 12) {
                     $timeOfDay = 'Pagi';
-                } elseif ($currentHour >= 12 && $currentHour < 17) {
+                } elseif ($currentHour >= 12 && $currentHour < 14) {
                     $timeOfDay = 'Siang';
-                } elseif ($currentHour >= 17 && $currentHour < 20) {
+                } elseif ($currentHour >= 15 && $currentHour < 20) {
                     $timeOfDay = 'Sore';
                 } else {
                     $timeOfDay = 'Malam';
+                }
+
+                $packetRow = [];
+
+                $packet = $connection->query("SELECT `name`, `state` FROM `packet` WHERE `user_id` = ('$user_id') ORDER BY `packet`.`date` ASC;");
+                if ($packet->num_rows > 0) {
+                    $packetRow = $packet->fetch_assoc();
                 }
 
                 return $renderer->render($response, "/dashboard/index.php", [
@@ -136,7 +173,12 @@ return function (App $app, $renderer) use ($connection) {
                     "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
                     'role' => $row["role"],
                     'name' => $row["first_name"],
-                    'time' => $timeOfDay
+                    'time' => $timeOfDay,
+                    'packet' => $packetRow,
+                    'onGoingCount' => $onGoingCount,
+                    'onHoldCount' => $onHoldCount,
+                    'returnCount' => $returnCount,
+                    'doneCount' => $doneCount
                 ]);
             }
         }
@@ -145,11 +187,86 @@ return function (App $app, $renderer) use ($connection) {
         setcookie("session", "", time() - 3600);
 
         return $response->withHeader('Location', '/login')->withStatus(302);
-    })->setName('dashboard_root');
+    });
+
+    $app->post("/dashboard/kirim", function ($request, $response, $args) use ($renderer, $connection) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
+        if ($sessionCookie["expired"]) {
+            return $response->withHeader('Location', '/login')->withStatus(302);
+        }
+
+        $user_id = $sessionCookie["info"]->user_id;
+
+        $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                $client = new Client();
+
+                $resi = $client->formattedId("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 11);
+                $price = 0;
+
+                $name = $_POST["name"];
+                $city = $_POST["city"];
+                $district = $_POST["district"];
+                $receiver = $_POST["receiver"];
+                $address = $_POST["address"];
+                $type = $_POST["type"];
+                $count = $_POST["count"];
+                $weight = $_POST["weight"];
+                $notes = $_POST["notes"];
+
+                $isCargo = $weight > 8;
+
+                if ($type === "fast") {
+                    $price = ($weight * ($isCargo ? 15000 : 9000)) * $count;
+                } else if ($type === "same_day") {
+                    $price = ($weight * ($isCargo ? 25000 : 15000)) * $count;
+                } else if ($type === "instant") {
+                    $price = ($weight * ($isCargo ? 35000 : 25000)) * $count;
+                }
+
+                $result = $connection->query("INSERT INTO `packet`(`user_id`, `resi`, `type`, `receiver`, `state`, `name`, `city`, `district`, `address`, `count`, `weight`, `notes`, `price`) VALUES ('$user_id','$resi','$type','$receiver','on_going','$name','$city','$district','$address','$count','$weight','$notes', '$price')");
+                if ($result) {
+                    return $renderer->render($response, "/dashboard/send/process.php", [
+                        "csrf" => $csrf,
+                        "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+                        'role' => $row["role"],
+                        'resi' => $resi,
+                        'price' => $price
+                    ]);
+                } else {
+                    // TODO: DIRECT TO ERROR PAGE
+                    return $response->withHeader('Location', '/error')->withStatus(302);
+                }
+            }
+        }
+
+        // That user probably was deleted, reset their cookie.
+        setcookie("session", "", time() - 3600);
+
+        return $response->withHeader('Location', '/login')->withStatus(302);
+    });
 
     $app->get("/dashboard/kirim", function ($request, $response, $args) use ($renderer) {
         return $response->withHeader('Location', '/dashboard/kirim/')->withStatus(302);
-    })->setName('dashboard-kirim');
+    });
 
     $app->get("/dashboard/kirim/", function ($request, $response, $args) use ($renderer, $connection) {
         $csrf = createCSRFJWT();
@@ -179,7 +296,7 @@ return function (App $app, $renderer) use ($connection) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
 
-                return $renderer->render($response, "/dashboard/send.php", [
+                return $renderer->render($response, "/dashboard/send/index.php", [
                     "csrf" => $csrf,
                     "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
                     'role' => $row["role"]
@@ -191,7 +308,180 @@ return function (App $app, $renderer) use ($connection) {
         setcookie("session", "", time() - 3600);
 
         return $response->withHeader('Location', '/login')->withStatus(302);
-    })->setName('dashboard_kirim');
+    });
+
+    $app->get("/dashboard/kiriman", function ($request, $response, $args) use ($renderer) {
+        return $response->withHeader('Location', '/dashboard/kiriman/')->withStatus(302);
+    });
+
+    $app->get("/dashboard/kiriman/", function ($request, $response, $args) use ($renderer, $connection) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
+        if ($sessionCookie["expired"]) {
+            return $response->withHeader('Location', '/login')->withStatus(302);
+        }
+
+        $user_id = $sessionCookie["info"]->user_id;
+
+        $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                $result = $connection->query("SELECT `date`, `state`, `name`, `city`, `price`, `resi` FROM `packet` WHERE `user_id` = ('$user_id') LIMIT 10;");
+                $results = [];
+                while ($packet = $result->fetch_assoc()) {
+                    $results[] = $packet;
+                }
+
+                return $renderer->render($response, "/dashboard/sent.php", [
+                    "csrf" => $csrf,
+                    "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+                    'role' => $row["role"],
+                    "results" => $results
+                ]);
+            }
+        }
+
+        // That user probably was deleted, reset their cookie.
+        setcookie("session", "", time() - 3600);
+
+        return $response->withHeader('Location', '/login')->withStatus(302);
+    });
+
+    $app->get("/admin/pengguna", function ($request, $response, $args) use ($renderer) {
+        return $response->withHeader('Location', '/admin/pengguna/')->withStatus(302);
+    });
+
+    $app->get("/admin/pengguna/", function ($request, $response, $args) use ($renderer, $connection) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
+        if ($sessionCookie["expired"]) {
+            return $response->withHeader('Location', '/login')->withStatus(302);
+        }
+
+        $user_id = $sessionCookie["info"]->user_id;
+
+        $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id') LIMIT 1;");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                if ($row["role"] == 0) {
+                    return $response->withHeader('Location', '/dashboard')->withStatus(302);
+                }
+
+                $result = $connection->query("SELECT `username`, `phone`, `email`, `role` FROM `user` LIMIT 10;");
+                $results = [];
+                while ($packet = $result->fetch_assoc()) {
+                    $results[] = $packet;
+                }
+
+                return $renderer->render($response, "/dashboard/admin/users.php", [
+                    "csrf" => $csrf,
+                    "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+                    'role' => $row["role"],
+                    'results' => $results
+                ]);
+            }
+        }
+
+        // That user probably was deleted, reset their cookie.
+        setcookie("session", "", time() - 3600);
+
+        return $response->withHeader('Location', '/login')->withStatus(302);
+    });
+
+    $app->get("/admin/kiriman", function ($request, $response, $args) use ($renderer) {
+        return $response->withHeader('Location', '/admin/kiriman/')->withStatus(302);
+    });
+
+    $app->get("/admin/kiriman/", function ($request, $response, $args) use ($renderer, $connection) {
+        $csrf = createCSRFJWT();
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
+        setcookie('csrf_token', $csrfCookie, time() + 300);
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
+        if ($sessionCookie["expired"]) {
+            return $response->withHeader('Location', '/login')->withStatus(302);
+        }
+
+        $user_id = $sessionCookie["info"]->user_id;
+
+        $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id') LIMIT 1;");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                if ($row["role"] == 0) {
+                    return $response->withHeader('Location', '/dashboard')->withStatus(302);
+                }
+
+                $result = $connection->query("SELECT `user_id`, `date`, `state`, `name`, `city`, `price`, `resi` FROM `packet` LIMIT 10;");
+                $results = [];
+                while ($packet = $result->fetch_assoc()) {
+                    $user_id = $packet["user_id"];
+                    $user = $connection->query("SELECT `username` FROM `user` WHERE `id` = ('$user_id');");
+                    if ($user->num_rows > 0) {
+                        $userRow = $user->fetch_assoc();
+                        $packet["user"] = $userRow["username"];
+                    }
+                    $results[] = $packet;
+                }
+
+                return $renderer->render($response, "/dashboard/admin/sent.php", [
+                    "csrf" => $csrf,
+                    "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+                    'role' => $row["role"],
+                    "results" => $results
+                ]);
+            }
+        }
+
+        // That user probably was deleted, reset their cookie.
+        setcookie("session", "", time() - 3600);
+
+        return $response->withHeader('Location', '/login')->withStatus(302);
+    });
 
     $apiRoutes = require './src/api/index.php';
     $apiRoutes($app, $renderer);

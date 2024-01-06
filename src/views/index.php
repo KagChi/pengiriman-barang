@@ -13,20 +13,20 @@
     ?>
     <section class="md:min-h-screen flex justify-center items-center">
         <div class="px-4 pt-32 flex flex-col md:flex-row mb-20 gap-4">
-            <div class="w-full md:pl-14 md:w-1/2 pt-8 flex flex-col px-3">
+            <div data-aos="fade-right" class="w-full md:pl-14 md:w-1/2 pt-8 flex flex-col px-3">
                 <div class="flex flex-row md:flex-col gap-1 md:pt-10 lg:pt-12">
                     <span class="text-4xl md:text-5xl lg:text-7xl font-extrabold flex flex-row gap-1 md:gap-5 text-[#22092C] dark:text-[#FCFCFC]">Mau <p class="text-[#FF9130]">Kirim</p></span>
                     <span class="text-4xl md:text-5xl lg:text-7xl font-extrabold flex flex-row gap-1 md:gap-5 text-[#22092C] dark:text-[#FCFCFC]"><p class="text-[#FF9130]">Apa</p> Nih?</span>
                 </div>
                 <p class="pt-4 text-sm md:text-xl text-[#22092C] dark:text-[#FCFCFC]">Murah, Aman, Cepat, dan Terpercaya.</p>
     
-                <a href="/dashboard/kirim" class="flex flex-row w-52 items-center justify-center gap-2 h-10 bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] text-[#FCFCFC] rounded-md text-xl mt-4 shadow-2xl px-3 py-6">
+                <a href="/dashboard/kirim" class="mt-2 transition delay-150 duration-300 hover:scale-110 ease-in-out flex flex-row w-52 items-center justify-center gap-2 h-10 bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] text-[#FCFCFC] rounded-md text-xl mt-4 shadow-2xl px-3 py-6">
                     <i class="fa-solid fa-paper-plane"></i>
                     <p>Kirim Sekarang</p>
                 </a>
             </div>
     
-            <div class="w-full lg:h-[500px] lg:w-[780px] pt-8 md:pt-0">
+            <div data-aos="fade-left" class="w-full lg:h-[500px] lg:w-[780px] pt-8 md:pt-0">
                 <img class="ml-auto shadow-2xl rounded-lg aspect-[3/2]" src="/public/assets/images/home.jpg">
             </div>
         </div>
