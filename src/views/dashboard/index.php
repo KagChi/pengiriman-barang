@@ -71,7 +71,7 @@ include "./src/components/head.php";
             <div class="w-full h-auto md:h-full flex flex-col md:gap-6">
                 <p class="font-bold text-2xl md:text-3xl dark:text-[#FCFCFC]">Selamat <?= $time ?>, <?= $name ?> !</p>
                 <div class="flex flex-col gap-10 mt-2 md:mt-0">
-                    <a href="/dashboard/lacak/Z3UKT3VNFE5" class="flex flex-col w-full h-32 bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
+                    <a href="/dashboard/lacak/<?= $packet["resi"] ?>" class="flex flex-col w-full h-32 bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
                         <div class="flex items-center h-8 w-full border-b border-[#83838350] dark:border-[#b85e20] px-4 py-5 mt-1">
                             <p class="text-[#838383] dark:text-[#FCFCFC]">
                                 Status Pengiriman Terakhir
@@ -264,33 +264,30 @@ include "./src/components/head.php";
 
     <footer class="sticky inset-x-0 bottom-0 z-10 md:hidden w-full mt-auto px-4">
         <div class="flex w-full h-[4.5rem] justify-between bg-[#FF9130] dark:bg-[#EE7214] px-4 gap-6 py-1 rounded-full mb-2">
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]" :class="page === 'dashboard' && 'bg-[#b85e20]'">
+            <a href="/dashboard" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20] bg-[#b85e20]">
                 <i class="text-white font-bold fa-solid fa-house text-2xl"></i>
-            </div>
+            </a>
 
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+            <a href="/dashboard/lacak" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
                 <i class="text-white font-bold fa-solid fa-truck text-2xl"></i>
-            </div>
+            </a>
 
             <div class="flex w-12 h-12 relative justify-center">
                 <div class="flex absolute w-20 h-20 bg-[#FCFCFC] rounded-full -top-10 justify-center">
-                    <div class="flex w-16 h-16 bg-[#FF9130] dark:bg-[#EE7214] hover:bg-[#b85e20] rounded-full mt-2 justify-center items-center">
+                    <a href="/dashboard/kirim" class="flex w-16 h-16 bg-[#FF9130] dark:bg-[#EE7214] hover:bg-[#b85e20] rounded-full mt-2 justify-center items-center">
                         <i class="text-white font-bold fa-solid fa-cart-shopping text-3xl"></i>
-                    </div>
+                    </a>
                 </div>
             </div>
 
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+            <a href="/dashboard/kiriman" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
                 <i class="text-white font-bold fa-solid fa-file-invoice-dollar text-2xl"></i>
-            </div>
+            </a>
 
-            <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+            <a href="/logout" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
                 <i class="text-white font-bold fa-solid fa-right-from-bracket text-2xl"></i>
-            </div>
+            </a>
         </div>
     </footer>
-
-
 </body>
-
 </html>

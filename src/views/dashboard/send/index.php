@@ -111,7 +111,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <form class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/kirim" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
+        <form class="p-6 md:p-10 w-full h-screen flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/kirim" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
             <p class="text-6xl font-extrabold text-[#FF9130] dark:text-white">Kirim Kuy</p>
 
             <div data-aos="fade-up" class="flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-between md:mt-2 gap-x-10">
@@ -203,31 +203,30 @@ include "./src/components/head.php";
 
         <footer class="sticky inset-x-0 bottom-0 z-10 md:hidden w-full mt-auto px-4">
             <div class="flex w-full h-[4.5rem] justify-between bg-[#FF9130] dark:bg-[#EE7214] px-4 gap-6 py-1 rounded-full mb-2">
-                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]" :class="page === 'dashboard' && 'bg-[#b85e20]'">
+                <a href="/dashboard" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
                     <i class="text-white font-bold fa-solid fa-house text-2xl"></i>
-                </div>
+                </a>
 
-                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+                <a href="/dashboard/lacak" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
                     <i class="text-white font-bold fa-solid fa-truck text-2xl"></i>
-                </div>
+                </a>
 
                 <div class="flex w-12 h-12 relative justify-center">
                     <div class="flex absolute w-20 h-20 bg-[#FCFCFC] rounded-full -top-10 justify-center">
-                        <div class="flex w-16 h-16 bg-[#FF9130] dark:bg-[#EE7214] hover:bg-[#b85e20] rounded-full mt-2 justify-center items-center">
+                        <a href="/dashboard/kirim" class="flex w-16 h-16 hover:bg-[#b85e20] bg-[#b85e20] rounded-full mt-2 justify-center items-center">
                             <i class="text-white font-bold fa-solid fa-cart-shopping text-3xl"></i>
-                        </div>
+                        </a>
                     </div>
                 </div>
 
-                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+                <a href="/dashboard/kiriman" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
                     <i class="text-white font-bold fa-solid fa-file-invoice-dollar text-2xl"></i>
-                </div>
+                </a>
 
-                <div class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
+                <a href="/logout" class="flex w-12 h-12 rounded-full mt-2 justify-center items-center hover:bg-[#b85e20]">
                     <i class="text-white font-bold fa-solid fa-right-from-bracket text-2xl"></i>
-                </div>
+                </a>
             </div>
         </footer>
 </body>
-
 </html>

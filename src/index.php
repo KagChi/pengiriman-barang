@@ -163,7 +163,7 @@ return function (App $app, $renderer) use ($connection) {
 
                 $packetRow = [];
 
-                $packet = $connection->query("SELECT `name`, `state` FROM `packet` WHERE `user_id` = ('$user_id') ORDER BY `packet`.`date` ASC;");
+                $packet = $connection->query("SELECT `name`, `state`, `resi` FROM `packet` WHERE `user_id` = ('$user_id') ORDER BY `packet`.`date` ASC;");
                 if ($packet->num_rows > 0) {
                     $packetRow = $packet->fetch_assoc();
                 }
