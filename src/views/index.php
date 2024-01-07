@@ -34,7 +34,7 @@ include "./src/components/head.php";
         </div>
     </section>
 
-    <div data-aos="fade-up" class="grid grid-cols-1 w-full px-4 justify-center gap-6">
+    <section data-aos="fade-up" class="grid grid-cols-1 w-full px-4 justify-center gap-6">
         <div class="grid grid-cols-1 text-center">
             <p class="text-[#22092C] dark:text-[#FCFCFC] text-2xl md:text-4xl font-bold">
                 Jaringan Kami
@@ -50,12 +50,12 @@ include "./src/components/head.php";
             <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/tokped.svg">
             <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/blibli.svg">
         </div>
-    </div>
+    </section>
 
-    <div data-aos="fade-up" class="flex flex-col px-4 md:px-32 w-full mt-16">
+    <section data-aos="fade-up" class="flex flex-col px-4 md:px-32 w-full mt-20">
         <div class="grid grid-cols-1 text-center">
             <p class="text-[#22092C] dark:text-[#FCFCFC] text-2xl md:text-4xl font-bold">
-                Keunggulan kami
+                Keunggulan Kami
             </p>
 
             <p class="text-xs md:text-base text-[#22092C] dark:text-[#FCFCFC]">
@@ -106,7 +106,7 @@ include "./src/components/head.php";
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <div class="relative z-[100]">
         <a onclick="changeTheme()" id="darkModeToggler" class="cursor-pointer flex justify-center items-center h-14 w-14 bg-[#22092C] dark:bg-[#FF9130] rounded-full text-white p-2 fixed bottom-0 right-0 mb-6 mr-4">
