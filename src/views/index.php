@@ -34,7 +34,7 @@ include "./src/components/head.php";
         </div>
     </section>
 
-    <div data-aos="fade-up" class="grid grid-cols-1 w-full px-4 mb-16 justify-center gap-6">
+    <div data-aos="fade-up" class="grid grid-cols-1 w-full px-4 justify-center gap-6">
         <div class="grid grid-cols-1 text-center">
             <p class="text-[#22092C] dark:text-[#FCFCFC] text-2xl md:text-4xl font-bold">
                 Jaringan Kami
@@ -52,7 +52,7 @@ include "./src/components/head.php";
         </div>
     </div>
 
-    <div data-aos="fade-up" class="flex flex-col px-4 md:px-32 w-full">
+    <div data-aos="fade-up" class="flex flex-col px-4 md:px-32 w-full mt-16">
         <div class="grid grid-cols-1 text-center">
             <p class="text-[#22092C] dark:text-[#FCFCFC] text-2xl md:text-4xl font-bold">
                 Keunggulan kami
