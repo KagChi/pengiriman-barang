@@ -44,7 +44,7 @@ include "./src/components/head.php";
                 Perusahaan yang mempercayai kami lebih dari sekedar pengiriman
             </p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 place-items-center px-4 md:px-32">
+        <div class="grid grid-cols-2 md:grid-cols-4 place-items-center px-4 md:px-12 lg:px-32">
             <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/bukalapak.svg">
             <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/shopee.svg">
             <img class="h-24 md:h-32" src="/public/assets/svg/e-commerce/tokped.svg">
@@ -52,7 +52,7 @@ include "./src/components/head.php";
         </div>
     </section>
 
-    <section data-aos="fade-up" class="flex flex-col px-4 md:px-32 w-full mt-20">
+    <section data-aos="fade-up" class="flex flex-col px-4 md:px-12 lg:px-32 w-full mt-20">
         <div class="grid grid-cols-1 text-center">
             <p class="text-[#22092C] dark:text-[#FCFCFC] text-2xl md:text-4xl font-bold">
                 Keunggulan Kami
@@ -102,6 +102,78 @@ include "./src/components/head.php";
                     <div class="flex flex-col w-3/4">
                         <p class="font-bold text-2xl dark:text-white">Paling Aman</p>
                         <p class="text-wrap dark:text-white">Kami memastikan untuk menjaga keamanan dan kerahasiaan pelanggan kami</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-aos="fade-up" class="flex flex-col px-4 md:px-12 lg:px-32 w-full mt-20">
+        <div class="grid grid-cols-1 text-center">
+            <p class="text-[#22092C] dark:text-[#FCFCFC] text-2xl md:text-4xl font-bold">
+                Testimonials
+            </p>
+
+            <p class="text-xs md:text-base text-[#22092C] dark:text-[#FCFCFC]">
+                Kami memperdulikan feedback dari pelanggan, itu adalah pelajaran bagi kami
+            </p>
+        </div>
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col justify-center items-center md:justify-between md:flex-row mt-12 gap-4">
+                <div class="bg-[#EEEEEE] dark:bg-[#252525] w-80 md:w-96 h-48 p-6 rounded-xl flex flex-col shadow-xl">
+                    <div class="flex flex-row justify-between">
+                        <div class="flex flex-col">
+                            <p class="dark:text-white font-bold">Jeanice Nayuki</p>
+                            <p class="dark:text-white text-xs">⭐ 5/5</p>
+                        </div>
+                        <img class="w-12 h-12 rounded-full" src="https://i.pravatar.cc/?u=a04258dw2342">
+                    </div>
+                    <div>
+                        <p class="mt-4 dark:text-white text-sm">Selalu tepat waktu, ekspedisi yang dapat diandalkan.</p>
+                        <div class="border border-2 border-[#FF9130] rounded-full w-2/3 mt-4"></div>
+                    </div>
+                </div>
+
+                <div class="bg-[#EEEEEE] dark:bg-[#252525] w-80 md:w-96 h-48 p-6 rounded-xl hidden lg:flex flex-col shadow-xl">
+                    <div class="flex flex-row justify-between">
+                        <div class="flex flex-col">
+                            <p class="dark:text-white font-bold">Sayutie Huyuki</p>
+                            <p class="dark:text-white text-xs">⭐ 4/5</p>
+                        </div>
+                        <img class="w-12 h-12 rounded-full" src="https://i.pravatar.cc/150?img=5">
+                    </div>
+                    <div>
+                        <p class="mt-4 dark:text-white text-sm">Kemasan rapi, barang terjaga dengan baik selama pengiriman.</p>
+                        <div class="border border-2 border-[#FF9130] rounded-full w-2/3 mt-4"></div>
+                    </div>
+                </div>
+
+                <div class="bg-[#EEEEEE] dark:bg-[#252525] w-80 md:w-96 h-48 p-6 rounded-xl flex flex-col shadow-xl">
+                    <div class="flex flex-row justify-between">
+                        <div class="flex flex-col">
+                            <p class="dark:text-white font-bold">John Klavoskie</p>
+                            <p class="dark:text-white text-xs">⭐ 5/5</p>
+                        </div>
+                        <img class="w-12 h-12 rounded-full" src="https://i.pravatar.cc/150?img=57">
+                    </div>
+                    <div>
+                        <p class="mt-4 dark:text-white text-sm">Pengiriman barang sangat lancar, pasti akan menggunakan lagi di masa depan.</p>
+                        <div class="border border-2 border-[#FF9130] rounded-full w-2/3 mt-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex lg:hidden w-full justify-center items-center">
+                <div class="bg-[#EEEEEE] dark:bg-[#252525] w-80 md:w-96 h-48 p-6 rounded-xl flex flex-col shadow-xl">
+                    <div class="flex flex-row justify-between">
+                        <div class="flex flex-col">
+                            <p class="dark:text-white font-bold">Yovie Voxie</p>
+                            <p class="dark:text-white text-xs">⭐ 4/5</p>
+                        </div>
+                        <img class="w-12 h-12 rounded-full" src="https://i.pravatar.cc?u=a042581f4e29026704d">
+                    </div>
+                    <div>
+                        <p class="mt-4 dark:text-white text-sm">Aman dan terpercaya, barang sampai dengan kondisi sempurna.</p>
+                        <div class="border border-2 border-[#FF9130] rounded-full w-2/3 mt-4"></div>
                     </div>
                 </div>
             </div>
