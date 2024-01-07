@@ -4,7 +4,7 @@
     </svg>
 
     <div class="w-full bg-[#FF9130] dark:bg-[#EE7214] h-auto flex flex-col px-4 md:px-16 gap-6">
-        <div class="flex flex-col md:flex-row md:justify-between gap-4 md:pt-16">
+        <div class="flex flex-col md:flex-row md:justify-between gap-4 md:pt-16 2xl:mx-auto">
             <div class="flex flex-row mt-8 gap-4">
                 <img class="w-16 h-16 bg-[#22092C] rounded-md" src="/public/assets/svg/icon.svg">
                 <div class="flex flex-col">
