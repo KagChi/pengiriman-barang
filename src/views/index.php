@@ -12,7 +12,7 @@ include "./src/components/head.php";
     include "./src/components/navbar.php";
     ?>
 
-    <main class="mx-auto">
+    <main class="2xl:mx-auto">
         <section class="h-auto flex justify-center items-center">
             <div class="px-4 pt-32 flex flex-col md:flex-row mb-20 gap-4">
                 <div data-aos="fade-right" class="w-full md:pl-14 md:w-1/2 pt-8 flex flex-col px-3">
