@@ -71,12 +71,12 @@
             </a>
 
             <?php if ($sessionActive === "false") { ?>
-                <a x-show="!sessionActive" href="/register" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+                <a ref="/register" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                     <i class="text-white fa-solid fa-user-plus"></i>
                     <p class="text-white font-bold text-lg">Daftar</p>
                 </a>
 
-                <a x-show="!sessionActive" href="/login" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+                <a href="/login" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                     <i class="text-white fa-solid fa-right-to-bracket"></i>
                     <p class="text-white font-bold text-lg">Masuk</p>
                 </a>
