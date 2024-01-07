@@ -65,7 +65,7 @@ include "./src/components/head.php";
         <div class="flex flex-col justify-between md:flex-row md:mt-12">
             <img class="hidden lg:flex h-72 md:h-96" src="/public/assets/svg/feature.svg">
             <div class="flex flex-col gap-4 w-full lg:w-[32rem] justify-center items-center mt-8 lg:mt-0">
-                <div class="flex flex-row gap-6">
+                <div class="flex flex-row gap-6 w-full">
                     <div class="flex bg-[#EE7214] rounded-full w-[3.6rem] h-[3.6rem] items-center justify-center">
                         <i class="fa-solid fa-truck-fast fa-xl text-white"></i>
                     </div>
@@ -75,7 +75,7 @@ include "./src/components/head.php";
                     </div>
                 </div>
 
-                <div class="flex flex-row gap-6">
+                <div class="flex flex-row gap-6 w-full">
                     <div class="flex bg-[#EE7214] rounded-full w-[3.6rem] h-[3.6rem] items-center justify-center">
                         <i class="fa-solid fa-hand-holding-dollar fa-xl text-white"></i>
                     </div>
@@ -85,7 +85,7 @@ include "./src/components/head.php";
                     </div>
                 </div>
 
-                <div class="flex flex-row gap-6">
+                <div class="flex flex-row gap-6 w-full">
                     <div class="flex bg-[#EE7214] rounded-full w-[3.6rem] h-[3.6rem] items-center justify-center">
                         <i class="fa-solid fa-clock-rotate-left fa-xl text-white"></i>
                     </div>
@@ -95,7 +95,7 @@ include "./src/components/head.php";
                     </div>
                 </div>
 
-                <div class="flex flex-row gap-6">
+                <div class="flex flex-row gap-6 w-full">
                     <div class="flex bg-[#EE7214] rounded-full w-[3.6rem] h-[3.6rem] items-center justify-center">
                         <i class="fa-solid fa-shield-halved fa-xl text-white"></i>
                     </div>
