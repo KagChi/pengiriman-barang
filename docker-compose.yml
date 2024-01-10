@@ -53,6 +53,8 @@ services:
           memory: "96M"
     restart: unless-stopped
     image: mariadb
+    ports:
+      - "7070:3306"
     env_file:
       - .env
     networks:
