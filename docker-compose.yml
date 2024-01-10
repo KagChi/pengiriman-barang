@@ -50,7 +50,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "96M"
+          memory: "128M"
     restart: unless-stopped
     image: mariadb
     ports:
