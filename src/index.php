@@ -242,15 +242,26 @@ return function (App $app, $renderer) use ($connection) {
                     $price = ($weight * ($isCargo ? 35000 : 25000)) * $count;
                 }
 
+                $role = $row["role"];
+
                 $result = $connection->query("INSERT INTO `package`(`user_id`, `resi`, `type`, `receiver`, `state`, `name`, `city`, `district`, `address`, `count`, `weight`, `notes`, `price`) VALUES ('$user_id','$resi','$type','$receiver','on_going','$name','$city','$district','$address','$count','$weight','$notes', '$price')");
                 if ($result) {
-                    return $renderer->render($response, "/dashboard/send/process.php", [
-                        "csrf" => $csrf,
-                        "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-                        'role' => $row["role"],
-                        'resi' => $resi,
-                        'price' => $price
-                    ]);
+                    $package = $connection->query("SELECT `id` FROM `package` WHERE resi = ('$resi')");
+                    if ($package) {
+                        $row = $package->fetch_assoc();
+                        if ($package->num_rows > 0) {
+                            $id = $row["id"];
+                            $connection->query("INSERT INTO `package_audit`(`package_id`, `message`, `state`) VALUES ('$id','Pesanan Dibuat','created')");
+
+                            return $renderer->render($response, "/dashboard/send/process.php", [
+                                "csrf" => $csrf,
+                                "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+                                'role' => $role,
+                                'resi' => $resi,
+                                'price' => $price
+                            ]);
+                        }
+                    }
                 } else {
                     // TODO: DIRECT TO ERROR PAGE
                     return $response->withHeader('Location', '/error')->withStatus(302);
@@ -371,12 +382,20 @@ return function (App $app, $renderer) use ($connection) {
         $result = $connection->query("SELECT * FROM `package` WHERE `resi` = ('$resi');");
         if ($result) {
             if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
+                $package = $result->fetch_assoc();
+                $id = $package["id"];
+
+                $result = $connection->query("SELECT * FROM `package_audit` WHERE package_id = ('$id')");
+                $results = [];
+                while ($audit = $result->fetch_assoc()) {
+                    $results[] = $audit;
+                }
 
                 return $renderer->render($response, "/dashboard/locate/output.php", [
                     "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
                     'role' => $role,
-                    "data" => $row
+                    "data" => $package,
+                    "results" => $results
                 ]);
             }
         }
@@ -414,12 +433,20 @@ return function (App $app, $renderer) use ($connection) {
         $result = $connection->query("SELECT * FROM `package` WHERE `resi` = ('$resi');");
         if ($result) {
             if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
+                $package = $result->fetch_assoc();
+                $id = $package["id"];
+
+                $result = $connection->query("SELECT * FROM `package_audit` WHERE package_id = ('$id')");
+                $results = [];
+                while ($audit = $result->fetch_assoc()) {
+                    $results[] = $audit;
+                }
 
                 return $renderer->render($response, "/dashboard/locate/output.php", [
                     "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
                     'role' => $role,
-                    "data" => $row
+                    "data" => $package,
+                    "results" => $results
                 ]);
             }
         }
