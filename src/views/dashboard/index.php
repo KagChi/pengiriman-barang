@@ -96,7 +96,7 @@ include "./src/components/head.php";
                                         } else if ($state === "done") {
                                             echo "Dikirim";
                                         } else {
-                                            echo "Unknown"
+                                            echo "Unknown";
                                         }
                                         ?>
                                     </p>
