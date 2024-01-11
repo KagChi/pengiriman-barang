@@ -71,7 +71,7 @@ include "./src/components/head.php";
             <div class="w-full h-auto md:h-full flex flex-col md:gap-6">
                 <p class="font-bold text-2xl md:text-3xl dark:text-[#FCFCFC]">Selamat <?= $time ?>, <?= $name ?> !</p>
                 <div class="flex flex-col gap-10 mt-2 md:mt-0">
-                    <a href="/dashboard/lacak/<?= $packet["resi"] ?>" class="flex flex-col w-full h-32 bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
+                    <a href="/dashboard/lacak/<?= $package["resi"] ?? "000" ?>" class="flex flex-col w-full h-32 bg-[#eeeeee] dark:bg-[#EE7214] rounded-2xl shadow-xl hover:shadow-2xl">
                         <div class="flex items-center h-8 w-full border-b border-[#83838350] dark:border-[#b85e20] px-4 py-5 mt-1">
                             <p class="text-[#838383] dark:text-[#FCFCFC]">
                                 Status Pengiriman Terakhir
@@ -80,13 +80,13 @@ include "./src/components/head.php";
 
                         <div class="flex flex-col px-4 mt-2">
                             <p class="text-[#838383] dark:text-[#FCFCFC] font-bold">
-                                <?= htmlspecialchars($packet["name"]) ?>
+                                <?= htmlspecialchars($package["name"] ?? "Belum Ada") ?>
                             </p>
                             <div class="flex flex-row justify-between">
                                 <div class="mt-1 text-left">
                                     <p class="text-xs text-[#838383] dark:text-[#FCFCFC]">
                                         <?php
-                                        $state = $packet["state"];
+                                        $state = $package["state"];
                                         if ($state === "on_going") {
                                             echo "Dalam Perjalanan";
                                         } else if ($state === "on_hold") {
@@ -95,6 +95,8 @@ include "./src/components/head.php";
                                             echo "Dikembalikan";
                                         } else if ($state === "done") {
                                             echo "Dikirim";
+                                        } else {
+                                            echo "Unknown"
                                         }
                                         ?>
                                     </p>
