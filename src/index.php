@@ -125,25 +125,25 @@ return function (App $app, $renderer) use ($connection) {
                 $returnCount = 0;
                 $doneCount = 0;
 
-                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('on_going')");
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `package` WHERE `user_id` = ('$user_id') AND `state` = ('on_going')");
                 if ($countResult) {
                     $countRow = $countResult->fetch_assoc();
                     $onGoingCount = $countRow['count'];
                 }
 
-                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('on_hold')");
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `package` WHERE `user_id` = ('$user_id') AND `state` = ('on_hold')");
                 if ($countResult) {
                     $countRow = $countResult->fetch_assoc();
                     $onHoldCount = $countRow['count'];
                 }
 
-                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('return')");
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `package` WHERE `user_id` = ('$user_id') AND `state` = ('return')");
                 if ($countResult) {
                     $countRow = $countResult->fetch_assoc();
                     $returnCount = $countRow['count'];
                 }
 
-                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `packet` WHERE `user_id` = ('$user_id') AND `state` = ('done')");
+                $countResult = $connection->query("SELECT COUNT(*) AS count FROM `package` WHERE `user_id` = ('$user_id') AND `state` = ('done')");
                 if ($countResult) {
                     $countRow = $countResult->fetch_assoc();
                     $doneCount = $countRow['count'];
@@ -161,11 +161,11 @@ return function (App $app, $renderer) use ($connection) {
                     $timeOfDay = 'Malam';
                 }
 
-                $packetRow = [];
+                $packageRow = [];
 
-                $packet = $connection->query("SELECT `name`, `state`, `resi` FROM `packet` WHERE `user_id` = ('$user_id') ORDER BY `packet`.`date` ASC;");
-                if ($packet->num_rows > 0) {
-                    $packetRow = $packet->fetch_assoc();
+                $package = $connection->query("SELECT `name`, `state`, `resi` FROM `package` WHERE `user_id` = ('$user_id') ORDER BY `package`.`date` ASC;");
+                if ($package->num_rows > 0) {
+                    $packageRow = $package->fetch_assoc();
                 }
 
                 return $renderer->render($response, "/dashboard/index.php", [
@@ -174,7 +174,7 @@ return function (App $app, $renderer) use ($connection) {
                     'role' => $row["role"],
                     'name' => $row["first_name"],
                     'time' => $timeOfDay,
-                    'packet' => $packetRow,
+                    'package' => $packageRow,
                     'onGoingCount' => $onGoingCount,
                     'onHoldCount' => $onHoldCount,
                     'returnCount' => $returnCount,
@@ -242,7 +242,7 @@ return function (App $app, $renderer) use ($connection) {
                     $price = ($weight * ($isCargo ? 35000 : 25000)) * $count;
                 }
 
-                $result = $connection->query("INSERT INTO `packet`(`user_id`, `resi`, `type`, `receiver`, `state`, `name`, `city`, `district`, `address`, `count`, `weight`, `notes`, `price`) VALUES ('$user_id','$resi','$type','$receiver','on_going','$name','$city','$district','$address','$count','$weight','$notes', '$price')");
+                $result = $connection->query("INSERT INTO `package`(`user_id`, `resi`, `type`, `receiver`, `state`, `name`, `city`, `district`, `address`, `count`, `weight`, `notes`, `price`) VALUES ('$user_id','$resi','$type','$receiver','on_going','$name','$city','$district','$address','$count','$weight','$notes', '$price')");
                 if ($result) {
                     return $renderer->render($response, "/dashboard/send/process.php", [
                         "csrf" => $csrf,
@@ -368,7 +368,7 @@ return function (App $app, $renderer) use ($connection) {
 
         $parsedBody = $request->getParsedBody();
         $resi = $parsedBody["resi"];
-        $result = $connection->query("SELECT * FROM `packet` WHERE `resi` = ('$resi');");
+        $result = $connection->query("SELECT * FROM `package` WHERE `resi` = ('$resi');");
         if ($result) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -411,7 +411,7 @@ return function (App $app, $renderer) use ($connection) {
         }
 
         $resi = $request->getAttribute('resi');
-        $result = $connection->query("SELECT * FROM `packet` WHERE `resi` = ('$resi');");
+        $result = $connection->query("SELECT * FROM `package` WHERE `resi` = ('$resi');");
         if ($result) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -462,10 +462,10 @@ return function (App $app, $renderer) use ($connection) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
 
-                $result = $connection->query("SELECT `date`, `state`, `name`, `city`, `price`, `resi` FROM `packet` WHERE `user_id` = ('$user_id') LIMIT 10;");
+                $result = $connection->query("SELECT `date`, `state`, `name`, `city`, `price`, `resi` FROM `package` WHERE `user_id` = ('$user_id') LIMIT 10;");
                 $results = [];
-                while ($packet = $result->fetch_assoc()) {
-                    $results[] = $packet;
+                while ($package = $result->fetch_assoc()) {
+                    $results[] = $package;
                 }
 
                 return $renderer->render($response, "/dashboard/sent.php", [
@@ -521,8 +521,8 @@ return function (App $app, $renderer) use ($connection) {
 
                 $result = $connection->query("SELECT `username`, `phone`, `email`, `role` FROM `user` LIMIT 10;");
                 $results = [];
-                while ($packet = $result->fetch_assoc()) {
-                    $results[] = $packet;
+                while ($package = $result->fetch_assoc()) {
+                    $results[] = $package;
                 }
 
                 return $renderer->render($response, "/dashboard/admin/users.php", [
@@ -576,16 +576,16 @@ return function (App $app, $renderer) use ($connection) {
                     return $response->withHeader('Location', '/dashboard')->withStatus(302);
                 }
 
-                $result = $connection->query("SELECT `user_id`, `date`, `state`, `name`, `city`, `price`, `resi` FROM `packet` LIMIT 10;");
+                $result = $connection->query("SELECT `user_id`, `date`, `state`, `name`, `city`, `price`, `resi` FROM `package` LIMIT 10;");
                 $results = [];
-                while ($packet = $result->fetch_assoc()) {
-                    $user_id = $packet["user_id"];
+                while ($package = $result->fetch_assoc()) {
+                    $user_id = $package["user_id"];
                     $user = $connection->query("SELECT `username` FROM `user` WHERE `id` = ('$user_id');");
                     if ($user->num_rows > 0) {
                         $userRow = $user->fetch_assoc();
-                        $packet["user"] = $userRow["username"];
+                        $package["user"] = $userRow["username"];
                     }
-                    $results[] = $packet;
+                    $results[] = $package;
                 }
 
                 return $renderer->render($response, "/dashboard/admin/sent.php", [
