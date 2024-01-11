@@ -7,50 +7,6 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('send', () => ({
-            state: "city",
-            districts: [],
-            cities: [],
-            init() {
-                fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json").then(async res => {
-                    const provincies = [
-                        "DKI JAKARTA",
-                        "JAWA BARAT",
-                        "JAWA TENGAH",
-                        "JAWA TIMUR",
-                        "BANTEN"
-                    ];
-                    const values = await res.json();
-                    const selectedProvincies = [];
-                    for (const provinci of values) {
-                        if (provincies.includes(provinci.name)) selectedProvincies.push(provinci);
-                    }
-
-                    for (const provinci of selectedProvincies) {
-                        const x = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinci.id}.json`);
-                        const values = await x.json();
-                        this.cities.push(...values);
-                    }
-                })
-            },
-            updateDistricts(event) {
-                const client_city = event.target.value;
-                this.districts = [];
-                for (const city of this.cities) {
-                    if (city.name === client_city) {
-                        fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city.id}.json`).then(async res => {
-                            const values = await res.json();
-                            this.districts.push(...values);
-                        })
-                    }
-                }
-            },
-        }));
-    })
-</script>
-
 <body class="min-h-screen flex flex-col dark:bg-[#121212]">
     <div class="flex flex-col md:flex-row">
         <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] md:h-full py-4 px-6 gap-4">
@@ -127,7 +83,8 @@ include "./src/components/head.php";
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Resi</th>
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Barang</th>
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Tujuan</th>
-                                            <th class="px-6 py-3 text-start font-bold text-white uppercase rounded-tr-lg">Status</th>
+                                            <th class="px-6 py-3 text-start font-bold text-white uppercase">Status</th>
+                                            <th class="px-6 py-3 text-start font-bold text-white uppercase rounded-tr-lg"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -151,6 +108,9 @@ include "./src/components/head.php";
                                                             echo "Dikirim";
                                                         }
                                                     ?>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                                                    <a href="/dashboard/lacak/<?= htmlspecialchars($results[$i]["resi"]) ?>">Lacak</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>

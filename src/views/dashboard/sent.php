@@ -126,7 +126,8 @@ include "./src/components/head.php";
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Resi</th>
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Barang</th>
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Tujuan</th>
-                                            <th class="px-6 py-3 text-start font-bold text-white uppercase rounded-tr-lg">Status</th>
+                                            <th class="px-6 py-3 text-start font-bold text-white uppercase">Status</th>
+                                            <th class="px-6 py-3 text-start font-bold text-white uppercase rounded-tr-lg"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -149,6 +150,9 @@ include "./src/components/head.php";
                                                         echo "Dikirim";
                                                     }
                                                     ?>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                                                    <a href="/dashboard/lacak/<?= $results[$i]["resi"] ?>">Lacak</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>

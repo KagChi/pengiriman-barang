@@ -310,6 +310,60 @@ return function (App $app, $renderer) use ($connection) {
         return $response->withHeader('Location', '/login')->withStatus(302);
     });
 
+    $app->get("/dashboard/lacak", function ($request, $response, $args) use ($renderer) {
+        return $response->withHeader('Location', '/dashboard/lacak/')->withStatus(302);
+    });
+
+    $app->post("/dashboard/lacak", function ($request, $response, $args) use ($renderer, $connection) {
+        $parsedBody = $request->getParsedBody();
+        $resi = $parsedBody["resi"];
+        $result = $connection->query("SELECT * FROM `packet` WHERE `resi` = ('$resi');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                return $renderer->render($response, "/dashboard/locate/output.php", [
+                    "sessionActive" => 'false',
+                    'role' => 0,
+                    "data" => $row
+                ]);
+            }
+        }
+
+        return $renderer->render($response, "/dashboard/locate/output.php", [
+            "sessionActive" => 'false',
+            'role' => 0
+        ]);
+    });
+
+    $app->post("/dashboard/lacak/", function ($request, $response, $args) use ($renderer, $connection) {
+        return $renderer->render($response, "/dashboard/locate/index.php", [
+            "sessionActive" => 'false',
+            'role' => 0
+        ]);
+    });
+
+    $app->get("/dashboard/lacak/{resi}", function ($request, $response, $resi) use ($renderer, $connection) {
+        $resi = $request->getAttribute('resi');
+        $result = $connection->query("SELECT * FROM `packet` WHERE `resi` = ('$resi');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+
+                return $renderer->render($response, "/dashboard/locate/output.php", [
+                    "sessionActive" => 'false',
+                    'role' => 0,
+                    "data" => $row
+                ]);
+            }
+        }
+
+        return $renderer->render($response, "/dashboard/locate/output.php", [
+            "sessionActive" => 'false',
+            'role' => 0
+        ]);
+    });
+
     $app->get("/dashboard/kiriman", function ($request, $response, $args) use ($renderer) {
         return $response->withHeader('Location', '/dashboard/kiriman/')->withStatus(302);
     });

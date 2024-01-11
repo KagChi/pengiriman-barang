@@ -18,7 +18,7 @@
                 <p class="hover:text-[#FF9130] text-[#22092C] dark:text-[#FCFCFC]" :class="page === 'dashboard' && 'text-[#22092C] font-bold'">Dashboard</p>
                 <div :class="page === 'dashboard' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
-            <a href="/lacak" class="flex flex-col items-center">
+            <a href="/dashboard/lacak" class="flex flex-col items-center">
                 <p class="hover:text-[#FF9130] text-[#22092C] dark:text-[#FCFCFC]" :class="page === 'lacak' && 'text-[#22092C] font-bold'">Lacak</p>
                 <div :class="page === 'lacak' && 'w-8 border-b-4 border-[#FF9130]' "></div>
             </a>
@@ -65,7 +65,7 @@
                 <p class="text-white font-bold text-lg">Dashboard</p>
             </a>
 
-            <a href="/lacak" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
+            <a href="/dashboard/lacak" class="flex bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] w-full h-8 rounded-sm items-center justify-between gap-2 px-2">
                 <i class="text-white fa-solid fa-location-dot"></i>
                 <p class="text-white font-bold text-lg">Lacak</p>
             </a>
