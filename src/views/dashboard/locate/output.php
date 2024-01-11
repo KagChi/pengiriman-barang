@@ -113,13 +113,14 @@ include "./src/components/head.php";
                             $interval = new DateInterval('PT7H');
                             $dateTime->add($interval);
 
-                            $parsedHour = $dateTime->format('H');
+                            $parsedHour = $dateTime->format('h');
+                            $parsedHourFormat = $dateTime->format('a');
                             $parsedMinute = $dateTime->format('i');
                             $parsedDayNumber = $dateTime->format('d');
                             $parsedMonthString = $dateTime->format('M');
                             ?>
                             <p class="dark:text-white"><?= $parsedDayNumber ?> <?= $parsedMonthString ?></p>
-                            <p class="dark:text-white"><?= $parsedHour ?>:<?= $parsedMinute ?></p>
+                            <p class="dark:text-white uppercase"><?= $parsedHour ?>:<?= $parsedMinute ?> <?= $parsedHourFormat ?> </p>
                         </div>
                         <div class="rounded-full border border-2-4 h-32 border-[#FF9130] border-dotted"></div>
                         <div class="flex flex-col w-72 md:w-full">
