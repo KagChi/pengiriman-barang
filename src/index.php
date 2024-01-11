@@ -322,13 +322,24 @@ return function (App $app, $renderer) use ($connection) {
             'expired' => true
         ];
 
+        $role = 0;
+
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+            $user_id = $sessionCookie["info"]->user_id;
+
+            $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id');");
+            if ($result) {
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $role = $row["role"];
+                }
+            }
         }
-        
+
         return $renderer->render($response, "/dashboard/locate/index.php", [
             "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-            'role' => 0
+            'role' => $role
         ]);
     });
 
@@ -340,8 +351,19 @@ return function (App $app, $renderer) use ($connection) {
             'expired' => true
         ];
 
+        $role = 0;
+
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+            $user_id = $sessionCookie["info"]->user_id;
+
+            $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id');");
+            if ($result) {
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $role = $row["role"];
+                }
+            }
         }
 
         $parsedBody = $request->getParsedBody();
@@ -353,7 +375,7 @@ return function (App $app, $renderer) use ($connection) {
 
                 return $renderer->render($response, "/dashboard/locate/output.php", [
                     "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-                    'role' => 0,
+                    'role' => $role,
                     "data" => $row
                 ]);
             }
@@ -373,8 +395,19 @@ return function (App $app, $renderer) use ($connection) {
             'expired' => true
         ];
 
+        $role = 0;
+
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+            $user_id = $sessionCookie["info"]->user_id;
+
+            $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id');");
+            if ($result) {
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $role = $row["role"];
+                }
+            }
         }
 
         $resi = $request->getAttribute('resi');
@@ -385,7 +418,7 @@ return function (App $app, $renderer) use ($connection) {
 
                 return $renderer->render($response, "/dashboard/locate/output.php", [
                     "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-                    'role' => 0,
+                    'role' => $role,
                     "data" => $row
                 ]);
             }
@@ -393,7 +426,7 @@ return function (App $app, $renderer) use ($connection) {
 
         return $renderer->render($response, "/dashboard/locate/output.php", [
             "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-            'role' => 0
+            'role' => $role
         ]);
     });
 
