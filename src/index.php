@@ -314,7 +314,36 @@ return function (App $app, $renderer) use ($connection) {
         return $response->withHeader('Location', '/dashboard/lacak/')->withStatus(302);
     });
 
+    $app->get("/dashboard/lacak/", function ($request, $response, $args) use ($renderer, $connection) {
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+        
+        return $renderer->render($response, "/dashboard/locate/index.php", [
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+            'role' => 0
+        ]);
+    });
+
     $app->post("/dashboard/lacak", function ($request, $response, $args) use ($renderer, $connection) {
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
         $parsedBody = $request->getParsedBody();
         $resi = $parsedBody["resi"];
         $result = $connection->query("SELECT * FROM `packet` WHERE `resi` = ('$resi');");
@@ -323,7 +352,7 @@ return function (App $app, $renderer) use ($connection) {
                 $row = $result->fetch_assoc();
 
                 return $renderer->render($response, "/dashboard/locate/output.php", [
-                    "sessionActive" => 'false',
+                    "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
                     'role' => 0,
                     "data" => $row
                 ]);
@@ -331,19 +360,23 @@ return function (App $app, $renderer) use ($connection) {
         }
 
         return $renderer->render($response, "/dashboard/locate/output.php", [
-            "sessionActive" => 'false',
-            'role' => 0
-        ]);
-    });
-
-    $app->post("/dashboard/lacak/", function ($request, $response, $args) use ($renderer, $connection) {
-        return $renderer->render($response, "/dashboard/locate/index.php", [
-            "sessionActive" => 'false',
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
             'role' => 0
         ]);
     });
 
     $app->get("/dashboard/lacak/{resi}", function ($request, $response, $resi) use ($renderer, $connection) {
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        $sessionCookie = [
+            'expired' => true
+        ];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+        }
+
         $resi = $request->getAttribute('resi');
         $result = $connection->query("SELECT * FROM `packet` WHERE `resi` = ('$resi');");
         if ($result) {
@@ -351,7 +384,7 @@ return function (App $app, $renderer) use ($connection) {
                 $row = $result->fetch_assoc();
 
                 return $renderer->render($response, "/dashboard/locate/output.php", [
-                    "sessionActive" => 'false',
+                    "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
                     'role' => 0,
                     "data" => $row
                 ]);
@@ -359,7 +392,7 @@ return function (App $app, $renderer) use ($connection) {
         }
 
         return $renderer->render($response, "/dashboard/locate/output.php", [
-            "sessionActive" => 'false',
+            "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
             'role' => 0
         ]);
     });

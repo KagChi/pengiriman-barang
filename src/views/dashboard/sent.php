@@ -7,52 +7,8 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('send', () => ({
-            state: "city",
-            districts: [],
-            cities: [],
-            init() {
-                fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json").then(async res => {
-                    const provincies = [
-                        "DKI JAKARTA",
-                        "JAWA BARAT",
-                        "JAWA TENGAH",
-                        "JAWA TIMUR",
-                        "BANTEN"
-                    ];
-                    const values = await res.json();
-                    const selectedProvincies = [];
-                    for (const provinci of values) {
-                        if (provincies.includes(provinci.name)) selectedProvincies.push(provinci);
-                    }
-
-                    for (const provinci of selectedProvincies) {
-                        const x = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinci.id}.json`);
-                        const values = await x.json();
-                        this.cities.push(...values);
-                    }
-                })
-            },
-            updateDistricts(event) {
-                const client_city = event.target.value;
-                this.districts = [];
-                for (const city of this.cities) {
-                    if (city.name === client_city) {
-                        fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city.id}.json`).then(async res => {
-                            const values = await res.json();
-                            this.districts.push(...values);
-                        })
-                    }
-                }
-            },
-        }));
-    })
-</script>
-
 <body class="min-h-screen flex flex-col dark:bg-[#121212]">
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col md:flex-row h-auto">
         <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] md:h-full py-4 px-6 gap-4">
             <a href="/" class="flex flex-row justify-center items-center h-12 md:h-24 mr-2">
                 <img class="w-14 h-14 lg:w-18 lg:h-18" src="/public/assets/svg/icon.svg">
