@@ -72,8 +72,8 @@ include "./src/components/head.php";
                             <i class="fa-solid fa-truck-fast fa-xl text-white"></i>
                         </div>
                         <div class="flex flex-col w-3/4">
-                            <p class="font-bold text-2xl dark:text-white">Gratis Jemput</p>
-                            <p class="inline-block dark:text-white">Berapapun kiriman paketnya, kami jemput tanpa biaya tambahan</p>
+                            <p class="font-bold text-2xl dark:text-white">Tercepat</p>
+                            <p class="inline-block dark:text-white">Kami menjamin kecepatan waktu pengiriman, paket dijaminkan tiba lebih awal</p>
                         </div>
                     </div>
 
