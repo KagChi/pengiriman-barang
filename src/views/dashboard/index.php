@@ -86,7 +86,7 @@ include "./src/components/head.php";
                                 <div class="mt-1 text-left">
                                     <p class="text-xs text-[#838383] dark:text-[#FCFCFC]">
                                         <?php
-                                        $state = $package["state"];
+                                        $state = $package["state"] ?? "Unknown";
                                         if ($state === "on_going") {
                                             echo "Dalam Perjalanan";
                                         } else if ($state === "on_hold") {
