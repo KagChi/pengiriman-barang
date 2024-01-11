@@ -18,7 +18,11 @@ include "./src/components/head.php";
 
 <body class="min-h-screen flex flex-col dark:bg-[#121212]">
     <div class="flex flex-col md:flex-row h-auto">
-        <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] <?php if (count($results)>  3) { echo  "md:h-full"; } else { echo "md:h-screen"; } ?> py-4 px-6 gap-4">
+        <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] <?php if (count($results) >  3) {
+                                                                                                echo  "md:h-full";
+                                                                                            } else {
+                                                                                                echo "md:h-screen";
+                                                                                            } ?> py-4 px-6 gap-4">
             <a href="/" class="flex flex-row justify-center items-center h-12 md:h-24 mr-2">
                 <img class="w-14 h-14 lg:w-18 lg:h-18" src="/public/assets/svg/icon.svg">
                 <p class="md:hidden lg:flex text-xl font-bold text-white">AnterKuy</p>
@@ -99,14 +103,20 @@ include "./src/components/head.php";
                     <div class="flex flex-row gap-6 items-center w-full">
                         <div class="flex flex-col w-24">
                             <?php
-                                $dateString = $results[$i]["date"];
-                                $format = "Y-m-d H:i:s";
-                                $dateTime = DateTime::createFromFormat($format, $dateString);
-                                
-                                $parsedHour = $dateTime->format('H');
-                                $parsedMinute = $dateTime->format('i');
-                                $parsedDayNumber = $dateTime->format('N');
-                                $parsedMonthString = $dateTime->format('M');
+                            $dateString = $results[$i]["date"];
+                            $format = "Y-m-d H:i:s";
+
+                            $dateTime = DateTime::createFromFormat($format, $dateString);
+                            $gmtTimeZone = new DateTimeZone('GMT');
+                            $dateTime->setTimezone($gmtTimeZone);
+
+                            $interval = new DateInterval('PT7H');
+                            $dateTime->add($interval);
+
+                            $parsedHour = $dateTime->format('H');
+                            $parsedMinute = $dateTime->format('i');
+                            $parsedDayNumber = $dateTime->format('d');
+                            $parsedMonthString = $dateTime->format('M');
                             ?>
                             <p class="dark:text-white"><?= $parsedDayNumber ?> <?= $parsedMonthString ?></p>
                             <p class="dark:text-white"><?= $parsedHour ?>:<?= $parsedMinute ?></p>
@@ -114,11 +124,11 @@ include "./src/components/head.php";
                         <div class="rounded-full border border-2-4 h-32 border-[#FF9130] border-dotted"></div>
                         <div class="flex flex-col w-72 md:w-full">
                             <p class="text-sm font-bold text-[#FF9130]">
-                                <?php 
-                                    $state = $results[$i]["state"];
-                                    if ($state !== "update") {
-                                        echo $results[$i]["message"];
-                                    }
+                                <?php
+                                $state = $results[$i]["state"];
+                                if ($state !== "update") {
+                                    echo $results[$i]["message"];
+                                }
                                 ?>
                             </p>
                             <p class="text-sm dark:text-white"><?= $results[$i]["message"] ?></p>
