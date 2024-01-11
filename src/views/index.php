@@ -139,7 +139,7 @@ include "./src/components/head.php";
                     <div class="bg-[#EEEEEE] dark:bg-[#252525] w-80 md:w-96 h-48 p-6 rounded-xl hidden lg:flex flex-col shadow-xl">
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-col">
-                                <p class="dark:text-white font-bold">Sayutie Huyuki</p>
+                                <p class="dark:text-white font-bold">Hirota Haruki</p>
                                 <p class="dark:text-white text-xs">⭐ 4/5</p>
                             </div>
                             <img class="w-12 h-12 rounded-full" src="https://i.pravatar.cc/150?img=5">
