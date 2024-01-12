@@ -489,7 +489,7 @@ return function (App $app, $renderer) use ($connection) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
 
-                $result = $connection->query("SELECT `date`, `state`, `name`, `city`, `price`, `resi` FROM `package` WHERE `user_id` = ('$user_id') LIMIT 10;");
+                $result = $connection->query("SELECT `date`, `state`, `name`, `city`, `price`, `resi` FROM `package` WHERE `user_id` = ('$user_id')");
                 $results = [];
                 while ($package = $result->fetch_assoc()) {
                     $results[] = $package;
@@ -546,7 +546,7 @@ return function (App $app, $renderer) use ($connection) {
                     return $response->withHeader('Location', '/dashboard')->withStatus(302);
                 }
 
-                $result = $connection->query("SELECT `username`, `phone`, `email`, `role` FROM `user` LIMIT 10;");
+                $result = $connection->query("SELECT `username`, `phone`, `email`, `role` FROM `user`");
                 $results = [];
                 while ($package = $result->fetch_assoc()) {
                     $results[] = $package;
@@ -603,7 +603,7 @@ return function (App $app, $renderer) use ($connection) {
                     return $response->withHeader('Location', '/dashboard')->withStatus(302);
                 }
 
-                $result = $connection->query("SELECT `user_id`, `date`, `state`, `name`, `city`, `price`, `resi` FROM `package` LIMIT 10;");
+                $result = $connection->query("SELECT `user_id`, `date`, `state`, `name`, `city`, `price`, `resi` FROM `package`");
                 $results = [];
                 while ($package = $result->fetch_assoc()) {
                     $user_id = $package["user_id"];
