@@ -82,7 +82,7 @@ include "./src/components/head.php";
 
                 <div class="grid grid-cols-1">
                     <p class="dark:text-[#FCFCFC]">Nomor Telepon<span class="text-[#FF0000]">*</span></p>
-                    <input class="bg-[#22092c20] dark:bg-[#FCFCFC20] text-[#22092c] dark:text-[#FCFCFC] focus:outline-none rounded-md p-1 h-10 px-4" name="phone" type="phone" autocomplete="off" required>
+                    <input class="bg-[#22092c20] dark:bg-[#FCFCFC20] text-[#22092c] dark:text-[#FCFCFC] focus:outline-none rounded-md p-1 h-10 px-4" name="phone" type="number" autocomplete="off" required>
                 </div>
 
                 <div class="flex flex-row gap-2 mt-2">
