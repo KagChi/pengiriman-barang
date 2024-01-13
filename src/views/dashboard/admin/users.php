@@ -8,7 +8,7 @@ include "./src/components/head.php";
 <html lang="en">
 
 <body class="min-h-screen flex flex-col dark:bg-[#121212]">
-    <div class="flex flex-col md:flex-row h-full">
+    <div class="flex flex-col md:flex-row h-auto">
         <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] <?php if (count($results) >= 15) {
                                                                                                 echo  "md:h-full";
                                                                                             } else {
