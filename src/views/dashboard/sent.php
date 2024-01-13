@@ -93,10 +93,10 @@ include "./src/components/head.php";
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                         <?php for ($i = 0; $i < count($results); $i++) { ?>
                                             <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"><?= htmlspecialchars($results[$i]["date"]) ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars($results[$i]["resi"]) ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars($results[$i]["name"]) ?></td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars($results[$i]["city"]) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"><?= htmlspecialchars_decode($results[$i]["date"]) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars_decode($results[$i]["resi"]) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars_decode($results[$i]["name"]) ?></td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars_decode($results[$i]["city"]) ?></td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                                     <?php
                                                     $state = $results[$i]["state"];

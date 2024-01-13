@@ -222,15 +222,16 @@ return function (App $app, $renderer) use ($connection) {
                 $resi = $client->formattedId("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 11);
                 $price = 0;
 
-                $name = $_POST["name"];
-                $city = $_POST["city"];
-                $district = $_POST["district"];
-                $receiver = $_POST["receiver"];
-                $address = $_POST["address"];
-                $type = $_POST["type"];
-                $count = $_POST["count"];
-                $weight = $_POST["weight"];
-                $notes = $_POST["notes"];
+                $name = mysqli_real_escape_string($connection, htmlspecialchars($_POST["name"]));
+                $city = mysqli_real_escape_string($connection, htmlspecialchars($_POST["city"]));
+                $district = mysqli_real_escape_string($connection, htmlspecialchars($_POST["district"]));
+                $receiver = mysqli_real_escape_string($connection, htmlspecialchars($_POST["receiver"]));
+                $address = mysqli_real_escape_string($connection, htmlspecialchars($_POST["address"]));
+                $type = mysqli_real_escape_string($connection, htmlspecialchars($_POST["type"]));
+                $count = mysqli_real_escape_string($connection, htmlspecialchars($_POST["count"]));
+                $weight = mysqli_real_escape_string($connection, htmlspecialchars($_POST["weight"]));
+                $notes = mysqli_real_escape_string($connection, htmlspecialchars($_POST["notes"]));
+                $packageType = mysqli_real_escape_string($connection, htmlspecialchars($_POST["package_type"]));
 
                 $isCargo = $weight > 8;
 
@@ -244,7 +245,7 @@ return function (App $app, $renderer) use ($connection) {
 
                 $role = $row["role"];
 
-                $result = $connection->query("INSERT INTO `package`(`user_id`, `resi`, `type`, `receiver`, `state`, `name`, `city`, `district`, `address`, `count`, `weight`, `notes`, `price`) VALUES ('$user_id','$resi','$type','$receiver','on_going','$name','$city','$district','$address','$count','$weight','$notes', '$price')");
+                $result = $connection->query("INSERT INTO `package`(`user_id`, `resi`, `type`, `package_type`, `receiver`, `state`, `name`, `city`, `district`, `address`, `count`, `weight`, `notes`, `price`) VALUES ('$user_id','$resi','$type','$packageType','$receiver','on_going','$name','$city','$district','$address','$count','$weight','$notes', '$price')");
                 if ($result) {
                     $package = $connection->query("SELECT `id` FROM `package` WHERE resi = ('$resi')");
                     if ($package) {
@@ -378,7 +379,7 @@ return function (App $app, $renderer) use ($connection) {
         }
 
         $parsedBody = $request->getParsedBody();
-        $resi = $parsedBody["resi"];
+        $resi = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["resi"]));
         $result = $connection->query("SELECT * FROM `package` WHERE `resi` = ('$resi');");
         if ($result) {
             if ($result->num_rows > 0) {

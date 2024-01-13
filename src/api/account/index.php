@@ -47,11 +47,11 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $Username = $parsedBody["username"];
-        $FirstName = $parsedBody["first_name"];
-        $LastName = $parsedBody["last_name"];
-        $Email = $parsedBody["email"];
-        $Phone = $parsedBody["phone"];
+        $Username = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["username"]));
+        $FirstName = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["first_name"]));
+        $LastName = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["last_name"]));
+        $Email = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["email"]));
+        $Phone = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["phone"]));
         $Password = password_hash($parsedBody["password"], PASSWORD_DEFAULT);
 
         if ($parsedBody["password"] !== $parsedBody["konfirmasi_password"]) {
@@ -144,7 +144,7 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $Email = $parsedBody["email"];
+        $Email = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["email"]));
 
         $result = $connection->query("SELECT `password`, `id`, `username`, `role` FROM `user` WHERE `email` = ('$Email');");
         if ($result) {
@@ -218,7 +218,7 @@ return function (App $app, $renderer) use ($connection) {
         if ($token["expired"]) {
             $data["message"] = "Token reset anda tidak valid, tolong muat kembali !";
             $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
-            $token = $parsedBody["token"];
+            $token = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["token"]));
 
             $result = $connection->query("SELECT `id` FROM `password_reset` WHERE `token` = ('$token');");
             if ($result) {
@@ -252,7 +252,7 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $Token = $parsedBody["token"];
+        $Token = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["token"]));
         $Password = password_hash($parsedBody["password"], PASSWORD_DEFAULT);
 
         if ($parsedBody["password"] !== $parsedBody["konfirmasi_password"]) {
@@ -356,7 +356,7 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $Email = $parsedBody["email"];
+        $Email = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["email"]));
         $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `email` = ('$Email')");
 
         if ($result) {
@@ -435,6 +435,85 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
     })->setName("account_reset_api");
+
+    $app->patch("/api/account/update", function ($request, $response, $args) use ($renderer, $connection) {
+        $parsedBody = $request->getParsedBody();
+
+        $data = [
+            'message' => 'Kesalahan tidak diketahui !',
+            'status' => 'failed',
+            'success' => false
+        ];
+
+        $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+        $iv = $_ENV["COOKIE_SECRET_IV"];
+
+        if (isset($_COOKIE['session'])) {
+            $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+
+            if (!$sessionCookie["expired"]) {
+                $data["message"] = "Terdeteksi sudah login !";
+                $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+                $response->getBody()->write($jsonResponse);
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            }
+        }
+
+        if (isset($_COOKIE['csrf_token'])) {
+            $csrfCookie = decryptJWT(decryptData($_COOKIE['csrf_token'], $encryptionKey, $iv));
+
+            if (!$csrfCookie["expired"] && $csrfCookie["token"] !== $parsedBody["csrf_token"]) {
+                $data["message"] = "Token CSRF anda tidak valid, tolong muat kembali !";
+                $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+                $response->getBody()->write($jsonResponse);
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            }
+        } else {
+            $data["message"] = "Token CSRF anda tidak valid, tolong muat kembali !";
+            $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+            $response->getBody()->write($jsonResponse);
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        }
+
+        $Email = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["email"]));
+        $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `email` = ('$Email')");
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $count = $row['count'];
+
+            if ($count <= 0) {
+                $data["message"] = "Akun tidak di temukan !";
+
+                $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+                $connection->close();
+                $response->getBody()->write($jsonResponse);
+                return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+            }
+        }
+
+        $result = $connection->query("SELECT `id` FROM `user` WHERE `email` = ('$Email');");
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $result->free();
+                $id = $row["id"];
+                
+            }
+        } else {
+            $data["message"] = "Kesalahan, coba lagi nanti !";
+
+            $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+            $connection->close();
+            $response->getBody()->write($jsonResponse);
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        }
+    })->setName("account_patch");
 }
 
 ?>

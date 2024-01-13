@@ -7,18 +7,93 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
+<script>
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+        fetch("/api/account/update", {
+            method: "PATCH",
+            body: formData,
+            credentials: "same-origin"
+        }).then(async x => {
+            try {
+                const response = await x.json();
+                iziToast.show({
+                    title: `<div class="flex justify-center items-center w-4 h-4 mr-4"><i class="fa-solid ${x.ok ? "fa-check" : "fa-x"} fa-2xl"></i></div>`,
+                    message: response.message,
+                    position: 'topRight',
+                    color: "#EE7214",
+                    titleColor: "#FCFCFC",
+                    messageColor: "#FCFCFC"
+                });
+
+                if (x.ok) {
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000);
+                }
+
+            } catch {
+                iziToast.show({
+                    title: '<div class="flex justify-center items-center w-4 h-4 mr-4"><i class="fa-solid fa-x fa-2xl"></i></div>',
+                    message: "Sebuah kesalahan, mohon refresh browser anda.",
+                    position: 'topRight',
+                    color: "#EE7214",
+                    titleColor: "#FCFCFC",
+                    messageColor: "#FCFCFC"
+                });
+            }
+        })
+    }
+</script>
 
 <?php for ($i = 0; $i < count($results); $i++) { ?>
-    <dialog id="modal_<?= $results[$i]["id"] ?>" class="bg-[#EEEEEE] dark:bg-[#252525] rounded-xl p-6">
-        <div>
-            <h3 class="text-white font-bold text-lg">Hello!</h3>
-            <p class="text-white py-4">Press ESC key or click the button below to close</p>
-            <div class="modal-action">
-                <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <button class="text-white">Close</button>
-                </form>
-            </div>
+    <dialog id="modal_<?= $results[$i]["id"] ?>" class="bg-[#EEEEEE] dark:bg-[#252525] rounded-xl p-6 shadow-xl">
+        <div class="flex flex-col gap-4">
+            <h3 class="dark:text-white font-bold text-lg w-96">Perbarui Pengguna</h3>
+            <form class="flex flex-col gap-4" onsubmit="handleFormSubmit(event)">
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-col">
+                        <p class="dark:text-white">
+                            Nama
+                        </p>
+                        <input class="rounded px-2" name="username" value="<?= $results[$i]["username"] ?>">
+                    </div>
+                    <div class="flex flex-col">
+                        <p class="dark:text-white">
+                            Nomor Telepon
+                        </p>
+                        <input class="rounded px-2" name="phone" type="number" value="<?= $results[$i]["phone"] ?>">
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <p class="dark:text-white">
+                        Email
+                    </p>
+                    <input class="rounded px-2" name="email" type="email" value="<?= $results[$i]["email"] ?>">
+                </div>
+                <div class="flex flex-col">
+                    <p class="dark:text-white">
+                        Role
+                    </p>
+                    <select class="rounded" name="role">
+                        <option value="0" class="px-1" <?= $results[$i]["role"] == 0 ? "selected" : "" ?>>
+                            Pengguna
+                        </option>
+                        <option value="1" class="px-1" <?= $results[$i]["role"] == 1 ? "selected" : "" ?>>
+                            Admin
+                        </option>
+                    </select>
+                </div>
+
+                <div class="flex flex-row justify-between">
+                    <button class="bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] text-[#FCFCFC] px-4 py-2 rounded-md" type="reset" onclick="modal_<?= $results[$i]["id"] ?>.close()">Close</button>
+                    <button class="bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] text-[#FCFCFC] px-4 py-2 rounded-md" type="submit">Submit</button>
+                </div>
+            </form>
         </div>
     </dialog>
 <?php } ?>
@@ -122,7 +197,7 @@ include "./src/components/head.php";
                                                     ?>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                                                    <button class="dark:text-white" onclick="modal_<?= $results[$i]["id"] ?>.showModal()">Kelola</button>
+                                                    <button class="text-blue-500" onclick="modal_<?= $results[$i]["id"] ?>.showModal()">Kelola</button>
                                                 </td>
                                             </tr>
                                         <?php } ?>

@@ -111,7 +111,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <form class="p-6 md:p-10 w-full h-screen flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/kirim" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
+        <form class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/kirim" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
             <p class="text-6xl font-extrabold text-[#FF9130] dark:text-white">Kirim Kuy</p>
 
             <div data-aos="fade-up" class="flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-between md:mt-2 gap-x-10">
@@ -143,6 +143,16 @@ include "./src/components/head.php";
                                 </template>
                             </select>
                         </div>
+                    </div>
+
+                    <div x-data="send" class="flex flex-col gap-5 md:gap-4 bg-[#FF9130] rounded-lg p-3">
+                        <p class="text-white font-bold dark:text-white">Silahkan pilih tipe barang</p>
+                        <select class="bg-[#b85e20] cursor-pointer flex justify-center items-center border border-white rounded-md p-2 w-full text-white font-bold" name="package_type" required>
+                            <option class="text-[#FF9130] rounded-md" value="" disabled selected>Tipe Barang</option>
+                            <option value="fragile" class="hover:bg-[#FF9130]">Mudah Pecah</option>
+                            <option value="food" class="hover:bg-[#FF9130]">Makanan</option>
+                            <option value="other" class="hover:bg-[#FF9130]">Lainnya</option>
+                        </select>
                     </div>
 
                     <div class="flex flex-col gap-2">
