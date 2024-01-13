@@ -15,7 +15,7 @@ include "./src/components/head.php";
             console.log(key, value);
         }
         fetch("/api/account/update", {
-            method: "PATCH",
+            method: "POST",
             body: formData,
             credentials: "same-origin"
         }).then(async x => {
@@ -55,6 +55,8 @@ include "./src/components/head.php";
         <div class="flex flex-col gap-4">
             <h3 class="dark:text-white font-bold text-lg w-96">Perbarui Pengguna</h3>
             <form class="flex flex-col gap-4" onsubmit="handleFormSubmit(event)">
+                <input hidden value="<?= $csrf ?>" name="csrf_token">
+                <input hidden value="<?= $results[$i]["id"] ?>" name="id">
                 <div class="flex flex-row gap-4">
                     <div class="flex flex-col">
                         <p class="dark:text-white">
@@ -86,7 +88,7 @@ include "./src/components/head.php";
                         <option value="1" class="px-1" <?= $results[$i]["role"] == 1 ? "selected" : "" ?>>
                             Admin
                         </option>
-                        <option value="1" class="px-1" <?= $results[$i]["role"] == 2 ? "selected" : "" ?>>
+                        <option value="2" class="px-1" <?= $results[$i]["role"] == 2 ? "selected" : "" ?>>
                             Kurir
                         </option>
                     </select>

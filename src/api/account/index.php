@@ -226,7 +226,7 @@ return function (App $app, $renderer) use ($connection) {
                     $row = $result->fetch_assoc();
                     $result->free();
                     $id = $row["id"];
-                    $connection -> query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = ($id);");
+                    $connection->query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = ($id);");
                 }
             }
 
@@ -294,14 +294,14 @@ return function (App $app, $renderer) use ($connection) {
                     $data["success"] = true;
 
                     $id = $row["id"];
-                    $connection -> query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = ('$id');");
+                    $connection->query("DELETE FROM `password_reset` WHERE `password_reset`.`id` = ('$id');");
 
                     $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
 
                     $connection->close();
                     $response->getBody()->write($jsonResponse);
                     return $response->withHeader('Content-Type', 'application/json');
-                } 
+                }
             }
         } else {
             $data["message"] = "Kesalahan, coba lagi nanti !";
@@ -436,7 +436,7 @@ return function (App $app, $renderer) use ($connection) {
         }
     })->setName("account_reset_api");
 
-    $app->patch("/api/account/update", function ($request, $response, $args) use ($renderer, $connection) {
+    $app->post("/api/account/update", function ($request, $response, $args) use ($renderer, $connection) {
         $parsedBody = $request->getParsedBody();
 
         $data = [
@@ -447,17 +447,37 @@ return function (App $app, $renderer) use ($connection) {
 
         $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
         $iv = $_ENV["COOKIE_SECRET_IV"];
+        $role = 0;
+
 
         if (isset($_COOKIE['session'])) {
             $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
 
-            if (!$sessionCookie["expired"]) {
-                $data["message"] = "Terdeteksi sudah login !";
+            if ($sessionCookie["expired"]) {
+                $data["message"] = "Silahkan login kembali !";
                 $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
 
                 $response->getBody()->write($jsonResponse);
                 return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
             }
+
+            $user_id = $sessionCookie["info"]->user_id;
+
+            $result = $connection->query("SELECT `role` FROM `user` WHERE `id` = ('$user_id');");
+            if ($result) {
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $role = $row["role"];
+                }
+            }
+        }
+
+        if ($role != 1) {
+            $data["message"] = "Tidak mempunyai akses !";
+            $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+            $response->getBody()->write($jsonResponse);
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
         if (isset($_COOKIE['csrf_token'])) {
@@ -478,8 +498,8 @@ return function (App $app, $renderer) use ($connection) {
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $Email = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["email"]));
-        $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `email` = ('$Email')");
+        $id = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["id"]));
+        $result = $connection->query("SELECT COUNT(*) AS count FROM `user` WHERE `id` = ('$id')");
 
         if ($result) {
             $row = $result->fetch_assoc();
@@ -496,14 +516,23 @@ return function (App $app, $renderer) use ($connection) {
             }
         }
 
-        $result = $connection->query("SELECT `id` FROM `user` WHERE `email` = ('$Email');");
+        $email = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["email"]));
+        $phone = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["phone"]));
+        $username = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["username"]));
+        $role = mysqli_real_escape_string($connection, htmlspecialchars($parsedBody["role"]));
+
+        $result = $connection->query("UPDATE `user` SET `email` = ('$email'), `phone` = ('$phone'), `username` = ('$username'), `role` = ('$role') WHERE id = ('$id')");
+
         if ($result) {
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $result->free();
-                $id = $row["id"];
-                
-            }
+            $data["message"] = "Sukses di update !";
+            $data["status"] = "success";
+            $data["success"] = true;
+
+            $jsonResponse = json_encode($data, JSON_PRETTY_PRINT);
+
+            $connection->close();
+            $response->getBody()->write($jsonResponse);
+            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
         } else {
             $data["message"] = "Kesalahan, coba lagi nanti !";
 
