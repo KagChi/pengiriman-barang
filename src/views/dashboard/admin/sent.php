@@ -7,9 +7,13 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
-<body class="min-h-screen flex flex-col dark:bg-[#121212] overflow-y-scroll">
+<body class="min-h-screen flex flex-col dark:bg-[#121212]">
     <div class="flex flex-col md:flex-row h-auto">
-        <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] md:h-full py-4 px-6 gap-4">
+        <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] <?php if (count($results) >= 15) {
+                                                                                                echo  "md:h-full";
+                                                                                            } else {
+                                                                                                echo "md:h-screen";
+                                                                                            } ?> py-4 px-6 gap-4">
             <a href="/" class="flex flex-row justify-center items-center h-12 md:h-24 mr-2">
                 <img class="w-14 h-14 lg:w-18 lg:h-18" src="/public/assets/svg/icon.svg">
                 <p class="md:hidden lg:flex text-xl font-bold text-white">AnterKuy</p>
@@ -67,7 +71,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <div class="p-6 md:p-10 w-full h-screen flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
+        <div class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
             <p class="text-2xl font-bold dark:text-white">List Kiriman</p>
 
             <div class="flex flex-col">
