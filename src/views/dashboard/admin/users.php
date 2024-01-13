@@ -86,6 +86,9 @@ include "./src/components/head.php";
                         <option value="1" class="px-1" <?= $results[$i]["role"] == 1 ? "selected" : "" ?>>
                             Admin
                         </option>
+                        <option value="1" class="px-1" <?= $results[$i]["role"] == 2 ? "selected" : "" ?>>
+                            Kurir
+                        </option>
                     </select>
                 </div>
 
@@ -143,7 +146,7 @@ include "./src/components/head.php";
                     </div>
                 </div>
 
-                <?php if ($role == 1) { ?>
+                <?php if ($role == 1 || $role == 2) { ?>
                     <div class="flex flex-col gap-4">
                         <p class="hidden lg:flex uppercase text-white">admin</p>
                         <div class="flex flex-col w-full gap-2">
@@ -152,21 +155,23 @@ include "./src/components/head.php";
                                 <p class="hidden lg:flex text-white font-bold text-lg">List Kiriman</p>
                             </a>
 
-                            <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
-                                <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
-                                <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
-                            </a>
+                            <?php if ($role == 1) { ?>
+                                <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                                    <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
+                                    <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
+                                </a>
+                            <?php } ?>
                         </div>
                     </div>
                 <?php } ?>
             </div>
         </div>
 
-        <div class="p-6 md:p-10 w-full h-screen md:h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
+        <div class="p-6 md:p-10 w-full h-screen md:h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0 overflow-x-auto">
             <p class="text-2xl font-bold dark:text-white">List Pengguna</p>
 
             <div class="flex flex-col">
-                <div class="-m-1.5 overflow-x-auto">
+                <div class="-m-1.5 overflow-x-scroll">
                     <div class="p-1.5 min-w-full inline-block align-middle">
                         <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                             <div class="overflow-hidden">
@@ -189,7 +194,9 @@ include "./src/components/head.php";
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                                     <?php
                                                     $state = $results[$i]["role"];
-                                                    if ($state == 1) {
+                                                    if ($state == 2) {
+                                                        echo "Kurir";
+                                                    } else if ($state == 1) {
                                                         echo "Admin";
                                                     } else if ($state == 0) {
                                                         echo "Pengguna";

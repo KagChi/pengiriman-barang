@@ -7,6 +7,80 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
+<script>
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        fetch("/api/package/confirm", {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin"
+        }).then(async x => {
+            try {
+                const response = await x.json();
+                iziToast.show({
+                    title: `<div class="flex justify-center items-center w-4 h-4 mr-4"><i class="fa-solid ${x.ok ? "fa-check" : "fa-x"} fa-2xl"></i></div>`,
+                    message: response.message,
+                    position: 'topRight',
+                    color: "#EE7214",
+                    titleColor: "#FCFCFC",
+                    messageColor: "#FCFCFC"
+                });
+
+                if (x.ok) {
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000);
+                }
+
+            } catch {
+                iziToast.show({
+                    title: '<div class="flex justify-center items-center w-4 h-4 mr-4"><i class="fa-solid fa-x fa-2xl"></i></div>',
+                    message: "Sebuah kesalahan, mohon refresh browser anda.",
+                    position: 'topRight',
+                    color: "#EE7214",
+                    titleColor: "#FCFCFC",
+                    messageColor: "#FCFCFC"
+                });
+            }
+        })
+    }
+</script>
+
+<?php for ($i = 0; $i < count($results); $i++) { ?>
+    <?php if ($results[$i]["state"] == "done_waiting_confirmation") { ?>
+        <dialog id="modal_<?= $results[$i]["id"] ?>" class="bg-[#EEEEEE] dark:bg-[#252525] rounded-xl p-6 shadow-xl">
+            <div class="flex flex-col gap-4">
+                <h3 class="dark:text-white font-bold text-lg w-96">Perbarui Pengiriman</h3>
+                <form class="flex flex-col gap-4" onsubmit="handleFormSubmit(event)">
+                    <input hidden value="<?= $csrf ?>" name="csrf_token">
+                    <input hidden value="<?= $results[$i]["id"] ?>" name="id">
+                    <div class="flex flex-col">
+                        <p class="dark:text-white">
+                            Konfirmasi pengiriman
+                        </p>
+                        <select class="rounded" name="state">
+                            <option value="" disabled selected>Silahkah pilih</option>
+                            <option value="done">
+                                Barang diterima
+                            </option>
+                            <option value="need_action">
+                                Barang belum diterima
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-row justify-between mt-12">
+                        <button class="bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] text-[#FCFCFC] px-4 py-2 rounded-md" type="reset" onclick="modal_<?= $results[$i]["id"] ?>.close()">Close</button>
+                        <button class="bg-[#FF9130] hover:bg-[#EE7214] dark:bg-[#EE7214] hover:bg-[#FF9130] text-[#FCFCFC] px-4 py-2 rounded-md" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+
+    <?php } ?>
+<?php } ?>
+
 <body class="min-h-screen flex flex-col dark:bg-[#121212]">
     <div class="flex flex-col md:flex-row h-auto">
         <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] <?php if (count($results) >= 15) {
@@ -52,7 +126,7 @@ include "./src/components/head.php";
                     </div>
                 </div>
 
-                <?php if ($role == 1) { ?>
+                <?php if ($role == 1 || $role == 2) { ?>
                     <div class="flex flex-col gap-4">
                         <p class="hidden lg:flex uppercase text-white">admin</p>
                         <div class="flex flex-col w-full gap-2">
@@ -61,21 +135,23 @@ include "./src/components/head.php";
                                 <p class="hidden lg:flex text-white font-bold text-lg">List Kiriman</p>
                             </a>
 
-                            <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
-                                <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
-                                <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
-                            </a>
+                            <?php if ($role == 1) { ?>
+                                <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                                    <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
+                                    <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
+                                </a>
+                            <?php } ?>
                         </div>
                     </div>
                 <?php } ?>
             </div>
         </div>
 
-        <div class="p-6 md:p-10 w-full h-screen md:h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
+        <div class="p-6 md:p-10 w-full h-screen md:h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0 overflow-x-auto">
             <p class="text-2xl font-bold dark:text-white">Kiriman Saya</p>
 
             <div class="flex flex-col">
-                <div class="-m-1.5 overflow-x-auto">
+                <div class="-m-1.5 overflow-x-scroll">
                     <div class="p-1.5 min-w-full inline-block align-middle">
                         <div class="border rounded-lg divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
                             <div class="overflow-hidden">
@@ -100,16 +176,22 @@ include "./src/components/head.php";
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                                     <?php
                                                     $state = $results[$i]["state"];
-                                                    if ($state === "on_going") {
+                                                    if ($state == "on_going") {
                                                         echo "Dalam Perjalanan";
-                                                    } else if ($state === "on_hold") {
+                                                    } else if ($state == "on_hold") {
                                                         echo "Ditahan";
-                                                    } else if ($state === "return") {
+                                                    } else if ($state == "return") {
                                                         echo "Dikembalikan";
-                                                    } else if ($state === "done") {
+                                                    } else if ($state == "done") {
                                                         echo "Dikirim";
+                                                    } else if ($state == "need_action") {
+                                                        echo "Terkendala";
                                                     }
                                                     ?>
+
+                                                    <?php if ($state == "done_waiting_confirmation") { ?>
+                                                        <button onclick="modal_<?= $results[$i]["id"] ?>.showModal()">Menunggu Konfirmasi</button>
+                                                    <?php } ?>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
                                                     <a href="/dashboard/lacak/<?= $results[$i]["resi"] ?>">Lacak</a>
@@ -159,4 +241,5 @@ include "./src/components/head.php";
             </div>
         </footer>
 </body>
+
 </html>

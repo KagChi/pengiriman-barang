@@ -48,7 +48,7 @@ include "./src/components/head.php";
                     </div>
                 </div>
 
-                <?php if ($role == 1) { ?>
+                <?php if ($role == 1 || $role == 2) { ?>
                     <div class="flex flex-col gap-4">
                         <p class="hidden lg:flex uppercase text-white">admin</p>
                         <div class="flex flex-col w-full gap-2">
@@ -57,10 +57,12 @@ include "./src/components/head.php";
                                 <p class="hidden lg:flex text-white font-bold text-lg">List Kiriman</p>
                             </a>
 
-                            <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
-                                <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
-                                <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
-                            </a>
+                            <?php if ($role == 1) { ?>
+                                <a href="/admin/pengguna" class="flex flex-row w-14 lg:w-full h-14 hover:bg-[#b85e20] rounded-full lg:rounded-xl items-center justify-center lg:justify-start lg:gap-4 px-4 py-4">
+                                    <i class="lg:w-3 text-white font-bold fa-solid fa-user lg:ml-1 text-lg"></i>
+                                    <p class="hidden lg:flex text-white font-bold text-lg">List Pengguna</p>
+                                </a>
+                            <?php } ?>
                         </div>
                     </div>
                 <?php } ?>
@@ -95,8 +97,10 @@ include "./src/components/head.php";
                                             echo "Dikembalikan";
                                         } else if ($state === "done") {
                                             echo "Dikirim";
+                                        } else if ($state === "done_waiting_confirmation") {
+                                            echo "Menunggu Konfirmasi";
                                         } else {
-                                            echo "Unknown";
+                                            "Unknown";
                                         }
                                         ?>
                                     </p>
@@ -292,4 +296,5 @@ include "./src/components/head.php";
         </div>
     </footer>
 </body>
+
 </html>

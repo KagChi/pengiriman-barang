@@ -33,7 +33,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         return $renderer->render($response, "/account/login.php", [
             "csrf" => $csrf
@@ -47,7 +47,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         return $renderer->render($response, "/account/register.php", [
             "csrf" => $csrf
@@ -61,7 +61,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         $token = array_key_exists("token", $request->getQueryParams()) ? $request->getQueryParams()["token"] : "unknown";
         $result = $connection->query("SELECT `user_id` FROM `password_reset` WHERE `token` = ('$token');");
@@ -98,7 +98,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         $sessionCookie = [
             'expired' => true
@@ -196,7 +196,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         $sessionCookie = [
             'expired' => true
@@ -287,7 +287,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         $sessionCookie = [
             'expired' => true
@@ -469,7 +469,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         $sessionCookie = [
             'expired' => true
@@ -490,7 +490,7 @@ return function (App $app, $renderer) use ($connection) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
 
-                $result = $connection->query("SELECT `date`, `state`, `name`, `city`, `price`, `resi` FROM `package` WHERE `user_id` = ('$user_id')");
+                $result = $connection->query("SELECT `date`, `state`, `name`, `city`, `price`, `resi`, `id` FROM `package` WHERE `user_id` = ('$user_id')");
                 $results = [];
                 while ($package = $result->fetch_assoc()) {
                     $results[] = $package;
@@ -522,7 +522,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         $sessionCookie = [
             'expired' => true
@@ -543,7 +543,7 @@ return function (App $app, $renderer) use ($connection) {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
 
-                if ($row["role"] == 0) {
+                if ($row["role"] == 0 || $row["role"] == 2) {
                     return $response->withHeader('Location', '/dashboard')->withStatus(302);
                 }
 
@@ -579,7 +579,7 @@ return function (App $app, $renderer) use ($connection) {
         $iv = $_ENV["COOKIE_SECRET_IV"];
 
         $csrfCookie = encryptData($csrf, $encryptionKey, $iv);
-        setcookie('csrf_token', $csrfCookie, time() + 300);
+        setcookie('csrf_token', $csrfCookie, time() + 300, "/");
 
         $sessionCookie = [
             'expired' => true
@@ -604,7 +604,7 @@ return function (App $app, $renderer) use ($connection) {
                     return $response->withHeader('Location', '/dashboard')->withStatus(302);
                 }
 
-                $result = $connection->query("SELECT `user_id`, `date`, `state`, `name`, `city`, `price`, `resi` FROM `package`");
+                $result = $connection->query("SELECT `user_id`, `date`, `state`, `name`, `city`, `price`, `resi`, `id` FROM `package`");
                 $results = [];
                 while ($package = $result->fetch_assoc()) {
                     $user_id = $package["user_id"];
