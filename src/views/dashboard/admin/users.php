@@ -7,6 +7,22 @@ include "./src/components/head.php";
 <!DOCTYPE html>
 <html lang="en">
 
+
+<?php for ($i = 0; $i < count($results); $i++) { ?>
+    <dialog id="modal_<?= $results[$i]["id"] ?>" class="bg-[#EEEEEE] dark:bg-[#252525] rounded-xl p-6">
+        <div>
+            <h3 class="text-white font-bold text-lg">Hello!</h3>
+            <p class="text-white py-4">Press ESC key or click the button below to close</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="text-white">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+<?php } ?>
+
 <body class="min-h-screen flex flex-col dark:bg-[#121212]">
     <div class="flex flex-col md:flex-row h-auto">
         <div class="flex flex-col w-full bg-[#FF9130] dark:bg-[#EE7214] md:w-28 lg:w-[20%] <?php if (count($results) >= 15) {
@@ -71,7 +87,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <div class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
+        <div class="p-6 md:p-10 w-full h-screen md:h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
             <p class="text-2xl font-bold dark:text-white">List Pengguna</p>
 
             <div class="flex flex-col">
@@ -86,23 +102,27 @@ include "./src/components/head.php";
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Nomor Telepon</th>
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Email</th>
                                             <th class="px-6 py-3 text-start font-bold text-white uppercase">Role</th>
+                                            <th class="px-6 py-3 text-start font-bold text-white uppercase rounded-tr-lg"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <?php for ($i = 0; $i < count($results); $i++) { ?>
+                                        <?php for ($i = 0; $i < count($results); $i++) { ?>
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"><?= htmlspecialchars($results[$i]["username"]) ?></td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars($results[$i]["phone"]) ?></td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><?= htmlspecialchars($results[$i]["email"]) ?></td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                                     <?php
-                                                        $state = $results[$i]["role"];
-                                                        if ($state == 1) {
-                                                            echo "Admin";
-                                                        } else if ($state == 0) {
-                                                            echo "Pengguna";
-                                                        }
+                                                    $state = $results[$i]["role"];
+                                                    if ($state == 1) {
+                                                        echo "Admin";
+                                                    } else if ($state == 0) {
+                                                        echo "Pengguna";
+                                                    }
                                                     ?>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                                    <button class="dark:text-white" onclick="modal_<?= $results[$i]["id"] ?>.showModal()">Kelola</button>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -149,4 +169,5 @@ include "./src/components/head.php";
             </div>
         </footer>
 </body>
+
 </html>

@@ -546,7 +546,7 @@ return function (App $app, $renderer) use ($connection) {
                     return $response->withHeader('Location', '/dashboard')->withStatus(302);
                 }
 
-                $result = $connection->query("SELECT `username`, `phone`, `email`, `role` FROM `user`");
+                $result = $connection->query("SELECT `username`, `phone`, `email`, `role`, `id` FROM `user`");
                 $results = [];
                 while ($package = $result->fetch_assoc()) {
                     $results[] = $package;
