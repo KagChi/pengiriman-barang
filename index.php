@@ -17,25 +17,25 @@ $app = AppFactory::create();
 
 $app->addRoutingMiddleware();
 
-// $customErrorHandler = function () use ($app, $renderer) {
-//      $response = $app->getResponseFactory() -> createResponse();
-//      $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
-//      $iv = $_ENV["COOKIE_SECRET_IV"];
+$customErrorHandler = function () use ($app, $renderer) {
+     $response = $app->getResponseFactory() -> createResponse();
+     $encryptionKey = $_ENV["COOKIE_SECRET_KEY"];
+     $iv = $_ENV["COOKIE_SECRET_IV"];
 
-//      $sessionCookie = [
-//          'expired' => true
-//      ];
+     $sessionCookie = [
+         'expired' => true
+     ];
         
-//      if (isset($_COOKIE['session'])) {
-//          $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
-//      }
-//      return $renderer->render($response, "error/404.php", [
-//          "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
-//      ]);
-// };
+     if (isset($_COOKIE['session'])) {
+         $sessionCookie = decryptJWT(decryptData($_COOKIE['session'], $encryptionKey, $iv));
+     }
+     return $renderer->render($response, "error/404.php", [
+         "sessionActive" => $sessionCookie["expired"] ? 'false' : 'true',
+     ]);
+};
 
-// $errorMiddleware = $app -> addErrorMiddleware(true, true, true);
-// $errorMiddleware -> setDefaultErrorHandler($customErrorHandler);
+$errorMiddleware = $app -> addErrorMiddleware(true, true, true);
+$errorMiddleware -> setDefaultErrorHandler($customErrorHandler);
 
 try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -46,4 +46,5 @@ $routes = require __DIR__ . '/src/index.php';
 $routes($app, $renderer);
 
 $app->run()
+
 ?>
