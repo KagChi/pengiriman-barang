@@ -113,7 +113,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <form class="p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/kirim" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
+        <form class="min-h-screen p-6 md:p-10 w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0" method="POST" action="/dashboard/kirim" x-data="{ next: false, state: 'city', city: 'none', district: 'none' }">
             <p class="text-6xl font-extrabold text-[#FF9130] dark:text-white">Kirim Kuy</p>
 
             <div data-aos="fade-up" class="flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-between md:mt-2 gap-x-10">

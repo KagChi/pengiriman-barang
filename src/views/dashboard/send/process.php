@@ -69,7 +69,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <div class="w-full h-screen flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
+        <div class="min-h-screen w-full h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
             <div class="flex flex-col">
                 <div class="flex flex-col p-6 md:p-10">
                     <p class="text-2xl font-extrabold dark:text-white">Pembayaran</p>

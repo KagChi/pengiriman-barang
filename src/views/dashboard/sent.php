@@ -143,7 +143,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <div class="p-6 md:p-10 w-full h-screen md:h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0 overflow-x-auto">
+        <div class="min-h-screen p-6 md:p-10 w-full h-screen md:h-full flex flex-col mt-4 md:mt-0 gap-10 mb-6 md:mb-0 overflow-x-auto">
             <p class="text-2xl font-bold dark:text-white">Kiriman Saya</p>
 
             <div class="flex flex-col">

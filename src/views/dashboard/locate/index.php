@@ -82,7 +82,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <div class="flex flex-col p-6 md:p-10 w-full h-full mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
+        <div class="min-h-screen flex flex-col p-6 md:p-10 w-full h-full mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
             <div class="flex flex-col rounded-2xl w-full h-48 bg-[#EEEEEE] p-4 px-6 md:px-8">
                 <div>
                     <p class="text-2xl font-bold">Lacak Pengiriman</p>

@@ -69,7 +69,7 @@ include "./src/components/head.php";
             </div>
         </div>
 
-        <div class="p-6 md:p-10 w-full h-full flex flex-col md:flex-row mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
+        <div class="min-h-screen p-6 md:p-10 w-full h-full flex flex-col md:flex-row mt-4 md:mt-0 gap-10 mb-6 md:mb-0">
             <div class="w-full h-auto md:h-full flex flex-col md:gap-6">
                 <p class="font-bold text-2xl md:text-3xl dark:text-[#FCFCFC]">Selamat <?= $time ?>, <?= $name ?> !</p>
                 <div class="flex flex-col gap-10 mt-2 md:mt-0">
